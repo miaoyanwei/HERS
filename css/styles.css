@@ -70,12 +70,17 @@ body {
 main .card {
     background-color: transparent;
     border-color: transparent;
-    width: 60%;
+    width: 50%;
 }
 
 .card img {
     height: 10%;
     margin: 14px;
+}
+
+.card {
+    margin: auto;
+    width: 50%;
 }
 
 
