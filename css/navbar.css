@@ -1,0 +1,49 @@
+/* Navigation bar */
+.navbar {
+    font-family: 'Philosopher', sans-serif;
+    margin: 0 40px;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    color: #fff; 
+}
+
+.navbar p {
+    font-size: 16px;
+    color: #fff;
+}
+
+.navbar img {
+    padding-right: 20px;
+}
+/* end of Navigation bar */
+
+/* Navigation bar-dark */
+.navbar-dark {
+    font-family: 'Philosopher', sans-serif;
+    margin: 0 40px;
+}
+
+.navbar-dark a {
+    color: #222;
+    text-decoration: none;
+}
+
+.navbar-dark a:hover {
+    color: #222;
+}
+
+.navbar-dark p {
+    font-size: 16px;
+    color: #222;
+}
+
+.navbar-dark img {
+    padding-right: 20px;
+}
+/* end of Navigation bar-dark */

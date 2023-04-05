@@ -1,0 +1,84 @@
+/* View */
+body {
+    height: 100vh;
+}
+
+
+/* Cards */
+main .card {
+    background-color: transparent;
+    border-color: transparent;
+    width: 50%;
+}
+
+.card img {
+    height: 8%;
+    margin: 14px;
+}
+
+.card {
+    margin: auto;
+    width: 50%;
+}
+
+
+/* Font */
+p {
+    font-family: 'Philosopher', sans-serif;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+}
+
+.card p {
+    font-family: 'Philosopher', sans-serif;
+    color: #fff;
+    font-size: 14px;
+    text-align: left;
+}
+
+body h1 {
+    font-family: 'Philosopher', sans-serif;
+    color: #fff;
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+body h2 {
+    font-family: 'Philosopher', sans-serif;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+}
+
+.highlight {
+    color: #6DAE47;
+}
+
+.description {
+    color: #ebebeb;
+    opacity: 0.6;
+}
+
+main .btn {
+    font-family: 'Philosopher', sans-serif;
+    color: #345A46;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+/* Button */
+.btn {
+    margin: 24px;
+}
+
+
+/* Background picture */
+body {
+    background-image: url("../assets/welcome.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
