@@ -1,0 +1,134 @@
+/* Navigation bar */
+.navbar {
+    font-family: 'Philosopher', sans-serif;
+    margin: 0 40px;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    color: #fff; 
+}
+
+.navbar p {
+    font-size: 16px;
+    color: #fff;
+}
+
+.navbar img {
+    padding-right: 20px;
+}
+/* end of Navigation bar */
+
+
+/* Footer */
+footer {
+    padding: 10px;
+    font-family: 'Philosopher', sans-serif;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px; 
+}
+
+.footer ul {
+    text-align:left;
+    font-size:16px;
+}
+
+.footer li {
+    padding:0 10px;
+}
+
+.footer a {
+    color: #fff;
+    padding:0 16px;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: #D6B5C0; 
+}
+/* end of Footer */
+
+
+/* Position */
+body {
+    height: 100vh;
+}
+
+.btn {
+    margin: 24px;
+}
+
+main .card {
+    background-color: transparent;
+    border-color: transparent;
+    width: 60%;
+}
+
+.card img {
+    height: 10%;
+    margin: 14px;
+}
+
+
+/* Font */
+p {
+    font-family: 'Philosopher', sans-serif;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+}
+
+.card p {
+    font-family: 'Philosopher', sans-serif;
+    color: #fff;
+    font-size: 14px;
+    text-align: left;
+}
+
+body h1 {
+    font-family: 'Philosopher', sans-serif;
+    color: #fff;
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+body h2 {
+    font-family: 'Philosopher', sans-serif;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+}
+
+.highlight {
+    color: #6DAE47;
+}
+
+.description {
+    color: #9B9B9B;
+}
+
+main .btn {
+    font-family: 'Philosopher', sans-serif;
+    color: #345A46;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+/* Background picture */
+body {
+    background-image: url("../assets/welcome.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
