@@ -22,50 +22,51 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </head>
 <body>
-    <header>
-        <!-- Navigation bar-->
-        <div id="nav-placeholder"></div>
-        <script>
-            $.get("html/navbar.html", function(data){
-                $("#nav-placeholder").replaceWith(data);
-            });
-        </script>
-        <!-- end of Navigation bar-->
+  <header>
+    <!-- Navigation bar-->
+    <div id="nav-placeholder"></div>
+    <script>
+      $.get("html/navbar.html", function(data){
+        $("#nav-placeholder").replaceWith(data);
+      });
+    </script>
+    <!-- end of Navigation bar-->
 	</header>
 	<main>
-        <h1>Your home energy could be <br>cheaper & <span class="highlight">greener</span></h1>
+    <h1>Your home energy could be <br>cheaper & <span class="highlight">greener</span></h1>
 		<h2>We help you decide what to invest in your home energy system.</h2>
-        <!-- Cards-->
-        <div class="row">
-            <div class="col-sm-6 mb-3 mb-sm-0">
-              <div class="card">
-                <div class="card-body">
-                  <img src="assets/1.png" alt="Answer some questions">
-                  <p class="card-text">1. Answer some questions <span class="description">(a few minutes)<br>Help us understand your current home energy configurations.</span></p> 
-                </div>
-              </div>
+      <!-- Cards-->
+      <div class="row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+          <div class="card">
+            <div class="card-body text-center">
+              <img src="assets/1.png" alt="Answer some questions">
+              <p class="card-text">1. Answer some questions <span class="description">(a few minutes)<br>Help us understand your current home energy configurations.</span></p> 
             </div>
-            <div class="col-sm-6">
-              <div class="card">
-                <div class="card-body">
-                  <img src="assets/2.png" alt="Receive personalised improvements">
-                  <p class="card-text">2. Receive personalised improvements<br><span class="description">We recommend you improvement options as well as investment & return.</span></p>
-                </div>
-              </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body text-center">
+              <img src="assets/2.png" alt="Receive personalised improvements">
+              <p class="card-text">2. Receive personalised improvements<br><span class="description">We recommend you improvement options as well as investment & return.</span></p>
             </div>
+          </div>
         </div>
-        <!-- end of Cards-->
-        <div class="d-grid gap-2 col-4 mx-auto">
-            <button class="btn btn-light" type="button">Start</button>
-        </div>
-        <p>By starting, you agree to share your data with us for research purposes, <br>all data will be completely anonymised.</p>
+      </div>
+      <!-- end of Cards-->
+      <!-- Button-->
+      <div class="d-grid gap-2 col-4 mx-auto">
+        <div class="text-center"><a href="html/questions.html"><button class="btn btn-light col-12 mx-auto" type="button">Start</button></a></div>
+      </div>
+      <p>By starting, you agree to share your data with us for research purposes, <br>all data will be completely anonymised.</p>
 	</main>
     <!-- Footer-->
     <div id="footer-placeholder"></div>
     <script>
-        $.get("html/footer.html", function(data){
-            $("#footer-placeholder").replaceWith(data);
-        });
+      $.get("html/footer.html", function(data){
+        $("#footer-placeholder").replaceWith(data);
+      });
     </script>
     <!-- end of Footer-->
     <!-- Bootstrap JS-->

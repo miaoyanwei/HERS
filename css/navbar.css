@@ -5,7 +5,7 @@
 }
 
 .navbar a {
-    color: #fff;
+    color: #D6B5C0;
     text-decoration: none;
 }
 
@@ -15,11 +15,12 @@
 
 .navbar p {
     font-size: 16px;
-    color: #fff;
+    color: #D6B5C0;
+    margin-top: 20px;
 }
 
 .navbar img {
-    padding-right: 20px;
+    padding-right: 8px;
 }
 /* end of Navigation bar */
 
@@ -35,15 +36,16 @@
 }
 
 .navbar-dark a:hover {
-    color: #222;
+    color: #345A46;
 }
 
 .navbar-dark p {
     font-size: 16px;
     color: #222;
+    margin-top: 20px;
 }
 
 .navbar-dark img {
-    padding-right: 20px;
+    padding-right: 8px;
 }
 /* end of Navigation bar-dark */

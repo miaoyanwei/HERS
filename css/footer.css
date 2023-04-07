@@ -5,15 +5,15 @@ footer {
 }
 
 .footer {
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
     height: 60px; 
-}
+} 
 
 .footer ul {
     text-align:left;
-    font-size:16px;
+    font-size:14px;
 }
 
 .footer li {
@@ -21,13 +21,13 @@ footer {
 }
 
 .footer a {
-    color: #fff;
-    padding:0 16px;
+    color: #D6B5C0;
+    padding:0 8px;
     text-decoration: none;
 }
 
 .footer a:hover {
-    color: #D6B5C0; 
+    color: #fff; 
 }
 /* end of Footer */
 
@@ -46,7 +46,7 @@ footer-dark {
 
 .footer-dark ul {
     text-align:left;
-    font-size:16px;
+    font-size:14px;
 }
 
 .footer-dark li {
@@ -55,11 +55,11 @@ footer-dark {
 
 .footer-dark a {
     color: #222;
-    padding:0 16px;
+    padding:0 8px;
     text-decoration: none;
 }
 
 .footer-dark a:hover {
-    color: #000; 
+    color: #345A46; 
 }
 /* end of Footer-dark */

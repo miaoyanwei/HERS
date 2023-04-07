@@ -1,6 +1,13 @@
 /* View */
 body {
-    height: 100vh;
+    padding: 0;
+    min-height: 100vh;
+    display: grid;
+}
+
+main {
+    justify-self: center;
+    align-self: center;
 }
 
 
@@ -8,26 +15,11 @@ body {
 main .card {
     background-color: transparent;
     border-color: transparent;
-    width: 50%;
-}
-
-.card img {
-    height: 8%;
-    margin: 14px;
+    width: 80%;
 }
 
 .card {
     margin: auto;
-    width: 50%;
-}
-
-
-/* Font */
-p {
-    font-family: 'Philosopher', sans-serif;
-    color: #fff;
-    font-size: 14px;
-    text-align: center;
 }
 
 .card p {
@@ -35,6 +27,20 @@ p {
     color: #fff;
     font-size: 14px;
     text-align: left;
+}
+
+.card img {
+    height: 120px;
+    margin-bottom: 16px;
+}
+
+
+/* Body */
+p {
+    font-family: 'Philosopher', sans-serif;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
 }
 
 body h1 {
@@ -62,17 +68,17 @@ body h2 {
     opacity: 0.6;
 }
 
+
+/* Button */
+.btn {
+    margin: 16px;
+}
+
 main .btn {
     font-family: 'Philosopher', sans-serif;
     color: #345A46;
     font-size: 18px;
     font-weight: bold;
-}
-
-
-/* Button */
-.btn {
-    margin: 24px;
 }
 
 

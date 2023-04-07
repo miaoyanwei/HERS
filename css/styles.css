@@ -1,5 +1,20 @@
+/* View */
+body {
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    padding: 80px;
+    padding-right: 40%;
+}
+
+
 /* Font */
-p {
+main p {
     font-family: 'Philosopher', sans-serif;
     color: #222;
     font-size: 16px;
@@ -30,16 +45,6 @@ main a {
     color: #222;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-main {
-    flex: 1;
-    padding: 80px;
-    padding-right: 40%;
+main a:hover {
+    color: #345A46;
 }
