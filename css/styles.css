@@ -9,7 +9,6 @@ body {
 main {
     flex: 1;
     padding: 80px;
-    padding-right: 40%;
 }
 
 
@@ -19,6 +18,7 @@ main p {
     color: #222;
     font-size: 16px;
     text-align: left;
+    width: 60%;
 }
 
 main h1 {
@@ -47,4 +47,15 @@ main a {
 
 main a:hover {
     color: #345A46;
+}
+
+
+/* Card */
+main .card {
+    border-color: transparent;
+    height: fit-content;
+}
+
+.card h2 {
+    text-align: center;
 }
