@@ -50,17 +50,6 @@ main a:hover {
 }
 
 
-/* Card */
-main .card {
-    border-color: transparent;
-    height: fit-content;
-}
-
-.card h2 {
-    text-align: center;
-}
-
-
 /* Form */
 #regForm {
     background-color: #fff;
@@ -73,13 +62,19 @@ main .card {
 
 .tab {
     margin-bottom: 40px;
-    font-weight:bold; 
-    font-size:22px;
+    font-weight: bold; 
+    font-size: 22px;
+    justify-content: center;
+}
+
+.container-fluid {
+    padding-top: 40px;
 }
 
 /* Style the buttons */
 #nextBtn {
     background-color: #345A46;
+    border-color: #345A46;
 }
 
 #prevBtn {

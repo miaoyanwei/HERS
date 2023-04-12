@@ -37,24 +37,103 @@
         <form id="regForm" class="text-center">
             <!-- One "tab" for each step in the form: -->
             <div class="tab">Which region does the house belong to?
-              <p><input placeholder="First name..." oninput="this.className = ''"></p>
-              <p><input placeholder="Last name..." oninput="this.className = ''"></p>
+              <div class="container-fluid col-6">
+                <select class="form-select" id="regionSelect">
+                  <option selected>Country</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
             </div>
             
-            <div class="tab">What is the size of the house?
-              <p><input placeholder="E-mail..." oninput="this.className = ''"></p>
-              <p><input placeholder="Phone..." oninput="this.className = ''"></p>
+            <div class="tab">What is the size of the house? <small>(Square metres)</small>
+              <div class="container-fluid col-6">
+                <div class="input-group">
+                  <input type="number" class="form-control" id="inputSm" placeholder="Square metres">
+                  <div class="input-group-text"><span>&#13217;</span></div>
+                </div>
+              </div>
             </div>
             
             <div class="tab">When was the house built?
-              <p><input placeholder="dd" oninput="this.className = ''"></p>
-              <p><input placeholder="mm" oninput="this.className = ''"></p>
-              <p><input placeholder="yyyy" oninput="this.className = ''"></p>
+              <div class="container-fluid col-6">
+                <select class="form-select" id="builtYear">
+                  <option selected>Year</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
             </div>
             
             <div class="tab">Has the house been renovated before?
-              <p><input placeholder="Username..." oninput="this.className = ''"></p>
-              <p><input placeholder="Password..." oninput="this.className = ''"></p>
+              <div class="container-fluid col-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="yesRadios" value="y">
+                    <small>Yes</small>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="noRadios" value="n">
+                    <small>No</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab">What have been renovated in the house?
+              <div class="container-fluid col-2">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="roofCheck">
+                      <small>Roof</small>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="windowCheck">
+                      <small>Window</small>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="wallCheck">
+                      <small>Wall</small>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="basementCheck">
+                      <small>Basement</small>
+                  </div>
+              </div>
+            </div>
+
+            <div class="tab">How many people are living in the house?
+              <div class="container-fluid col-6">
+                <div class="input-group mb-3">
+                  <input type="number" class="form-control" id="adultNo" placeholder="Adults (Ages 25 or above)">
+                </div>
+                <div class="input-group mb-3">
+                  <input type="number" class="form-control" id="adultNo" placeholder="Children (Ages 0-25)">
+                </div>
+              </div>
+            </div>
+
+            <div class="tab">How often does each adult work-from-home?
+              <div class="container-fluid col-6">
+                <select class="form-select" id="timeSelect">
+                  <option selected>Often</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="tab">Is there any air conditioner in the house?
+              <div class="container-fluid col-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="yesAC" value="y">
+                    <small>Yes</small>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="noAC" value="n">
+                    <small>No</small>
+                </div>
+              </div>
             </div>
             
             <div style="overflow:auto;">
@@ -66,6 +145,8 @@
             
             <!-- Circles which indicates the steps of the form: -->
             <div style="text-align:center;margin-top:40px;">
+              <span class="step"></span>
+              <span class="step"></span>
               <span class="step"></span>
               <span class="step"></span>
               <span class="step"></span>
