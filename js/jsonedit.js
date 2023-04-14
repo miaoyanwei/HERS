@@ -85,7 +85,7 @@
        },
        {
         "type": "dropdown",
-        "name": "cat_region_city_nrw",
+        "name": "cat_region_de_nrw",
         "visible": false,
         "visibleIf": "{cat_region_state_de} = 'Nordrhein-Westfalen'",
         "title": "City",
@@ -101,9 +101,99 @@
        },
        {
         "type": "dropdown",
-        "name": "cat_region_area_koeln",
+        "name": "cat_region_de_bw",
         "visible": false,
-        "visibleIf": "{cat_region_city_nrw} = 'Köln'",
+        "visibleIf": "{cat_region_state_de} = 'Baden-Württemberg'",
+        "title": "City",
+        "isRequired": true,
+        "choices": [
+         "Stuttgart",
+         "Karlsruhe",
+         "Freiburg",
+         "Tübingen"
+        ],
+        "placeholder": "Select city"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_bayern",
+        "visible": false,
+        "visibleIf": "{cat_region_state_de} = 'Bayern'",
+        "title": "City",
+        "isRequired": true,
+        "choices": [
+         "Oberbayern",
+         "Niederbayern",
+         "Oberpfalz",
+         "Oberfranken",
+         "Mittelfranken",
+         "Unterfranken",
+         "Schwaben"
+        ],
+        "placeholder": "Select city"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_hessen",
+        "visible": false,
+        "visibleIf": "{cat_region_state_de} = 'Hessen'",
+        "title": "City",
+        "isRequired": true,
+        "choices": [
+         "Darmstadt",
+         "Gießen",
+         "Kassel"
+        ],
+        "placeholder": "Select city"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_niedersachsen",
+        "visible": false,
+        "visibleIf": "{cat_region_state_de} = 'Niedersachsen'",
+        "title": "City",
+        "isRequired": true,
+        "choices": [
+         "Braunschweig",
+         "Hannover",
+         "Lüneburg",
+         "Weser-Ems"
+        ],
+        "placeholder": "Select city"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_rp",
+        "visible": false,
+        "visibleIf": "{cat_region_state_de} = 'Rheinland-Pfalz'",
+        "title": "City",
+        "isRequired": true,
+        "choices": [
+         "Koblenz",
+         "Trier",
+         "Rheinhessen-Pfalz"
+        ],
+        "placeholder": "Select city"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_sachsen",
+        "visible": false,
+        "visibleIf": "{cat_region_state_de} = 'Sachsen'",
+        "title": "City",
+        "isRequired": true,
+        "choices": [
+         "Dresden",
+         "Chemnitz",
+         "Leipzig"
+        ],
+        "placeholder": "Select city"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_koeln",
+        "visible": false,
+        "visibleIf": "{cat_region_de_nrw} = 'Köln'",
         "title": "Area",
         "isRequired": true,
         "choices": [
@@ -118,6 +208,754 @@
          "Rheinisch-Bergischer Kreis",
          "Rhein-Sieg-Kreis",
          "Städteregion Aachen"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_bw_stuttgart",
+        "visible": false,
+        "visibleIf": "{cat_region_de_bw} = 'Stuttgart'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Stuttgart, Stadtkreis",
+         "Böblingen",
+         "Esslingen",
+         "Göppingen",
+         "Ludwigsburg",
+         "Rems-Murr-Kreis",
+         "Heilbronn, Stadtkreis",
+         "Heilbronn, Landkreis",
+         "Hohenlohekreis",
+         "Schwäbisch Hall",
+         "Main-Tauber-Kreis",
+         "Heidenheim",
+         "Ostalbkreis"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_bw_karlsruhe",
+        "visible": false,
+        "visibleIf": "{cat_region_de_bw} = 'Karlsruhe'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Baden-Baden, Stadtkreis",
+         "Karlsruhe, Stadtkreis",
+         "Karlsruhe, Landkreis",
+         "Rastatt",
+         "Heidelberg, Stadtkreis",
+         "Mannheim, Stadtkreis",
+         "Neckar-Odenwald-Kreis",
+         "Rhein-Neckar-Kreis",
+         "Pforzheim, Stadtkreis",
+         "Calw",
+         "Enzkreis",
+         "Freudenstadt"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_bw_freiburg",
+        "visible": false,
+        "visibleIf": "{cat_region_de_bw} = 'Freiburg'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Freiburg im Breisgau, Stadtkreis",
+         "Breisgau-Hochschwarzwald",
+         "Emmendingen",
+         "Ortenaukreis",
+         "Rottweil",
+         "Schwarzwald-Baar-Kreis",
+         "Tuttlingen",
+         "Konstanz",
+         "Lörrach",
+         "Waldshut"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_bw_tuebingen",
+        "visible": false,
+        "visibleIf": "{cat_region_de_bw} = 'Tübingen'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Reutlingen",
+         "Tübingen, Landkreis",
+         "Zollernalbkreis",
+         "Ulm, Stadtkreis",
+         "Alb-Donau-Kreis",
+         "Biberach",
+         "Bodenseekreis",
+         "Ravensburg",
+         "Sigmaringen"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_bayern_oberbayern",
+        "visible": false,
+        "visibleIf": "{cat_region_de_bayern} = 'Oberbayern'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Ingolstadt, Kreisfreie Stadt",
+         "München, Kreisfreie Stadt",
+         "Rosenheim, Kreisfreie Stadt",
+         "Altötting",
+         "Berchtesgadener Land",
+         "Bad Tölz-Wolfratshausen",
+         "Dachau",
+         "Ebersberg",
+         "Eichstätt",
+         "Erding",
+         "Freising",
+         "Fürstenfeldbruck",
+         "Garmisch-Partenkirchen",
+         "Landsberg am Lech",
+         "Miesbach",
+         "Mühldorf a. Inn",
+         "München, Landkreis",
+         "Neuburg-Schrobenhausen",
+         "Pfaffenhofen a. d. Ilm",
+         "Rosenheim, Landkreis",
+         "Starnberg",
+         "Traunstein",
+         "Weilheim-Schongau"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_bayern_niederbayern",
+        "visible": false,
+        "visibleIf": "{cat_region_de_bayern} = 'Niederbayern'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Landshut, Kreisfreie Stadt",
+         "Passau, Kreisfreie Stadt",
+         "Straubing, Kreisfreie Stadt",
+         "Deggendorf",
+         "Freyung-Grafenau",
+         "Kelheim",
+         "Landshut, Landkreis",
+         "Passau, Landkreis",
+         "Regen",
+         "Rottal-Inn",
+         "Straubing-Bogen",
+         "Dingolfing-Landau"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_bayern_oberpfalz",
+        "visible": false,
+        "visibleIf": "{cat_region_de_bayern} = 'Oberpfalz'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Amberg, Kreisfreie Stadt",
+         "Regensburg, Kreisfreie Stadt",
+         "Weiden i. d. Opf, Kreisfreie Stadt",
+         "Amberg-Sulzbach",
+         "Cham",
+         "Neumarkt i. d. OPf.",
+         "Neustadt a. d. Waldnaab",
+         "Regensburg, Landkreis",
+         "Schwandorf",
+         "Tirschenreuth"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_bayern_oberfranken",
+        "visible": false,
+        "visibleIf": "{cat_region_de_bayern} = 'Oberfranken'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Bamberg, Kreisfreie Stadt",
+         "Bayreuth, Kreisfreie Stadt",
+         "Coburg, Kreisfreie Stadt",
+         "Hof, Kreisfreie Stadt",
+         "Bamberg, Landkreis",
+         "Bayreuth, Landkreis",
+         "Coburg, Landkreis",
+         "Forchheim",
+         "Hof, Landkreis",
+         "Kronach",
+         "Kulmbach",
+         "Lichtenfels",
+         "Wunsiedel i. Fichtelgebirge"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_bayern_mittelfranken",
+        "visible": false,
+        "visibleIf": "{cat_region_de_bayern} = 'Mittelfranken'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Ansbach, Kreisfreie Stadt",
+         "Erlangen, Kreisfreie Stadt",
+         "Fürth, Kreisfreie Stadt",
+         "Nürnberg, Kreisfreie Stadt",
+         "Schwabach, Kreisfreie Stadt",
+         "Ansbach, Landkreis",
+         "Erlangen-Höchstadt",
+         "Fürth, Landkreis",
+         "Nürnberger Land",
+         "Neustadt a. d. Aisch-Bad Windsheim",
+         "Roth",
+         "Weißenburg-Gunzenhausen"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_re_de_bayern_unterfranken",
+        "visible": false,
+        "visibleIf": "{cat_region_de_bayern} = 'Unterfranken'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Aschaffenburg, Kreisfreie Stadt",
+         "Schweinfurt, Kreisfreie Stadt",
+         "Würzburg, Kreisfreie Stadt",
+         "Aschaffenburg, Landkreis",
+         "Bad Kissingen",
+         "Rhön-Grabfeld",
+         "Haßberge",
+         "Kitzingen",
+         "Miltenberg",
+         "Main-Spessart",
+         "Schweinfurt, Landkreis",
+         "Würzburg, Landkreis"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_brandenburg",
+        "visible": false,
+        "visibleIf": "{cat_region_state_de} = 'Brandenburg'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Brandenburg an der Havel, Kreisfreie Stadt",
+         "Cottbus, Kreisfreie Stadt",
+         "Frankfurt (Oder), Kreisfreie Stadt",
+         "Potsdam, Kreisfreie Stadt",
+         "Barnim",
+         "Dahme-Spreewald",
+         "Elbe-Elster",
+         "Havelland",
+         "Märkisch-Oderland",
+         "Oberhavel",
+         "Oberspreewald-Lausitz",
+         "Oder-Spree",
+         "Ostprignitz-Ruppin",
+         "Potsdam-Mittelmark",
+         "Prignitz",
+         "Spree-Neiße",
+         "Teltow-Fläming",
+         "Uckermark"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_bremen",
+        "visible": false,
+        "visibleIf": "{cat_region_state_de} = 'Bremen'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Bremen, Kreisfreie Stadt",
+         "Bremerhaven, Kreisfreie Stadt"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_hessen_darmstadt",
+        "visible": false,
+        "visibleIf": "{cat_region_de_hessen} = 'Darmstadt'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Darmstadt, Kreisfreie Stadt",
+         "Frankfurt am Main, Kreisfreie Stadt",
+         "Offenbach am Main, Kreisfreie Stadt",
+         "Wiesbaden, Kreisfreie Stadt",
+         "Bergstraße",
+         "Darmstadt-Dieburg",
+         "Groß-Gerau",
+         "Hochtaunuskreis",
+         "Main-Kinzig-Kreis",
+         "Main-Taunus-Kreis",
+         "Odenwaldkreis",
+         "Offenbach, Landkreis",
+         "Rheingau-Taunus-Kreis",
+         "Wetteraukreis"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_hessen_giesen",
+        "visible": false,
+        "visibleIf": "{cat_region_de_hessen} = 'Gießen'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Gießen, Landkreis",
+         "Lahn-Dill-Kreis",
+         "Limburg-Weilburg",
+         "Marburg-Biedenkopf",
+         "Vogelsbergkreis"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_hessen_kassel",
+        "visible": false,
+        "visibleIf": "{cat_region_de_hessen} = 'Kassel'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Kassel, Kreisfreie Stadt",
+         "Fulda",
+         "Hersfeld-Rotenburg",
+         "Kassel, Landkreis",
+         "Schwalm-Eder-Kreis",
+         "Waldeck-Frankenberg",
+         "Werra-Meißner-Kreis"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_mv",
+        "visible": false,
+        "visibleIf": "{cat_region_state_de} = 'Mecklenburg-Vorpommern'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Rostock, Kreisfreie Stadt",
+         "Schwerin, Kreisfreie Stadt",
+         "Mecklenburgische Seenplatte",
+         "Landkreis Rostock",
+         "Vorpommern-Rügen",
+         "Nordwestmecklenburg",
+         "Vorpommern-Greifswald",
+         "Ludwigslust-Parchim"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_ns_braunschweig",
+        "visible": false,
+        "visibleIf": "{cat_region_de_niedersachsen} = 'Braunschweig'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Braunschweig, Kreisfreie Stadt",
+         "Salzgitter, Kreisfreie Stadt",
+         "Wolfsburg, Kreisfreie Stadt",
+         "Gifhorn",
+         "Goslar",
+         "Helmstedt",
+         "Northeim",
+         "Peine",
+         "Wolfenbüttel",
+         "Göttingen"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_ns_hannover",
+        "visible": false,
+        "visibleIf": "{cat_region_de_niedersachsen} = 'Hannover'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Diepholz",
+         "Hameln-Pyrmont",
+         "Hildesheim",
+         "Holzminden",
+         "Nienburg (Weser)",
+         "Schaumburg",
+         "Region Hannover"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_ns_luenburg",
+        "visible": false,
+        "visibleIf": "{cat_region_de_niedersachsen} = 'Lüneburg'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Celle",
+         "Cuxhaven",
+         "Harburg",
+         "Lüchow-Dannenberg",
+         "Lüneburg, Landkreis",
+         "Osterholz",
+         "Rotenburg (Wümme)",
+         "Heidekreis",
+         "Stade",
+         "Uelzen",
+         "Verden"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_ns_we",
+        "visible": false,
+        "visibleIf": "{cat_region_de_niedersachsen} = 'Weser-Ems'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Delmenhorst, Kreisfreie Stadt",
+         "Emden, Kreisfreie Stadt",
+         "Oldenburg (Oldenburg), Kreisfreie Stadt",
+         "Osnabrück, Kreisfreie Stadt",
+         "Wilhelmshaven, Kreisfreie Stadt",
+         "Ammerland",
+         "Aurich",
+         "Cloppenburg",
+         "Emsland",
+         "Friesland (DE)",
+         "Grafschaft Bentheim",
+         "Leer",
+         "Oldenburg, Landkreis",
+         "Osnabrück, Landkreis",
+         "Vechta",
+         "Wesermarsch",
+         "Wittmund"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_nrw_duesseldorf",
+        "visible": false,
+        "visibleIf": "{cat_region_de_nrw} = 'Düsseldorf'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Düsseldorf, Kreisfreie Stadt",
+         "Duisburg, Kreisfreie Stadt",
+         "Essen, Kreisfreie Stadt",
+         "Krefeld, Kreisfreie Stadt",
+         "Mönchengladbach, Kreisfreie Stadt",
+         "Mülheim an der Ruhr, Kreisfreie Stadt",
+         "Oberhausen, Kreisfreie Stadt",
+         "Remscheid, Kreisfreie Stadt",
+         "Solingen, Kreisfreie Stadt",
+         "Wuppertal, Kreisfreie Stadt",
+         "Kleve",
+         "Mettmann",
+         "Rhein-Kreis Neuss",
+         "Viersen",
+         "Wesel"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_nrw_muenster",
+        "visible": false,
+        "visibleIf": "{cat_region_de_nrw} = 'Münster'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Bottrop, Kreisfreie Stadt",
+         "Gelsenkirchen, Kreisfreie Stadt",
+         "Münster, Kreisfreie Stadt",
+         "Borken",
+         "Coesfeld",
+         "Recklinghausen",
+         "Steinfurt",
+         "Warendorf"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_nrw_detmold",
+        "visible": false,
+        "visibleIf": "{cat_region_de_nrw} = 'Detmold'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Bielefeld, Kreisfreie Stadt",
+         "Gütersloh",
+         "Herford",
+         "Höxter",
+         "Lippe",
+         "Minden-Lübbecke",
+         "Paderborn"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_nrw_arnsberg",
+        "visible": false,
+        "visibleIf": "{cat_region_de_nrw} = 'Arnsberg'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Bochum, Kreisfreie Stadt",
+         "Dortmund, Kreisfreie Stadt",
+         "Hagen, Kreisfreie Stadt",
+         "Hamm, Kreisfreie Stadt",
+         "Herne, Kreisfreie Stadt",
+         "Ennepe-Ruhr-Kreis",
+         "Hochsauerlandkreis",
+         "Märkischer Kreis",
+         "Olpe",
+         "Siegen-Wittgenstein",
+         "Soest",
+         "Unna"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_rp_koblenz",
+        "visible": false,
+        "visibleIf": "{cat_region_de_rp} = 'Koblenz'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Koblenz, Kreisfreie Stadt",
+         "Ahrweiler",
+         "Altenkirchen (Westerwald)",
+         "Bad Kreuznach",
+         "Birkenfeld",
+         "Mayen-Koblenz",
+         "Neuwied",
+         "Rhein-Lahn-Kreis",
+         "Westerwaldkreis",
+         "Cochem-Zell",
+         "Rhein-Hunsrück-Kreis"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_rp_trier",
+        "visible": false,
+        "visibleIf": "{cat_region_de_rp} = 'Trier'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Trier, Kreisfreie Stadt",
+         "Bernkastel-Wittlich",
+         "Eifelkreis Bitburg-Prüm",
+         "Vulkaneifel",
+         "Trier-Saarburg"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_rp_rp",
+        "visible": false,
+        "visibleIf": "{cat_region_de_rp} = 'Rheinhessen-Pfalz'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Frankenthal (Pfalz), Kreisfreie Stadt",
+         "Kaiserslautern, Kreisfreie Stadt",
+         "Landau in der Pfalz, Kreisfreie Stadt",
+         "Ludwigshafen am Rhein, Kreisfreie Stadt",
+         "Mainz, Kreisfreie Stadt",
+         "Neustadt an der Weinstraße, Kreisfreie Stadt",
+         "Pirmasens, Kreisfreie Stadt",
+         "Speyer, Kreisfreie Stadt",
+         "Worms, Kreisfreie Stadt",
+         "Zweibrücken, Kreisfreie Stadt",
+         "Alzey-Worms",
+         "Bad Dürkheim",
+         "Donnersbergkreis",
+         "Germersheim",
+         "Kaiserslautern, Landkreis",
+         "Kusel",
+         "Südliche Weinstraße",
+         "Rhein-Pfalz-Kreis",
+         "Mainz-Bingen",
+         "Südwestpfalz"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_saarland",
+        "visible": false,
+        "visibleIf": "{cat_region_state_de} = 'Saarland'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Regionalverband Saarbrücken",
+         "Merzig-Wadern",
+         "Neunkirchen",
+         "Saarlouis",
+         "Saarpfalz-Kreis",
+         "St. Wendel"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_sachen_dresden",
+        "visible": false,
+        "visibleIf": "{cat_region_de_sachsen} = 'Dresden'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Dresden, Kreisfreie Stadt",
+         "Bautzen",
+         "Görlitz",
+         "Meißen",
+         "Sächsische Schweiz-Osterzgebirge"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_sachsen_chemnitz",
+        "visible": false,
+        "visibleIf": "{cat_region_de_sachsen} = 'Chemnitz'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Chemnitz, Kreisfreie Stadt",
+         "Erzgebirgskreis",
+         "Mittelsachsen",
+         "Vogtlandkreis",
+         "Zwickau"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_sachsen_leipzig",
+        "visible": false,
+        "visibleIf": "{cat_region_de_sachsen} = 'Leipzig'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Leipzig, Kreisfreie Stadt",
+         "Leipzig",
+         "Nordsachsen"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_sa",
+        "visible": false,
+        "visibleIf": "{cat_region_state_de} = 'Sachsen-Anhalt'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Dessau-Roßlau, Kreisfreie Stadt",
+         "Halle (Saale), Kreisfreie Stadt",
+         "Magdeburg, Kreisfreie Stadt",
+         "Altmarkkreis Salzwedel",
+         "Anhalt-Bitterfeld",
+         "Jerichower Land",
+         "Börde",
+         "Burgenlandkreis",
+         "Harz",
+         "Mansfeld-Südharz",
+         "Saalekreis",
+         "Salzlandkreis",
+         "Stendal",
+         "Wittenberg"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_sh",
+        "visible": false,
+        "visibleIf": "{cat_region_state_de} = 'Schleswig-Holstein'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Flensburg, Kreisfreie Stadt",
+         "Kiel, Kreisfreie Stadt",
+         "Lübeck, Kreisfreie Stadt",
+         "Neumünster, Kreisfreie Stadt",
+         "Dithmarschen",
+         "Herzogtum Lauenburg",
+         "Nordfriesland",
+         "Ostholstein",
+         "Pinneberg",
+         "Plön",
+         "Rendsburg-Eckernförde",
+         "Schleswig-Flensburg",
+         "Segeberg",
+         "Steinburg",
+         "Stormarn"
+        ],
+        "placeholder": "Select area"
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_region_de_thueringen",
+        "visible": false,
+        "visibleIf": "{cat_region_state_de} = 'Thüringen'",
+        "title": "Area",
+        "isRequired": true,
+        "choices": [
+         "Erfurt, Kreisfreie Stadt",
+         "Gera, Kreisfreie Stadt",
+         "Jena, Kreisfreie Stadt",
+         "Suhl, Kreisfreie Stadt",
+         "Weimar, Kreisfreie Stadt",
+         "Eichsfeld",
+         "Nordhausen",
+         "Unstrut-Hainich-Kreis",
+         "Kyffhäuserkreis",
+         "Schmalkalden-Meiningen",
+         "Gotha",
+         "Sömmerda",
+         "Hildburghausen",
+         "Ilm-Kreis",
+         "Weimarer Land",
+         "Sonneberg",
+         "Saalfeld-Rudolstadt",
+         "Saale-Holzland-Kreis",
+         "Saale-Orla-Kreis",
+         "Greiz",
+         "Altenburger Land",
+         "Eisenach, Kreisfreie Stadt",
+         "Wartburgkreis"
         ],
         "placeholder": "Select area"
        }
@@ -509,6 +1347,40 @@
           "text": "5 day per week"
          }
         ]
+       },
+       {
+        "type": "dropdown",
+        "name": "cat_use_wfh_9",
+        "visible": false,
+        "visibleIf": "{cat_use_adultNo} > 9\n\n\n",
+        "title": "Adult 9",
+        "isRequired": true,
+        "choices": [
+         {
+          "value": "Item 1",
+          "text": "0 day per week"
+         },
+         {
+          "value": "Item 2",
+          "text": "1 day per week"
+         },
+         {
+          "value": "Item 3",
+          "text": "2 day per week"
+         },
+         {
+          "value": "Item 4",
+          "text": "3 day per week"
+         },
+         {
+          "value": "Item 5",
+          "text": "4 day per week"
+         },
+         {
+          "value": "Item 6",
+          "text": "5 day per week"
+         }
+        ]
        }
       ],
       "title": "How often does each adult work from home?"
@@ -730,12 +1602,11 @@
           "text": "28"
          }
         ],
-        "showOtherItem": true,
         "placeholder": "Select"
        },
        {
         "type": "dropdown",
-        "name": "question1",
+        "name": "cat_use_maxtemp",
         "title": "Maximal temperature",
         "description": "degrees Celsius",
         "isRequired": true,
@@ -853,7 +1724,6 @@
           "text": "28"
          }
         ],
-        "showOtherItem": true,
         "placeholder": "Select"
        }
       ],
@@ -900,7 +1770,7 @@
         "visible": false,
         "visibleIf": "{cat_hes_battery} = true",
         "title": "What is the capacity of the battery?",
-        "description": "Kilowatt-hours\n(The average capacity of a home battery system is around 5 kilowatt-hours)",
+        "description": "Kilowatt-hours \n(The average capacity of a home battery system is around 5 kilowatt-hours)",
         "defaultValueExpression": "5",
         "inputType": "number",
         "min": 0
