@@ -48,4 +48,8 @@
 .navbar-dark img {
     padding-right: 8px;
 }
+
+.container-fluid {
+    padding-top: 0;
+}
 /* end of Navigation bar-dark */
