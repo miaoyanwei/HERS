@@ -1937,10 +1937,23 @@ var surveyJSON =  {
     "showCompletedPage": false,
     "navigateToUrl": "/result.html"
    }
+
+
+
+// Miao: Send data to server
 function sendDataToServer(survey) {
-    //send Ajax request to your web server
+    $.ajax({
+        type: "POST",
+        url: "/app/myapp/flex",
+        data: survey.data,
+        success: function (result) {
+           console.log(result);
+        },
+        dataType: "json"
+      });
     alert("The results are: " + JSON.stringify(survey.data));
 }
+
 
 var survey = new Survey.Model(surveyJSON);
 $("#surveyContainer").Survey({
