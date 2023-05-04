@@ -1,0 +1,109 @@
+/* Font */
+.col-md-8 h2 {
+    color: #345A46;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Current cards */
+.current {
+    background-color: #f9f9f9;
+    border-style: solid;
+    border-radius: 12px;
+    border-color: #717171;
+    width: 90%;
+    padding: 24px;
+}
+
+.current em {
+    font-size: 12px;
+}
+
+.current p {
+    color: #717171;
+    margin-top: 16px;
+    margin-bottom: 0;
+}
+
+.current h2 {
+    margin-top: 4px;
+}
+
+/* btn */
+.current .btn {
+    font-family: 'Philosopher', sans-serif;
+    font-size: 14px;
+    border-width: 2px;
+    border-color: #222;
+    height: fit-content;
+    padding: 0 4px;
+}
+
+
+/* Configurations */
+.config {
+    font-family: 'Philosopher', sans-serif;
+    color: #222;
+    margin-top: 24px;
+}
+
+
+/* Improved cards */
+.improved {
+    background-color: #fff;
+    border-style: solid;
+    border-radius: 12px;
+    border-color: #717171;
+    width: 90%;
+    padding: 24px;
+    margin-bottom: 40px;
+}
+
+.improved em {
+    font-size: 12px;
+}
+
+.improved p {
+    color: #717171;
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+.improved h2 {
+    margin-top: 4px;
+}
+
+/* btn */
+.improved .btn {
+    font-family: 'Philosopher', sans-serif;
+    font-size: 14px;
+    border-width: 2px;
+    border-color: #222;
+    height: fit-content;
+    padding: 0 4px;
+}
+
+
+/* Educate */
+.edu {
+    background-color: #345A46;
+    border-radius: 24px;
+    width: 90%;
+    height: 400px;
+    height: fit-content;
+    margin-top: 40px;
+    padding: 24px;
+}
+
+.edu p {
+    color: #fff;
+    width: 80%;
+    margin: 0;
+}
+
+svg {
+    float: right;
+    top: 0;
+}
