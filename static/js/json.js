@@ -2036,7 +2036,7 @@ var surveyJSON =  {
   ],
   "showTitle": false,
   "showCompletedPage": false,
-  "navigateToUrl": "/result.html"
+  "navigateToUrl": "static/html/result.html"
  }
 
 

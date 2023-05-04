@@ -18,7 +18,6 @@ main p {
     color: #222;
     font-size: 16px;
     text-align: left;
-    width: 60%;
 }
 
 main h1 {
@@ -49,8 +48,18 @@ main a:hover {
     color: #345A46;
 }
 
+main em {
+    font-family: 'Philosopher', sans-serif;
+    color: #222;
+}
 
-/* Form */
+main li {
+    font-family: 'Philosopher', sans-serif;
+    color: #345A46;
+}
+
+
+/* Form
 #regForm {
     background-color: #fff;
     font-family: 'Philosopher', sans-serif;
@@ -71,7 +80,7 @@ main a:hover {
     padding-top: 40px;
 }
 
-/* Style the buttons */
+/* Style the buttons 
 #nextBtn {
     background-color: #345A46;
     border-color: #345A46;
@@ -83,7 +92,7 @@ main a:hover {
     color: #345A46;
 }
   
-/* Style the input fields */
+/* Style the input fields 
 input {
     padding: 10px;
     width: 100%;
@@ -91,18 +100,18 @@ input {
     border: 1px solid #717171;
 }
   
-/* Mark input boxes that gets an error on validation: */
+/* Mark input boxes that gets an error on validation: 
 input.invalid {
     background-color: #ffdddd;
 }
   
-/* Hide all steps by default: */
+/* Hide all steps by default: 
 .tab {
     display: none;
     justify-content: center;
 }
   
-/* Make circles that indicate the steps of the form: */
+/* Make circles that indicate the steps of the form: 
 .step {
     height: 15px;
     width: 15px;
@@ -114,13 +123,14 @@ input.invalid {
     opacity: 0.5;
 }
   
-/* Mark the active step: */
+/* Mark the active step: 
 .step.active {
     opacity: 1;
 }
   
-/* Mark the steps that are finished and valid: */
+/* Mark the steps that are finished and valid: 
 .step.finish {
     background-color: #345A46;
 }
+*/
   
