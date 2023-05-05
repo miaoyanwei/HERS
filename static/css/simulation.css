@@ -1,0 +1,50 @@
+/* Title */
+h1.title {
+    text-align: center;
+}
+
+/* Cards */
+
+/* current card */
+#cur {
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    height: fit-content;
+    padding: 24px;
+    margin: 0 20px 40px 0;
+}
+
+/* simulate card */
+#simu {
+    background-color: #fff;
+    border-style: solid;
+    border-radius: 12px;
+    border-color: #dddddd;
+    height: fit-content;
+    padding: 24px;
+    margin: 0 0 40px 20px;
+}
+
+/* Educate */
+.edu {
+    background-color: #345A46;
+    border-radius: 12px;
+    width: 100%;
+    height: fit-content;
+    margin-top: 40px;
+    padding: 24px;
+}
+
+.edu p {
+    color: #fff;
+    width: 100%;
+    margin: 0;
+}
+
+.edu svg {
+    float: right;
+}
+
+a {
+    text-decoration: none;
+}

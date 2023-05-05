@@ -12,11 +12,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <!-- SurveyJS CSS-->
-    <link href="https://unpkg.com/survey-jquery@1.9.83/defaultV2.css" type="text/css" rel="stylesheet"/>
     <!-- Core theme CSS-->
     <link rel="stylesheet" href="../css/styles.css" />
-    <link rel="stylesheet" href="../css/result.css" />
+    <link rel="stylesheet" href="../css/simulation.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/footer.css" />
     <!-- JS-->
@@ -36,7 +34,29 @@
         </script>
         <!-- end of Navigation bar-->
 	</header>
-    <main></main>
+
+    <main>
+        <h1 class="title">Estimates of your household energy use</h1>
+        <!-- Cards-->
+        <div class="container">
+            <div class="row">
+                <div class="col" id="cur">
+                    <h2>Current</h2>
+                </div>
+                <div class="col" id="simu">
+                    <h2>Simulate</h2>
+                </div>
+            </div>
+            <!-- educate-->
+            <a href="edu.html"><div class="edu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 19.9336C11.0386 19.9336 10.1329 19.7767 9.2831 19.4628C8.43325 19.1489 7.66111 18.7086 6.96667 18.1419L5.46665 19.6169C5.30555 19.778 5.11389 19.8586 4.89168 19.8586C4.66944 19.8586 4.47778 19.778 4.31668 19.6169C4.15556 19.4558 4.075 19.2642 4.075 19.0419C4.075 18.8197 4.15556 18.628 4.31668 18.4669L5.79168 16.9753C5.22119 16.279 4.77996 15.5063 4.46797 14.6572C4.15599 13.8081 4 12.9003 4 11.9336C4 9.70026 4.775 7.80859 6.325 6.25859C7.875 4.70859 9.76667 3.93359 12 3.93359H20V11.9336C20 14.1669 19.225 16.0586 17.675 17.6086C16.125 19.1586 14.2333 19.9336 12 19.9336ZM12 18.2669C13.7593 18.2669 15.2546 17.6512 16.4861 16.4197C17.7176 15.1882 18.3333 13.6929 18.3333 11.9336V5.60027H12C10.2407 5.60027 8.74536 6.21601 7.51387 7.44749C6.28239 8.67898 5.66665 10.1743 5.66665 11.9336C5.66665 12.6584 5.78332 13.3508 6.01665 14.0106C6.24998 14.6704 6.56943 15.2642 6.975 15.7919L12.3167 10.4669C12.4778 10.3058 12.6694 10.2253 12.8917 10.2253C13.1139 10.2253 13.3055 10.3058 13.4667 10.4669C13.6333 10.6314 13.7167 10.8267 13.7167 11.0528C13.7167 11.2789 13.6333 11.4753 13.4667 11.6419L8.14165 16.9669C8.66943 17.3725 9.26322 17.6906 9.92302 17.9211C10.5828 18.1517 11.2751 18.2669 12 18.2669Z" fill="white"/>
+                </svg>
+                <p><span style="font-weight: bold;">Why should we turn to renewable energy?</span> Learn more about the reasons other than cost-savings.</p>
+            </div></a>
+        </div>
+    </main>
+
     <!-- Footer-->
     <div id="footer-placeholder"></div>
     <script>
