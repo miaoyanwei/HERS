@@ -12,7 +12,7 @@ a {
     background-color: #f9f9f9;
     border-style: solid;
     border-radius: 12px;
-    border-color: #717171;
+    border-color: #dddddd;
     width: 90%;
     padding: 24px;
 }
@@ -55,7 +55,7 @@ a {
     background-color: #fff;
     border-style: solid;
     border-radius: 12px;
-    border-color: #717171;
+    border-color: #dddddd;
     width: 90%;
     padding: 24px;
     margin-bottom: 40px;
@@ -106,4 +106,17 @@ a {
 svg {
     float: right;
     top: 0;
+}
+
+/* DIY cards */
+.diy {
+    background-image: url("../assets/diy.png");
+    border-radius: 12px;
+    width: 90%;
+    padding: 24px;
+    justify-content: center;
+}
+
+.diy h2 {
+    color: #fff;
 }
