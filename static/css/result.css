@@ -14,6 +14,7 @@ a {
     border-radius: 12px;
     border-color: #dddddd;
     width: 90%;
+    height: fit-content;
     padding: 24px;
 }
 
@@ -57,6 +58,7 @@ a {
     border-radius: 12px;
     border-color: #dddddd;
     width: 90%;
+    height: fit-content;
     padding: 24px;
     margin-bottom: 40px;
 }
@@ -89,9 +91,8 @@ a {
 /* Educate */
 .edu {
     background-color: #345A46;
-    border-radius: 24px;
+    border-radius: 12px;
     width: 90%;
-    height: 400px;
     height: fit-content;
     margin-top: 40px;
     padding: 24px;
@@ -103,9 +104,8 @@ a {
     margin: 0;
 }
 
-svg {
+.edu svg {
     float: right;
-    top: 0;
 }
 
 /* DIY cards */
@@ -113,10 +113,11 @@ svg {
     background-image: url("../assets/diy.png");
     border-radius: 12px;
     width: 90%;
+    height: fit-content;
     padding: 24px;
-    justify-content: center;
 }
 
 .diy h2 {
     color: #fff;
+    margin: 40px 0;
 }
