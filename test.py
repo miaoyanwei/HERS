@@ -1,3 +1,5 @@
+# Miao: Combineing the frontend and Django
+
 #!/usr/bin/env python
 import os
 import urllib.request as reader

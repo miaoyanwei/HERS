@@ -47,7 +47,7 @@
                     <div class="current">
                         <em>CURRENT</em>
                         <p>Your current energy bill is</p>
-                        <h2 class="bill"><span>&#8364;</span>0000<span style="font-size: 16px; font-weight: normal; color: #717171;"> / year</span></h2>
+                        <h2 class="bill"><span>&#8364;</span><div id="total_cost-placeholder"></div><span style="font-size: 16px; font-weight: normal; color: #717171;"> / year</span></h2>
                         <button type="button" class="btn btn-outline-dark" onclick="window.location.href='simulation.html';">More details 
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
@@ -146,5 +146,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
+    <script>
+        $.get("/app/myapp/flex", function(data){
+            $("#total_cost-placeholder").replaceWith(data.total_cost);
+        });
+    </script>
+
 </body>
 </html>
