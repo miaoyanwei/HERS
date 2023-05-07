@@ -1243,13 +1243,9 @@ var surveyJSON =  {
       "isRequired": true,
       "choices": [
        {
-        "value": "Item 1",
-        "text": {
-         "default": "before 1880",
-         "de": "vor \" \""
-        }
+        "value": "1880-1889",
+        "text": "before 1890"
        },
-       "1880-1889",
        "1890-1899",
        "1900-1909",
        "1910-1919",
@@ -1264,7 +1260,10 @@ var surveyJSON =  {
        "1991-2000",
        "2001-2010",
        "2011-2020",
-       "after 2020"
+       {
+        "value": "2020-2023",
+        "text": "after 2020"
+       }
       ]
      }
     ],
@@ -1390,7 +1389,7 @@ var surveyJSON =  {
     "elements": [
      {
       "type": "dropdown",
-      "name": "behavior_wfh_1",
+      "name": "behavior_wfh1",
       "visible": false,
       "visibleIf": "{behavior_adult} > 0",
       "title": {
@@ -1445,7 +1444,7 @@ var surveyJSON =  {
      },
      {
       "type": "dropdown",
-      "name": "behavior_wfh_2",
+      "name": "behavior_wfh2",
       "visible": false,
       "visibleIf": "{behavior_adult} > 1",
       "title": "Adult 2",
@@ -1497,7 +1496,7 @@ var surveyJSON =  {
      },
      {
       "type": "dropdown",
-      "name": "behavior_wfh_3",
+      "name": "behavior_wfh3",
       "visible": false,
       "visibleIf": "{behavior_adult} > 2",
       "title": "Adult 3",
@@ -1549,7 +1548,7 @@ var surveyJSON =  {
      },
      {
       "type": "dropdown",
-      "name": "behavior_wfh_4",
+      "name": "behavior_wfh4",
       "visible": false,
       "visibleIf": "{behavior_adult} > 3",
       "title": "Adult 4",
@@ -1601,7 +1600,7 @@ var surveyJSON =  {
      },
      {
       "type": "dropdown",
-      "name": "behavior_wfh_5",
+      "name": "behavior_wfh5",
       "visible": false,
       "visibleIf": "{behavior_adult} > 4",
       "title": "Adult 5",
@@ -1653,7 +1652,7 @@ var surveyJSON =  {
      },
      {
       "type": "dropdown",
-      "name": "behavior_wfh_6",
+      "name": "behavior_wfh6",
       "visible": false,
       "visibleIf": "{behavior_adult} > 5\n",
       "title": "Adult 6",
@@ -1705,7 +1704,7 @@ var surveyJSON =  {
      },
      {
       "type": "dropdown",
-      "name": "behavior_wfh_7",
+      "name": "behavior_wfh7",
       "visible": false,
       "visibleIf": "{behavior_adult} > 6\n\n",
       "title": "Adult 7",
@@ -1757,7 +1756,7 @@ var surveyJSON =  {
      },
      {
       "type": "dropdown",
-      "name": "behavior_wfh_8",
+      "name": "behavior_wfh8",
       "visible": false,
       "visibleIf": "{behavior_adult} > 8\n\n\n",
       "title": "Adult 8",
@@ -1809,7 +1808,7 @@ var surveyJSON =  {
      },
      {
       "type": "dropdown",
-      "name": "behavior_wfh_9",
+      "name": "behavior_wfh9",
       "visible": false,
       "visibleIf": "{behavior_adult} > 9\n\n\n",
       "title": "Adult 9",
@@ -1870,7 +1869,7 @@ var surveyJSON =  {
     "elements": [
      {
       "type": "boolean",
-      "name": "SpaceCoolingTechnology",
+      "name": "SpaceCoolingTechnology_exist",
       "title": {
        "default": "Is there any air conditioner in the house?",
        "de": "Gibt es eine Klimaanlage im Haus?"
@@ -1938,7 +1937,7 @@ var surveyJSON =  {
     "elements": [
      {
       "type": "boolean",
-      "name": "pv",
+      "name": "pv_exist",
       "title": {
        "default": "Is there a photovoltaic (PV) system in the House?",
        "de": "Gibt es eine Photovoltaikanlage (PV) im Haus?"
@@ -1953,7 +1952,7 @@ var surveyJSON =  {
       "type": "text",
       "name": "pv_size",
       "visible": false,
-      "visibleIf": "{pv} = true",
+      "visibleIf": "{pv_exist} = true",
       "title": {
        "default": "What is the size of the PV system? (kilowatt-peak)",
        "de": "Wie groß ist die PV-Anlage? (Kilowatts-peak)"
@@ -1977,7 +1976,7 @@ var surveyJSON =  {
     "elements": [
      {
       "type": "boolean",
-      "name": "battery",
+      "name": "battery_exist",
       "title": {
        "default": "Is there a battery system in the house?",
        "de": "Gibt es ein Batteriesystem im Haus?"
@@ -1992,7 +1991,7 @@ var surveyJSON =  {
       "type": "text",
       "name": "battery_capacity",
       "visible": false,
-      "visibleIf": "{battery} = true",
+      "visibleIf": "{battery_exist} = true",
       "title": {
        "default": "What is the capacity of the battery? (kilowatt-hours)",
        "de": "Wie hoch ist die Kapazität der Batterie? (Kilowattstunden)"
@@ -2016,7 +2015,7 @@ var surveyJSON =  {
     "elements": [
      {
       "type": "boolean",
-      "name": "sems",
+      "name": "sems_exist",
       "title": {
        "default": "Is there a smart energy management system (SEMS) in the house?",
        "de": "Gibt es ein intelligentes Energiemanagementsystem im Haus?"
@@ -2042,16 +2041,16 @@ var surveyJSON =  {
 
 // Miao: Send data to server
 function sendDataToServer(survey) {
-    $.ajax({
-        type: "POST",
-        url: "/app/myapp/flex",
-        data: survey.data,
-        success: function (result) {
-           console.log(result);
-        },
-        dataType: "json"
-      });
-    alert("The results are: " + JSON.stringify(survey.data));
+  $.ajax({
+      type: "POST",
+      url: "/app/myapp/flex",
+      data: JSON.stringify(survey.data), // create strings from the objects
+      success: function (result) {
+         console.log(result);
+      },
+      dataType: "json"
+    });
+  alert("The results are: " + JSON.stringify(survey.data));
 }
 
 
