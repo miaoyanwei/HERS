@@ -50,6 +50,5 @@ def flex(request):
             filter={"ID_Scenario": request.session['scenario_id']},
         )
         out_json = json.loads('{}')
-        out_json["total_cost"] = df["TotalCost"].values[0]
-
+        out_json["total_cost"] = round(df["TotalCost"].values[0]/100)
         return HttpResponse(json.dumps(out_json), content_type="application/json", status=200)
