@@ -36,20 +36,20 @@ def flex(request):
                     new_json[category]["construction_period_end"] = years[1]
                 else:
                     new_json[category][variable] = value
-            print(new_json)
 
+        print(new_json)
             #operation_scenario_ids = [id_scenario for id_scenario in range(1, 2)]
             #run_operation_model(operation_scenario_ids, cfg)
         id = 1
         request.session['scenario_id'] = id
         return HttpResponse(status=200)
-    
     elif (request.method == 'GET'):
-            db = create_db_conn(cfg)
-            df = db.read_dataframe(
-                "OperationResult_OptimizationYear",
-                filter={"ID_Scenario": request.session['scenario_id']},
-            )
-            out_json = json.loads('{}')
-            out_json["total_cost"] = df["TotalCost"].values[0]
-            return HttpResponse(json.dumps(out_json), status=200)
+        db = create_db_conn(cfg)
+        df = db.read_dataframe(
+            "OperationResult_OptimizationYear",
+            filter={"ID_Scenario": request.session['scenario_id']},
+        )
+        out_json = json.loads('{}')
+        out_json["total_cost"] = df["TotalCost"].values[0]
+
+        return HttpResponse(json.dumps(out_json), content_type="application/json", status=200)
