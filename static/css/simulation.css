@@ -5,6 +5,58 @@ h1.title {
 
 /* Cards */
 
+/* Tab */
+.tab {
+    font-family: 'Philosopher', sans-serif;
+    color: #222;
+    font-size: 16px;
+    overflow: hidden;
+    background-color: #ebebeb;
+    width: max-content;
+    border-radius: 40px;
+    padding: 4px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+  
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: #ebebeb;
+    float: left;
+    border: none;
+    border-radius: 40px;
+    outline: none;
+    cursor: pointer;
+    padding: 8px 60px;
+    transition: 0.3s;
+    font-size: 14px;
+}
+  
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #fff;
+}
+  
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    -webkit-animation: fadeEffect 1s;
+    animation: fadeEffect 1s;
+}
+  
+/* Fade in tabs */
+    @-webkit-keyframes fadeEffect {
+        from {opacity: 0;}
+        to {opacity: 1;}
+    }
+  
+    @keyframes fadeEffect {
+        from {opacity: 0;}
+        to {opacity: 1;}
+    }
+  
+
 /* current card */
 #cur {
     background-color: #f9f9f9;
@@ -13,6 +65,47 @@ h1.title {
     padding: 24px;
     margin: 0 20px 40px 0;
 }
+
+.totalDemand, .totalSupply {
+    display: flex;
+    justify-content: space-between;
+}
+
+.total {
+    margin-top: 20px;
+}
+
+hr {
+    color: #dddddd;
+}
+
+/* color squares */
+.foo {
+    float: left;
+    width: 8px;
+    height: 8px;
+    margin: 4px;
+}
+ .heating {
+    background: #A78067;
+ }
+ .cooling {
+    background: #E2E2E2;
+ }
+ .appliance {
+    background: #ADA3A3;
+ }
+ .hotwater {
+    background: #DDB9A1;
+ }
+ .pv {
+    background: #6DAE47;
+ }
+
+.legend {
+    display: flex;
+}
+
 
 /* simulate card */
 #simu {

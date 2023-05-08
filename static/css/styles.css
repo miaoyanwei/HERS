@@ -39,6 +39,13 @@ main h2 {
     margin-bottom: 16px;
 }
 
+main h3 {
+    font-family: 'Philosopher', sans-serif;
+    color: #222;
+    font-size: 16px;
+    text-align: left;
+}
+
 main a {
     font-family: 'Philosopher', sans-serif;
     color: #222;
