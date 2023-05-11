@@ -66,9 +66,14 @@ h1.title {
     margin: 0 20px 40px 0;
 }
 
-.totalDemand, .totalSupply {
+.totalDemand, .totalSupply, .totalCost {
     display: flex;
     justify-content: space-between;
+}
+
+.totalCost {
+    position: sticky;
+    bottom: 0;
 }
 
 .total {

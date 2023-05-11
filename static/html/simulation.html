@@ -20,12 +20,19 @@
     <!-- JS-->
     <script src="../js/navbar.js"></script>
     <script src="../js/simulation.js"></script>
+    <script src="../js/chart.js"></script>
+    
     <!-- JQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
-    <!-- Google Charts library-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" src="../js/chart.js"></script>
+    <!-- Google Charts library
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
+
+    <!-- Highcharts-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
 
 </head>
 
@@ -94,17 +101,80 @@
                             <div class="foo pv"></div><p style="font-size: smaller; margin-right: 8px;">PV</p>
                         </div>
 
+                        <hr>
+
                     </div>
 
                     <!-- config-->
                     <h2>Home Energy System</h2>
                     <p>test</p>
+                    <!-- end of config-->
+
+                    <div class="totalCost" style="background-color: #f9f9f9;">
+                        <h2>Energy Bill</h2>
+                        <h2><span>&#8364;</span>000</h2>
+                    </div>
                     
                 </div>
 
                 <!-- simulate-->
                 <div class="col" id="simu">
-                    <h1>Simulate</h1>
+                    <h1 style="color: #345A46">Simulate</h1>
+
+                    <!-- tab-->
+                    <div class="tab">
+                        <button class="tablinks" onclick="chooseTime(event, 'simuDay')">Day</button>
+                        <button class="tablinks" onclick="chooseTime(event, 'simuYear')" id="defaultOpen">Year</button>
+                    </div>
+
+                    <!-- graph day-->
+                    <div id="simuDay" class="tabcontent">
+                        <div id="chart_simu_day" style="height: 200px;"></div>
+                    </div>
+                    
+                    <!-- graph year-->
+                    <div id="simuYear" class="tabcontent">
+                        <div id="chart_simu_year" style="height: 200px;"></div> 
+                    </div>
+
+                    <!-- total display-->
+                    <div class="total">
+
+                        <div class="totalDemand">
+                            <h3>Total energy demand</h3>
+                            <p>128,819 kWh</p>
+                        </div>
+                        <div class="legend">
+                            <div class="foo heating"></div><p style="font-size: smaller; margin-right: 8px;">Heating</p>
+                            <div class="foo cooling"></div><p style="font-size: smaller; margin-right: 8px;">Cooling</p>
+                            <div class="foo appliance"></div><p style="font-size: smaller; margin-right: 8px;">Appliance</p>
+                            <div class="foo hotwater"></div><p style="font-size: smaller; margin-right: 8px;">Hot water</p>
+                        </div>
+
+                        <hr>
+
+                        <div class="totalSupply">
+                            <h3>Total energy supply</h3>
+                            <p>999 kWh</p>
+                        </div>
+                        <div class="legend">
+                            <div class="foo pv"></div><p style="font-size: smaller; margin-right: 8px;">PV</p>
+                        </div>
+
+                        <hr>
+
+                    </div>
+
+                    <!-- config-->
+                    <h2>Home Energy System</h2>
+                    <p>test</p>
+                    <!-- end of config-->
+
+                    <div class="totalCost" style="background-color: #fff;">
+                        <h2>Energy Bill</h2>
+                        <h2><span>&#8364;</span>000</h2>
+                    </div>
+
                 </div>
 
             </div>
