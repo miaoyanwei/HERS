@@ -80,10 +80,6 @@ h1.title {
     margin-top: 20px;
 }
 
-hr {
-    color: #dddddd;
-}
-
 /* color squares */
 .foo {
     float: left;
@@ -111,6 +107,11 @@ hr {
     display: flex;
 }
 
+hr {
+    color: #dddddd;
+    margin-top: 10px;
+}
+
 
 /* simulate card */
 #simu {
@@ -122,6 +123,21 @@ hr {
     padding: 24px;
     margin: 0 0 40px 20px;
 }
+
+.accordion {
+    font-family: 'Philosopher', sans-serif;
+    color: #222;
+}
+
+.accordion-item h2 {
+    margin-top: 0;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
 
 /* Educate */
 .edu {
