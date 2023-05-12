@@ -1,18 +1,28 @@
 // TAB
 
-function chooseTime(evt, curGraph) {
+// Function to open tabs
+function openTab(evt, tabName, defaultTab) {
   var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
+
+  // Hide all tab contents for the current tab set
+  tabcontent = document.getElementById(tabName).parentNode.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
-  tablinks = document.getElementsByClassName("tablinks");
+
+  // Remove "active" class from tab links for the current tab set
+  tablinks = document.getElementById(tabName).parentNode.getElementsByClassName("tablinks");
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
-  document.getElementById(curGraph).style.display = "block";
+
+  // Show the selected tab content
+  document.getElementById(tabName).style.display = "block";
+
+  // Add "active" class to the clicked tab link
   evt.currentTarget.className += " active";
 }
 
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
+// Get the default open tab for each set and trigger click event
+document.getElementById("defaultOpen1").click();
+document.getElementById("defaultOpen2").click();

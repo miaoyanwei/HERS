@@ -63,8 +63,8 @@
 
                     <!-- tab-->
                     <div class="tab">
-                        <button class="tablinks" onclick="chooseTime(event, 'currentDay')">Day</button>
-                        <button class="tablinks" onclick="chooseTime(event, 'currentYear')" id="defaultOpen">Year</button>
+                        <button class="tablinks" onclick="openTab(event, 'currentDay')">Day</button>
+                        <button class="tablinks active" onclick="openTab(event, 'currentYear')" id="defaultOpen1">Year</button>
                     </div>
                     
                     <!-- graph day-->
@@ -73,7 +73,7 @@
                     </div>
                     
                     <!-- graph year-->
-                    <div id="currentYear" class="tabcontent">
+                    <div id="currentYear" class="tabcontent" style="display: block;">
                         <div id="chart_current_year" style="height: 200px;"></div> 
                     </div>
 
@@ -123,8 +123,8 @@
 
                     <!-- tab-->
                     <div class="tab">
-                        <button class="tablinks" onclick="chooseTime(event, 'simuDay')">Day</button>
-                        <button class="tablinks" onclick="chooseTime(event, 'simuYear')" id="defaultOpen">Year</button>
+                        <button class="tablinks" onclick="openTab(event, 'simuDay')">Day</button>
+                        <button class="tablinks active" onclick="openTab(event, 'simuYear')" id="defaultOpen2">Year</button>
                     </div>
 
                     <!-- graph day-->
@@ -133,7 +133,7 @@
                     </div>
                     
                     <!-- graph year-->
-                    <div id="simuYear" class="tabcontent">
+                    <div id="simuYear" class="tabcontent" style="display: block;">
                         <div id="chart_simu_year" style="height: 200px;"></div> 
                     </div>
 
@@ -207,7 +207,7 @@
         // Function to be called when the HTML page is fully loaded
         window.onload = function() {
           // Get the element with id="defaultOpen" and click on it
-          document.getElementById("defaultOpen").click();
+          document.getElementById("defaultOpen1", "defaultOpen2").click();
         }
     </script>
 
