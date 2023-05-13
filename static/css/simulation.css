@@ -66,14 +66,25 @@ h1.title {
     margin: 0 20px 40px 0;
 }
 
-.totalDemand, .totalSupply, .totalCost {
+.totalDemand, .totalSupply, .totalCur, .totalSimu {
     display: flex;
     justify-content: space-between;
+}
+
+.totalCur, .totalSimu h2 {
+    margin-top: 10px;
 }
 
 .totalCost {
     position: sticky;
     bottom: 0;
+}
+
+.totalCost .btn {
+    font-family: 'Philosopher', sans-serif;
+    font-size: 16px;
+    background-color: #345A46;
+    border: none;
 }
 
 .total {
