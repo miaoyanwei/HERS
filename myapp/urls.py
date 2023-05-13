@@ -4,5 +4,5 @@ from . import views
 
 # Miao: FLEX
 urlpatterns = [
-    path("flex", views.flex, name="flex"),
+    path("flex", views.FlexView.as_view())
 ]
