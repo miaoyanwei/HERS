@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+
 /* View */
 body {
     padding: 0;
@@ -11,7 +14,7 @@ main {
 }
 
 
-/* Cards */
+/* Instruction */
 main .card {
     background-color: transparent;
     border-color: transparent;
@@ -36,13 +39,6 @@ main .card {
 
 
 /* Body */
-p {
-    font-family: 'Philosopher', sans-serif;
-    color: #fff;
-    font-size: 14px;
-    text-align: center;
-}
-
 body h1 {
     font-family: 'Philosopher', sans-serif;
     color: #fff;
@@ -56,6 +52,13 @@ body h2 {
     font-family: 'Philosopher', sans-serif;
     color: #fff;
     font-size: 20px;
+    text-align: center;
+}
+
+p {
+    font-family: 'Philosopher', sans-serif;
+    color: #fff;
+    font-size: 14px;
     text-align: center;
 }
 
