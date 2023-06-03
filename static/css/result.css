@@ -46,7 +46,9 @@ a {
 /* Configurations */
 .config {
     font-family: 'Philosopher', sans-serif;
+    font-size: smaller;
     color: #222;
+    line-height: 2;
     margin-top: 24px;
 }
 

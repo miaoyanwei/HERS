@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 /* Navigation bar */
 .navbar {
     font-family: 'Philosopher', sans-serif;
@@ -24,7 +26,8 @@
 }
 /* end of Navigation bar */
 
-/* Navigation bar-dark */
+
+/* dark Navigation bar */
 .navbar-dark {
     font-family: 'Philosopher', sans-serif;
     margin: 0 40px;
@@ -52,4 +55,72 @@
 .container-fluid {
     padding-top: 0;
 }
-/* end of Navigation bar-dark */
+/* end of dark Navigation bar */
+
+
+/* Footer */
+footer {
+    padding: 10px;
+    font-family: 'Philosopher', sans-serif;
+}
+
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    height: 60px; 
+} 
+
+.footer ul {
+    text-align:left;
+    font-size:14px;
+}
+
+.footer li {
+    padding:0 10px;
+}
+
+.footer a {
+    color: #D6B5C0;
+    padding:0 8px;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: #fff; 
+}
+/* end of Footer */
+
+
+/* dark Footer */
+footer-dark {
+    padding: 10px;
+    font-family: 'Philosopher', sans-serif;
+}
+
+.footer-dark {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    height: 60px; 
+}
+
+.footer-dark ul {
+    text-align:left;
+    font-size:14px;
+}
+
+.footer-dark li {
+    padding:0 10px;
+}
+
+.footer-dark a {
+    color: #222;
+    padding:0 8px;
+    text-decoration: none;
+}
+
+.footer-dark a:hover {
+    color: #345A46; 
+}
+/* end of dark Footer */
