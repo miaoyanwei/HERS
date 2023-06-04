@@ -32,7 +32,19 @@ a {
     margin-top: 4px;
 }
 
-/* btn */
+/* Check & uncheck icons */
+.bi-check2 {
+    margin-right: 8px;
+    display: none;
+}
+
+.bi-x {
+    margin-right: 8px;
+    display: none;
+}
+
+
+/* Botton */
 .current .btn {
     font-family: 'Philosopher', sans-serif;
     font-size: 14px;

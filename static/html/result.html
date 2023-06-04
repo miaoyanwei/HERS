@@ -30,11 +30,13 @@
     <main>
         <div class="container">
             <div class="row">
+
                 <!-- Current-->
                 <div class="col-md-4">
                     <h2>Current</h2>
                     <p>Test<br>Test</p>
-                    <!-- card-->
+
+                    <!-- current card-->
                     <div class="current">
                         <em>CURRENT</em>
                         <p>Your current energy bill is</p>
@@ -45,19 +47,19 @@
                             </svg>
                         </button>
                         <div class="config">
-                            PV system<br>
-                            Battery system<br>
-                            SEMS system<br>
-                            Heat source<br>
-                            Hot water tank<br>
-                            Space heating tank<br>
-                            Air conditioner<br>
-                            Building renovation
+                            <i class="bi bi-check2" id="pv-true"></i><i class="bi bi-x" id="pv-false"></i>PV system<br>
+                            <i class="bi bi-check2" id="battery-true"></i><i class="bi bi-x" id="battery-flase"></i>Battery system<br>
+                            <i class="bi bi-check2" id="sems-true"></i><i class="bi bi-x" id="sems-false"></i>SEMS system<br>
+                            <i class="bi bi-check2" id="heatsource-true"></i><i class="bi bi-x" id="heatsource-false"></i>Heat source<br>
+                            <i class="bi bi-check2" id="hotwatertank-true"></i><i class="bi bi-x" id="hotwatertank-false"></i>Hot water tank<br>
+                            <i class="bi bi-check2" id="spaceheatingtank-true"></i><i class="bi bi-x" id="spaceheatingtank-false"></i>Space heating tank<br>
+                            <i class="bi bi-check2" id="ac-true"></i><i class="bi bi-x" id="ac-false"></i>Air conditioner<br>
+                            <i class="bi bi-check2" id="renovation-true"></i><i class="bi bi-x" id="renovation-false"></i>Building renovation
                         </div>
 
                     </div>
 
-                    <!-- educate-->
+                    <!-- educate card-->
                     <a href="edu.html"><div class="edu">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 19.9336C11.0386 19.9336 10.1329 19.7767 9.2831 19.4628C8.43325 19.1489 7.66111 18.7086 6.96667 18.1419L5.46665 19.6169C5.30555 19.778 5.11389 19.8586 4.89168 19.8586C4.66944 19.8586 4.47778 19.778 4.31668 19.6169C4.15556 19.4558 4.075 19.2642 4.075 19.0419C4.075 18.8197 4.15556 18.628 4.31668 18.4669L5.79168 16.9753C5.22119 16.279 4.77996 15.5063 4.46797 14.6572C4.15599 13.8081 4 12.9003 4 11.9336C4 9.70026 4.775 7.80859 6.325 6.25859C7.875 4.70859 9.76667 3.93359 12 3.93359H20V11.9336C20 14.1669 19.225 16.0586 17.675 17.6086C16.125 19.1586 14.2333 19.9336 12 19.9336ZM12 18.2669C13.7593 18.2669 15.2546 17.6512 16.4861 16.4197C17.7176 15.1882 18.3333 13.6929 18.3333 11.9336V5.60027H12C10.2407 5.60027 8.74536 6.21601 7.51387 7.44749C6.28239 8.67898 5.66665 10.1743 5.66665 11.9336C5.66665 12.6584 5.78332 13.3508 6.01665 14.0106C6.24998 14.6704 6.56943 15.2642 6.975 15.7919L12.3167 10.4669C12.4778 10.3058 12.6694 10.2253 12.8917 10.2253C13.1139 10.2253 13.3055 10.3058 13.4667 10.4669C13.6333 10.6314 13.7167 10.8267 13.7167 11.0528C13.7167 11.2789 13.6333 11.4753 13.4667 11.6419L8.14165 16.9669C8.66943 17.3725 9.26322 17.6906 9.92302 17.9211C10.5828 18.1517 11.2751 18.2669 12 18.2669Z" fill="white"/>
@@ -65,29 +67,18 @@
                         <p><span style="font-weight: bold;">Why should we turn to renewable energy?</span> Learn more about the reasons other than cost-savings.</p>
                     </div></a>
                 </div>
+
                 <!-- Recommendations-->
                 <div class="col-md-8">
                     <h2>Recommended configurations</h2>
                     <p>Follwings are energy configurations available for your house that may lower future energy costs and improve energy efficiency.</p>
-                    <!-- cards-->
+                    
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="improved">
-                                <em>TAG</em>
-                                <h2 class="bill">Save <span>&#8364;</span>0000<span style="font-size: 16px; font-weight: normal;"> / year</span></h2>
-                                <p>If the following configurations are applied, the annual energy bill is estimated to be <span>&#8364;</span></p>
-                                <button type="button" class="btn btn-outline-dark" onclick="window.location.href='simulation.html';">More details 
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
-                                    </svg>
-                                </button>
-                                <div class="config">
-                                    
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- diy-->
+                        <!-- recommandation cards-->
+                        <div class="col-md-6" id="recommandation-list"></div>
+
+                        <!-- diy card-->
                         <div class="col-md-6">
                             <a href="simulation.html"><div class="diy">
                                 <h2>Customise my home energy system
@@ -97,6 +88,7 @@
                                 </h2>
                             </div></a>
                         </div>
+
                     </div>
                 </div>
             </div>
