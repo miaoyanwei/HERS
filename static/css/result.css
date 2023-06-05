@@ -127,7 +127,7 @@ a {
     background-image: url("../assets/diy.png");
     border-radius: 12px;
     width: 90%;
-    height: fit-content;
+    height: 400px;
     padding: 24px;
 }
 
