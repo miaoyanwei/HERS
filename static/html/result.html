@@ -34,7 +34,10 @@
                 <!-- Current-->
                 <div class="col-md-4">
                     <h2>Current</h2>
-                    <p>Test<br>Test</p>
+                    <p>
+                        <i class="bi bi-geo-alt"></i><span id="location-placeholder"></span><br>
+                        <i class="bi bi-person"></i><span id="personNo-placeholder"></span>
+                    </p>
 
                     <!-- current card-->
                     <div class="current">
@@ -73,13 +76,10 @@
                     <h2>Recommended configurations</h2>
                     <p>Follwings are energy configurations available for your house that may lower future energy costs and improve energy efficiency.</p>
                     
-                    <div class="row">
-
-                        <!-- recommandation cards-->
-                        <div class="col-md" id="recommandation-list"></div>
+                    <div class="row" id="recommandation-list">
 
                         <!-- diy card-->
-                        <div class="col-md">
+                        <div class="col-md-6">
                             <a href="simulation.html"><div class="diy">
                                 <h2>Customise my home energy system
                                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
@@ -90,6 +90,7 @@
                         </div>
 
                     </div>
+
                 </div>
             </div>
     </main>

@@ -32,17 +32,6 @@ a {
     margin-top: 4px;
 }
 
-/* Check & uncheck icons */
-.bi-check2 {
-    margin-right: 8px;
-    display: none;
-}
-
-.bi-x {
-    margin-right: 8px;
-    display: none;
-}
-
 
 /* Botton */
 .current .btn {
@@ -56,12 +45,28 @@ a {
 
 
 /* Configurations */
+.col-md-6{
+    margin-bottom: 40px;
+}
+
 .config {
     font-family: 'Philosopher', sans-serif;
     font-size: smaller;
     color: #222;
     line-height: 2;
     margin-top: 24px;
+}
+
+
+/* Check & uncheck icons */
+.bi-check2 {
+    margin-right: 8px;
+    display: none;
+}
+
+.bi-x {
+    margin-right: 8px;
+    display: none;
 }
 
 

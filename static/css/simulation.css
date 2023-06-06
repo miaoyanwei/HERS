@@ -122,6 +122,27 @@ hr {
 }
 
 
+/* Current configuration */
+.config {
+    font-family: 'Philosopher', sans-serif;
+    font-size: 16px;
+    color: #222;
+    line-height: 2;
+}
+
+
+/* Check & uncheck icons */
+.bi-check2 {
+    margin-right: 8px;
+    display: none;
+}
+
+.bi-x {
+    margin-right: 8px;
+    display: none;
+}
+
+
 /* simulate card */
 #simu {
     background-color: #fff;

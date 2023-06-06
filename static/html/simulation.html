@@ -51,16 +51,16 @@
                 <div class="col" id="cur">
                     <h1>Current</h1>
 
-                    <!-- tab-->
+                    <!-- tab
                     <div class="tab">
                         <button class="tablinks" onclick="openTab(event, 'currentDay')">Day</button>
                         <button class="tablinks active" onclick="openTab(event, 'currentYear')" id="defaultOpen1">Year</button>
-                    </div>
+                    </div>-->
                     
-                    <!-- graph day-->
+                    <!-- graph day
                     <div id="currentDay" class="tabcontent">
                         <div id="chart_current_day" style="height: 200px;"></div>
-                    </div>
+                    </div>-->
                     
                     <!-- graph year-->
                     <div id="currentYear" class="tabcontent" style="display: block;">
@@ -72,7 +72,7 @@
 
                         <div class="totalDemand">
                             <h3>Total energy demand</h3>
-                            <p>128,819 kWh</p>
+                            <p><span id="totalDemand-placeholder"></span> kWh</p>
                         </div>
                         <div class="legend">
                             <div class="foo heating"></div><p style="font-size: smaller; margin-right: 8px;">Heating</p>
@@ -85,7 +85,7 @@
 
                         <div class="totalSupply">
                             <h3>Total energy supply</h3>
-                            <p>000 kWh</p>
+                            <p><span id="totalSupply-placeholder"></span> kWh</p>
                         </div>
                         <div class="legend">
                             <div class="foo pv"></div><p style="font-size: smaller; margin-right: 8px;">PV</p>
@@ -97,13 +97,21 @@
 
                     <!-- config-->
                     <h2>Home Energy System</h2>
-                    <p>test</p>
-                    <!-- end of config-->
+                    <div class="config">
+                        <i class="bi bi-check2" id="pv-true"></i><i class="bi bi-x" id="pv-false"></i>PV system <span id="pvSize-placeholder"></span><span id="pvUnit-placeholder"></span><br><hr>
+                        <i class="bi bi-check2" id="battery-true"></i><i class="bi bi-x" id="battery-flase"></i>Battery system <span id="batterySize-placeholder"></span><span id="batteryUnit-placeholder"></span><br><hr>
+                        <i class="bi bi-check2" id="sems-true"></i><i class="bi bi-x" id="sems-false"></i>SEMS system<br><hr>
+                        <i class="bi bi-check2" id="heatsource-true"></i><i class="bi bi-x" id="heatsource-false"></i>Heat source <span id="heatsource-placeholder"></span><br><hr>
+                        <i class="bi bi-check2" id="hotwatertank-true"></i><i class="bi bi-x" id="hotwatertank-false"></i>Hot water tank <span id="hotwatertankSize-placeholder"></span><span id="hotwatertankUnit-placeholder"></span><br><hr>
+                        <i class="bi bi-check2" id="spaceheatingtank-true"></i><i class="bi bi-x" id="spaceheatingtank-false"></i>Space heating tank <span id="spaceheatingtankSize-placeholder"></span><span id="spaceheatingtankUnit-placeholder"></span><br><hr>
+                        <i class="bi bi-check2" id="renovation-true"></i><i class="bi bi-x" id="renovation-false"></i>Building renovation <span id="renovation-placeholder"></span>
+                    </div>
+
 
                     <div class="totalCost" style="background-color: #f9f9f9;">
                         <div class="totalCur">
                             <h2>Energy Bill</h2>
-                            <h2>&#8364;000</h2>
+                            <h2>&#8364;<span id="totalcost-placeholder"></span></h2>
                         </div>
                     </div>
                     
@@ -113,16 +121,16 @@
                 <div class="col" id="simu">
                     <h1 style="color: #345A46">Simulate</h1>
 
-                    <!-- tab-->
+                    <!-- tab
                     <div class="tab">
                         <button class="tablinks" onclick="openTab(event, 'simuDay')">Day</button>
                         <button class="tablinks active" onclick="openTab(event, 'simuYear')" id="defaultOpen2">Year</button>
-                    </div>
+                    </div>-->
 
-                    <!-- graph day-->
+                    <!-- graph day
                     <div id="simuDay" class="tabcontent">
                         <div id="chart_simu_day" style="height: 200px;"></div>
-                    </div>
+                    </div>-->
                     
                     <!-- graph year-->
                     <div id="simuYear" class="tabcontent" style="display: block;">
@@ -134,7 +142,7 @@
 
                         <div class="totalDemand">
                             <h3>Total energy demand</h3>
-                            <p>128,819 kWh</p>
+                            <p><span id="totalDemand-placeholder"></span> kWh</p>
                         </div>
                         <div class="legend">
                             <div class="foo heating"></div><p style="font-size: smaller; margin-right: 8px;">Heating</p>
@@ -147,7 +155,7 @@
 
                         <div class="totalSupply">
                             <h3>Total energy supply</h3>
-                            <p>999 kWh</p>
+                            <p><span id="totalSupply-placeholder"></span> kWh</p>
                         </div>
                         <div class="legend">
                             <div class="foo pv"></div><p style="font-size: smaller; margin-right: 8px;">PV</p>
@@ -174,10 +182,13 @@
                             <div id="flush-collapsePV" class="accordion-collapse collapse" aria-labelledby="flush-headingPV" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
                                     A PV system can convert sunlight directly into electricity.<br>
-                                    <form class="form-floating">
-                                        <input type="number" class="form-control" id="InputPVSize" placeholder=" " value=" ">
-                                        <label for="InputPVSize">Size (kWp)</label>
-                                    </form> 
+                                    <select class="form-select" aria-label="SelectPVSize">
+                                        <option selected value=" ">4 kWp</option>
+                                        <option value=" ">4 kWp</option>
+                                        <option value=" ">4 kWp</option>
+                                        <option value=" ">4 kWp</option>
+                                        <option value=" ">4 kWp</option>
+                                    </select>
                                     <br>In <span> </span>, a <span> </span> kWp size PV system can generate <span> </span> kWh electricity per year.
                                     <br>Install such a PV system costs between &#8364;<span> </span>.
                                 </div>
@@ -196,10 +207,13 @@
                             <div id="flush-collapseBattery" class="accordion-collapse collapse" aria-labelledby="flush-headingBattery" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
                                     A battery system can store excess energy generated by solar panels or other renewable sources of energy during the day. <br>
-                                    <form class="form-floating">
-                                        <input type="number" class="form-control" id="InputBatteryCap" placeholder=" " value=" ">
-                                        <label for="InputBatteryCap">Capacity (kWh)</label>
-                                    </form>
+                                    <select class="form-select" aria-label="SelectBatterySize">
+                                        <option selected value=" ">4 kW</option>
+                                        <option value=" ">4 kW</option>
+                                        <option value=" ">4 kW</option>
+                                        <option value=" ">4 kW</option>
+                                        <option value=" ">4 kW</option>
+                                    </select>
                                     <br>The stored energy can be used at night or during times when there is no sun or wind. In the event of a power outage, a home battery system can also provide backup power to keep essential appliances running. 
                                     <br>Install such a battery system costs between &#8364;<span> </span>.
                                 </div>
@@ -235,8 +249,7 @@
                                 <div class="accordion-body">
                                     The method that is used to generate heat in order to warm a space or provide hot water. <br>
                                     <select class="form-select" aria-label="SelectHeatSource">
-                                        <option selected> </option>
-                                        <option value="biomass">Biomass</option>
+                                        <option selected value="biomass">Biomass</option>
                                         <option value="districtheating">District heating</option>
                                         <option value="electricity">Electricity</option>
                                         <option value="heatingoil">Heating oil</option>
@@ -259,10 +272,13 @@
                             <div id="flush-collapseHotWaterTank" class="accordion-collapse collapse" aria-labelledby="flush-headingHotWaterTank" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
                                     A hot water tank is a device used to store domestic hot water for use in homes. The hot water in the tank can be used in sinks, showers, or appliances. <br>
-                                    <form class="form-floating">
-                                        <input type="number" class="form-control" id="InputHotWaterTankSize" placeholder=" " value=" ">
-                                        <label for="InputHotWaterTankSize">Size (L)</label>
-                                    </form>
+                                    <select class="form-select" aria-label="SelectHotwatertankSize">
+                                        <option selected value=" ">4 L</option>
+                                        <option value=" ">4 L</option>
+                                        <option value=" ">4 L</option>
+                                        <option value=" ">4 L</option>
+                                        <option value=" ">4 L</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -279,10 +295,13 @@
                             <div id="flush-collapseSpaceHeatingTank" class="accordion-collapse collapse" aria-labelledby="flush-headingSpaceHeatingTank" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
                                     A space heating tank is a device used to store hot water to provide heat to interior spaces in homes. <br>
-                                    <form class="form-floating">
-                                        <input type="number" class="form-control" id="InputSpaceHeatingTankSize" placeholder=" " value=" ">
-                                        <label for="InputSpaceHeatingTankSize">Size (L)</label>
-                                    </form>
+                                    <select class="form-select" aria-label="SelectSpaceheatingtankSize">
+                                        <option selected value=" ">4 L</option>
+                                        <option value=" ">4 L</option>
+                                        <option value=" ">4 L</option>
+                                        <option value=" ">4 L</option>
+                                        <option value=" ">4 L</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -313,9 +332,10 @@
                             <button class="btn btn-primary" type="button" aria-disabled="true">Update</button>
                         </div>
                         <div class="totalSimu">
-                            <h2>Energy Bill</h2>
-                            <h2>&#8364;000</h2>
+                            <h2 style="margin-bottom:4px;">Energy Bill</h2>
+                            <h2 style="margin-bottom:4px;">&#8364;<span id="totalcost-placeholder"></span></h2>
                         </div>
+                        <p style="font-size: smaller;">Total investment cost from &#8364;<span id="investmentCost-placeholder"></span></p>
                     </div>
 
                 </div>
@@ -342,6 +362,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 
     <script src="../js/navbar.js"></script>
+    <script src="../js/result.js"></script>
 
     <script>
         // Function to be called when the HTML page is fully loaded

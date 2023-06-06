@@ -19,7 +19,7 @@
       }
     },
 
-    "recommendation": [{
+    "recommendationList": [{
       "scenario1Config": {
         "energy_bill_year": 0,
         "pv": false,
@@ -136,3 +136,4 @@
     }
     
   }
+  
