@@ -1,139 +1,71 @@
 
 {
-    "current": {
-      "currentConfig": {
-        "pv": false,
-        "pv_size": 0,
-        "battery": false,
-        "battery_capacity": 0,
-        "smes": 0,
-        "heating_source": "heating oil",
-        "hot_water_tank": true,
-        "hot_water_tank_size": 5,
-        "space_heating_tank": true,
-        "building_renovation": "window"
-      },
+  "profile": {
+    "location": "NRW",
+    "person_total": 3
+  },
 
-      "currentBill": {
-        "energy_bill_year": 0
-      }
-    },
+  "currentConfig": {
 
-    "recommendationList": [{
-      "scenario1Config": {
-        "energy_bill_year": 0,
-        "pv": false,
-        "pv_size": 0,
-        "battery": false,
-        "battery_capacity": 0,
-        "smes": 0,
-        "heating_source": "heating oil",
-        "hot_water_tank": true,
-        "hot_water_tank_size": 5,
-        "space_heating_tank": true,
-        "building_renovation": "window"
-        },
+    "energy_demand": 0,
+    "energy_supply": 0,
 
-        "recommendationDetail": {
-          "pv_recommendation": "add",
-          "battery_recommendation": "add",
-          "smes_recommendation": "add",
-          "heating_source_recommendation": "upgrade",
-          "hot_water_tank_recommendation": "add",
-          "space_heating_tank_recommendation": "add",
-          "building_renovation_recommendation": "upgrade",
-          "building_renovation": "window"
-        },
+    "energy_bill_year": 0,
 
-        "recommendationBill": {
-          "energy_bill_year": 0
-        }
-      }],
-    
+    "pv": false,
+    "pv_size": 0,
+    "battery": false,
+    "battery_capacity": 0,
+    "smes": 0,
+    "heating_source": "heating oil",
+    "hot_water_tank": true,
+    "hot_water_tank_size": 5,
+    "space_heating_tank": true,
+    "building_renovation": ["window","wall"],
 
-    "current": {
-      "recommendationBill": {
-        "energy_bill_year": 0
-      },
-
-        "currentConsumption": {
-          "total energy demand": 0,
-          "total energy supply": 0,
-          "heating_jan": 0,
-          "heating_feb": 0,
-          "heating_mar": 0,
-          "heating_apr": 0,
-          "heating_may": 0,
-          "heating_jun": 0,
-          "heating_jul": 0,
-          "heating_aug": 0,
-          "heating_sep": 0,
-          "heating_oct": 0,
-          "heating_nov": 0,
-          "heating_dec": 0,
-          "cooling_jan": 0,
-          "cooling_feb": 0,
-          "cooling_mar": 0,
-          "cooling_apr": 0,
-          "cooling_may": 0,
-          "cooling_jun": 0,
-          "cooling_jul": 0,
-          "cooling_aug": 0,
-          "cooling_sep": 0,
-          "cooling_oct": 0,
-          "cooling_nov": 0,
-          "cooling_dec": 0,
-          "appliance_jan": 0,
-          "appliance_feb": 0,
-          "appliance_mar": 0,
-          "appliance_apr": 0,
-          "appliance_may": 0,
-          "appliance_jun": 0,
-          "appliance_jul": 0,
-          "appliance_aug": 0,
-          "appliance_sep": 0,
-          "appliance_oct": 0,
-          "appliance_nov": 0,
-          "appliance_dec": 0,
-          "hotwater_jan": 0,
-          "hotwater_feb": 0,
-          "hotwater_mar": 0,
-          "hotwater_apr": 0,
-          "hotwater_may": 0,
-          "hotwater_jun": 0,
-          "hotwater_jul": 0,
-          "hotwater_aug": 0,
-          "hotwater_sep": 0,
-          "hotwater_oct": 0,
-          "hotwater_nov": 0,
-          "hotwater_dec": 0,
-          "pv_jan": 0,
-          "pv_feb": 0,
-          "pv_mar": 0,
-          "pv_apr": 0,
-          "pv_may": 0,
-          "pv_jun": 0,
-          "pv_jul": 0,
-          "pv_aug": 0,
-          "pv_sep": 0,
-          "pv_oct": 0,
-          "pv_nov": 0,
-          "pv_dec": 0
-        },
-
-        "currentConfig": {
-          "pv": false,
-          "pv_size": 0,
-          "battery": false,
-          "battery_capacity": 0,
-          "smes": 0,
-          "heating_source": "heating oil",
-          "hot_water_tank": true,
-          "hot_water_tank_size": 5,
-          "space_heating_tank": true,
-          "building_renovation": "window"
-        }
+    "energyData": {
+      "heating": [0,0,0,0,0,0,0,0,0,0,0,0],
+      "cooling": [0,0,0,0,0,0,0,0,0,0,0,0],
+      "appliance": [0,0,0,0,0,0,0,0,0,0,0,0],
+      "hotwater": [0,0,0,0,0,0,0,0,0,0,0,0],
+      "pv": [0,0,0,0,0,0,0,0,0,0,0,0]
     }
-    
-  }
-  
+
+  },
+
+  "recommendationList": [{
+
+    "Config_1": {
+
+      "technology": ["Add a PV system", "Add a battery system", "Add a SEMS system"],
+      
+      "energy_demand": 0,
+      "energy_supply": 0,
+
+      "energy_bill_year": 0,
+      "energy_bill_saved": 0,
+      "investment_cost": 0,
+
+      "pv": false,
+      "pv_size": 0,
+      "battery": false,
+      "battery_capacity": 0,
+      "smes": 0,
+      "heating_source": "heating oil",
+      "hot_water_tank": true,
+      "hot_water_tank_size": 5,
+      "space_heating_tank": true,
+      "building_renovation": true,
+
+      "energyData": {
+        "heating": [0,0,0,0,0,0,0,0,0,0,0,0],
+        "cooling": [0,0,0,0,0,0,0,0,0,0,0,0],
+        "appliance": [0,0,0,0,0,0,0,0,0,0,0,0],
+        "hotwater": [0,0,0,0,0,0,0,0,0,0,0,0],
+        "pv": [0,0,0,0,0,0,0,0,0,0,0,0]
+      }
+
+    }
+
+  }]
+}
