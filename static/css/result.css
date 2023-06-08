@@ -129,14 +129,14 @@ a {
 
 /* DIY cards */
 .diy {
-    background-image: url("../assets/diy.png");
+    background-color: #345A46;
     border-radius: 12px;
-    width: 90%;
-    height: 400px;
-    padding: 24px;
+    width: 100%;
 }
 
 .diy h2 {
+    position: absolute;
+    top: 40%;
     color: #fff;
-    margin: 40px 0;
+    margin-left: 24px;
 }
