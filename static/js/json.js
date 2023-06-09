@@ -60,19 +60,14 @@ var surveyJSON =  {
       "isRequired": true,
       "choices": [
        {
-        "value": "1880-1918",
-        "text": "before 1919"
+        "value": "1880-1948",
+        "text": "before 1949"
        },
-       "1919-1948",
-       "1949-1957",
-       "1958-1968",
-       "1969-1978",
-       "1979-1983",
-       "1984-1994",
-       "1995-2011",
+       "1949-1978",
+       "1979-1994",
        {
-        "value": "2012-2022",
-        "text": "after 2011"
+        "value": "1995-2022",
+        "text": "after 1994"
        }
       ]
      }
@@ -126,15 +121,13 @@ var surveyJSON =  {
       "isRequired": true,
       "choices": [
       {
-        "value": "2",
-        "text": "less than 3"
+        "value": "3",
+        "text": "less than 4"
       },
-      "3",
       "4",
-      "5",
       {
-        "value": "6",
-        "text": "more than 5"
+        "value": "5",
+        "text": "more than 4"
       }
       ]
      }
@@ -258,17 +251,16 @@ var surveyJSON =  {
       "visible": false,
       "visibleIf": "{pv_exist} = true",
       "title": {
-       "default": "What is the size of the PV system? (kilowatt-peak)",
+       "default": "What is the size of the PV system? ",
        "de": "Wie groß ist die PV-Anlage? (Kilowatts-peak)"
       },
       "description": {
        "de": "Die durchschnittliche Größe einer PV-Anlage beträgt 5 kW_peak",
-       "default": "The average size of a PV system is 5 kWp"
+       "default": "The average size of a PV system is 5 kilowatt-peak"
       },
       "choices": [
-        "5",
-        "7.5",
-        "10",
+        "around 5 kilowatt-peak",
+        "around 10 kilowatt-peak",
       ]
      }
     ],
@@ -299,18 +291,16 @@ var surveyJSON =  {
       "visible": false,
       "visibleIf": "{battery_exist} = true",
       "title": {
-       "default": "What is the capacity of the battery? (kilowatt-hours)",
+       "default": "What is the capacity of the battery? ",
        "de": "Wie hoch ist die Kapazität der Batterie? (Kilowattstunden)"
       },
       "description": {
-       "default": "The average capacity of a home battery system is around 10 kWh",
+       "default": "The average capacity of a home battery system is around 10 kilowatt-hours",
        "de": "Die durchschnittliche Kapazität eines Batteriesystems beträgt etwa 10 Kilowattstunden"
       },
       "choices": [
-        "5",
-        "10",
-        "15",
-        "20"
+        "around 10 kilowatt-hours",
+        "around 20 kilowatt-hours"
       ]
      }
     ],
