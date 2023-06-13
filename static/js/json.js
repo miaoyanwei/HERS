@@ -342,7 +342,7 @@ var surveyJSON =  {
 function sendDataToServer(survey) {
   $.ajax({
       type: "POST",
-      url: "/app/myapp/flex",
+      url: "/api/v1/my_scenario",
       data: JSON.stringify(survey.data), // create strings from the objects
       success: function (result) {
          console.log(result);

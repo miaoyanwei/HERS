@@ -1,4 +1,4 @@
-$.get("/app/myapp/flex", function(data){
+$.get("/api/v1/result", function(data){
 
     // Get current total cost
     $("#totalcost-placeholder").replaceWith(data.total_cost);
