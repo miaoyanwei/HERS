@@ -347,7 +347,8 @@ function sendDataToServer(survey) {
       success: function (result) {
          console.log(result);
       },
-      dataType: "json"
+      dataType: "json",
+      contentType: "application/json"
     });
   alert("The results are: " + JSON.stringify(survey.data));
 }
