@@ -6,7 +6,7 @@ import pandas as pd
 import sqlite3
 
 
-DATABASE = 'file.db'
+DATABASE = 'FLEX.sqlite'
 
 def get_db():
     db = getattr(g, 'db', None)
@@ -18,8 +18,6 @@ def close_db(exception):
     db = getattr(g, 'db', None)
     if db is not None:
         db.close()
-
-
 
 def create_app(test_config=None):
     # create and configure the app
@@ -121,10 +119,8 @@ def get_scenario_id(json):
     pv_size = 0
     if json.get("pv") is not None:
         pv_size = json["pv"]["size"]
-    pv = pd.read(
-        "OperationScenario_Component_PV",
-        filter={"size": pv_size},
-    )
+    pv = pd.read_sql('select * from OperationScenario_Component_PV where size='
+                + str(pv_size), con=db)
     pv_id = pv["ID_PV"].values[0] if pv.shape[0] > 0 else 1
     # Scenario ID
     scenario = pd.read_sql('select * from OperationScenario where ID_Battery='
