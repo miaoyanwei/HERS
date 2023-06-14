@@ -259,8 +259,14 @@ var surveyJSON =  {
        "default": "The average size of a PV system is 5 kilowatt-peak"
       },
       "choices": [
-        "around 5 kilowatt-peak",
-        "around 10 kilowatt-peak",
+        {
+          "value": "5",
+          "text": "around 5 kilowatt-peak"
+        },
+        {
+          "value": "10",
+          "text": "around 10 kilowatt-peak"
+        }
       ]
      }
     ],
@@ -299,8 +305,14 @@ var surveyJSON =  {
        "de": "Die durchschnittliche Kapazität eines Batteriesystems beträgt etwa 10 Kilowattstunden"
       },
       "choices": [
-        "around 10 kilowatt-hours",
-        "around 20 kilowatt-hours"
+        {
+          "value": "10",
+          "text": "around 10 kilowatt-hours"
+        },
+        {
+          "value": "20",
+          "text": "around 20 kilowatt-hours"
+        }
       ]
      }
     ],
