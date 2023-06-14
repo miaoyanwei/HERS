@@ -129,6 +129,8 @@ a {
 
 /* DIY cards */
 .diy {
+    position: relative;
+    text-align: left;
     background-color: #345A46;
     border-radius: 12px;
     width: 100%;
@@ -136,7 +138,8 @@ a {
 
 .diy h2 {
     position: absolute;
-    top: 40%;
+    width: 80%;
+    top: 40px;
+    left: 24px;
     color: #fff;
-    margin-left: 24px;
 }
