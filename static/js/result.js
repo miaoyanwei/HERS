@@ -103,7 +103,6 @@ function handle_result(data) {
 $.ajax({
     type: "GET",
     url: "/api/v1/result",
-    data: JSON.stringify(survey.data), // create strings from the objects
     success: function (result) {
         handle_result(result)
     },
