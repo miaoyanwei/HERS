@@ -8,51 +8,51 @@ function handle_result(data) {
     // Get check or uncheck icons
 
     if (data.pv) {
-        $("#pv-true").css('display', 'block')
+        $("#pv-true").css('display', 'inline')
     } else {
-        $("#pv-false").css('display', 'block')
+        $("#pv-false").css('display', 'inline')
     }
 
     if (data.battery) {
-        $("#battery-true").css('display', 'block')
+        $("#battery-true").css('display', 'inline')
     } else {
-        $("#battery-false").css('display', 'block')
+        $("#battery-false").css('display', 'inline')
     }
 
     if (data.sems) {
-        $("#sems-true").css('display', 'block')
+        $("#sems-true").css('display', 'inline')
     } else {
-        $("#sems-false").css('display', 'block')
+        $("#sems-false").css('display', 'inline')
     }
 
     if (data.heatsource) {
-        $("#heatsource-true").css('display', 'block')
+        $("#heatsource-true").css('display', 'inline')
     } else {
-        $("#heatsource-false").css('display', 'block')
+        $("#heatsource-false").css('display', 'inline')
     }
 
     if (data.hotwatertank) {
-        $("#hotwatertank-true").css('display', 'block')
+        $("#hotwatertank-true").css('display', 'inline')
     } else {
-        $("#hotwatertank-false").css('display', 'block')
+        $("#hotwatertank-false").css('display', 'inline')
     }
 
     if (data.spaceheatingtank) {
-        $("#spaceheatingtank-true").css('display', 'block')
+        $("#spaceheatingtank-true").css('display', 'inline')
     } else {
-        $("#spaceheatingtank-false").css('display', 'block')
+        $("#spaceheatingtank-false").css('display', 'inline')
     }
 
     if (data.ac) {
-        $("#ac-true").css('display', 'block')
+        $("#ac-true").css('display', 'inline')
     } else {
-        $("#ac-false").css('display', 'block')
+        $("#ac-false").css('display', 'inline')
     }
 
     if (data.renovation) {
-        $("#renovation-true").css('display', 'block')
+        $("#renovation-true").css('display', 'inline')
     } else {
-        $("#renovation-false").css('display', 'block')
+        $("#renovation-false").css('display', 'inline')
     }
 
 

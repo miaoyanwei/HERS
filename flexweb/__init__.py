@@ -68,9 +68,9 @@ def create_app(test_config=None):
         db = get_db()
         rows = pd.read_sql('select * from OperationResult_OptimizationYear where ID_Scenario='
                     + str(session['scenario_id']), con=db)
-        json = json.loads('{}')
-        json["total_cost"] = round(rows["TotalCost"].values[0]/100)
-        return json
+        jsonDoc = json.loads('{}')
+        jsonDoc["total_cost"] = round(rows["TotalCost"].values[0]/100)
+        return jsonDoc
     
     @app.route('/hello')
     def hello():
