@@ -1,63 +1,66 @@
 {
   "profile": {
-    "location": "Germany",
+
+    "location": "DE",
     "person": 3
+
   },
 
-  "config": {
+  "current": {
 
-    "energy_demand": 0,
-    "energy_generate": 0,
+    "config": {
 
-    "energy_bill_year": 0,
+      "pv_size": 0,
+      "battery_capacity": 0,
+      "sems": false,
+      "heating_system": true,
+      "heating_system_type": "heating oil boiler",
+      "building_renovation": true
 
-    "pv": false,
-    "pv_size": 0,
-    "battery": false,
-    "battery_capacity": 0,
-    "sems": false,
-    "heating_system": true,
-    "heating_system_type": "heating oil boiler",
-    "building_renovation": true,
+    },
 
     "energy_data": {
+
+      "energy_demand": 0,
+      "energy_generate": 0,
       "heating": [0,0,0,0,0,0,0,0,0,0,0,0],
       "cooling": [0,0,0,0,0,0,0,0,0,0,0,0],
       "appliance": [0,0,0,0,0,0,0,0,0,0,0,0],
       "hotwater": [0,0,0,0,0,0,0,0,0,0,0,0],
       "pv": [0,0,0,0,0,0,0,0,0,0,0,0]
-    }
+
+    },
+
+    "energy_bill_year": 0
 
   },
 
   "recommendation": [{
 
-    "config" : {
+    "config": {
 
-      "energy_demand": 0,
-      "energy_generate": 0,
-
-      "energy_bill_year": 0,
-
-      "pv": false,
       "pv_size": 0,
-      "battery": false,
       "battery_capacity": 0,
       "sems": false,
       "heating_system": true,
       "heating_system_type": "heating oil boiler",
-      "building_renovation": true,
-
-      "energy_data": {
-        "heating": [0,0,0,0,0,0,0,0,0,0,0,0],
-        "cooling": [0,0,0,0,0,0,0,0,0,0,0,0],
-        "appliance": [0,0,0,0,0,0,0,0,0,0,0,0],
-        "hotwater": [0,0,0,0,0,0,0,0,0,0,0,0],
-        "pv": [0,0,0,0,0,0,0,0,0,0,0,0]
-      }
+      "building_renovation": true
 
     },
 
+    "energy_data": {
+
+      "energy_demand": 0,
+      "energy_generate": 0,
+      "heating": [0,0,0,0,0,0,0,0,0,0,0,0],
+      "cooling": [0,0,0,0,0,0,0,0,0,0,0,0],
+      "appliance": [0,0,0,0,0,0,0,0,0,0,0,0],
+      "hotwater": [0,0,0,0,0,0,0,0,0,0,0,0],
+      "pv": [0,0,0,0,0,0,0,0,0,0,0,0]
+
+    },
+    
+    "energy_bill_year": 0,
     "investment_cost": 0
 
   }]
