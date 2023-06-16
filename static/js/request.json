@@ -16,9 +16,8 @@
     "battery": false,
     "battery_capacity": 0,
     "sems": false,
-    "heating_system": "heating oil boiler",
-    "hot_water_tank": true,
-    "space_heating_tank": true,
+    "heating_system": true,
+    "heating_system_type": "heating oil boiler",
     "building_renovation": true,
 
     "energy_data": {
@@ -32,22 +31,21 @@
   },
 
   "recommendation": [{
-  
+
+    "config" : {
+
       "energy_demand": 0,
       "energy_generate": 0,
 
       "energy_bill_year": 0,
-      "energy_bill_saved": 0,
-      "investment_cost": 0,
 
       "pv": false,
       "pv_size": 0,
       "battery": false,
       "battery_capacity": 0,
       "sems": false,
-      "heating_system": "heating oil boiler",
-      "hot_water_tank": true,
-      "space_heating_tank": true,
+      "heating_system": true,
+      "heating_system_type": "heating oil boiler",
       "building_renovation": true,
 
       "energy_data": {
@@ -57,6 +55,10 @@
         "hotwater": [0,0,0,0,0,0,0,0,0,0,0,0],
         "pv": [0,0,0,0,0,0,0,0,0,0,0,0]
       }
+
+    },
+
+    "investment_cost": 0
 
   }]
 }
