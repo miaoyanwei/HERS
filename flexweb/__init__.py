@@ -68,7 +68,9 @@ def create_app(test_config=None):
     
     @app.route('/api/v1/result', methods=['GET'])
     def result():
-        return json.dumps(Result(get_db(), session['scenario_id'], session['sems']).json())
+        doc = Result(get_db(), session['scenario_id'], session['sems']).json();
+        print(doc)
+        return json.dumps(doc)
     
     @app.route('/hello')
     def hello():

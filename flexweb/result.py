@@ -13,7 +13,7 @@ class Result:
     def init(self) -> None:
         self.data['current'] = Current(self.db, self.scenario_id, self.sems).json()
         currentCost = int(self.data['current']['energy_data']['energy_bill_year'])
-        self.data['recommendations'] = RecommendationFinder(self.db, self.scenario_id, self.sems, currentCost).json()
+        self.data['recommendation'] = RecommendationFinder(self.db, self.scenario_id, self.sems, currentCost).json()
 
     def json(self) -> any:
         return self.data
