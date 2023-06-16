@@ -24,7 +24,10 @@ var surveyJSON =  {
       },
       "isRequired": true,
       "choices": [
-       "Deutschland"
+        {
+          "value": "DE",
+          "text": "Deutschland"
+         }
       ],
       "placeholder": {
        "default": "Select country",
@@ -169,32 +172,37 @@ var surveyJSON =  {
       "isRequired": true,
       "choices": [
        {
-        "value": "Biomass boiler",
+        "value": "solids",
         "text": {
+         "default": "Biomass boiler",
          "de": "Biomassekessel"
         }
        },
        {
-        "value": "District heating",
+        "value": "district_heating",
         "text": {
+         "default": "District heating",
          "de": "Fernwärme"
         }
        },
        {
-        "value": "Heat pump",
+        "value": "Air_HP",
         "text": {
+         "default": "Heat pump",
          "de": "Wärmepumpe"
         }
        },
        {
-        "value": "Heating oil boiler",
+        "value": "liquids",
         "text": {
+         "default": "Heating oil boiler",
          "de": "Heizölkessel"
         }
        },
        {
-        "value": "Natural gas boiler",
+        "value": "gases",
         "text": {
+         "default": "Natural gas boiler",
          "de": "Erdgaskessel"
         }
        }
