@@ -4,7 +4,8 @@ from flask import Flask, session, request, g, send_from_directory
 import json
 import pandas as pd
 import sqlite3
-
+from copy import copy
+from .result import Result
 
 DATABASE = 'FLEX.sqlite'
 
@@ -58,19 +59,16 @@ def create_app(test_config=None):
         new_json = map_json(request.json)
         print(new_json)
         scenario_id = get_scenario_id(new_json)
+        sems = get_sems(new_json)
 
         print("scenario_id: {}".format(scenario_id))
         session['scenario_id'] = scenario_id.item()
+        session['sems'] = sems
         return 'OK'
     
     @app.route('/api/v1/result', methods=['GET'])
     def result():
-        db = get_db()
-        rows = pd.read_sql('select * from OperationResult_OptimizationYear where ID_Scenario='
-                    + str(session['scenario_id']), con=db)
-        jsonDoc = json.loads('{}')
-        jsonDoc["total_cost"] = round(rows["TotalCost"].values[0]/100)
-        return jsonDoc
+        return json.dumps(Result(get_db(), session['scenario_id'], session['sems']).json())
     
     @app.route('/hello')
     def hello():
@@ -111,10 +109,12 @@ def get_scenario_id(json):
     battery = pd.read_sql('select * from OperationScenario_Component_Battery where capacity='
                 + str(battery_capacity), con=db)
     battery_id =  battery["ID_Battery"].values[0] if battery.shape[0] > 0 else 1
+
     # Building ID
     building = pd.read_sql('select * from OperationScenario_Component_Building where construction_period_start>='
                 + json["building"]["range_begin"] + ' and construction_period_start<=' + json["building"]["range_end"] , con=db)
     building_id = building["ID_Building"].values[0] if building.shape[0] > 0 else 1
+
     # PV ID
     pv_size = 0
     if json.get("pv") is not None:
@@ -127,3 +127,10 @@ def get_scenario_id(json):
                            + str(battery_id) + ' and ID_Building=' + str(building_id) + ' and ID_PV=' + str(pv_id), con=db)
     scenario_id = scenario["ID_Scenario"].values[0] if scenario.shape[0] > 0 else -1
     return scenario_id
+
+def get_sems(json) -> bool:
+    # Sems ID
+    db = get_db()
+    return json.get("sems") is not None
+    
+
