@@ -1,14 +1,13 @@
-
 {
   "profile": {
-    "location": "NRW",
-    "person_total": 3
+    "location": "Germany",
+    "person": 3
   },
 
   "config": {
 
     "energy_demand": 0,
-    "energy_supply": 0,
+    "energy_generate": 0,
 
     "energy_bill_year": 0,
 
@@ -16,10 +15,9 @@
     "pv_size": 0,
     "battery": false,
     "battery_capacity": 0,
-    "smes": 0,
+    "sems": false,
     "heating_system": "heating oil boiler",
     "hot_water_tank": true,
-    "hot_water_tank_size": 5,
     "space_heating_tank": true,
     "building_renovation": true,
 
@@ -34,11 +32,9 @@
   },
 
   "recommendation": [{
-
-      "technology": ["Add a PV system", "Upgrade PV system", "Add a battery system", "Upgrade battery system", "Add a SEMS system", "Change to a heat pump system", "Renovate the building (roof, windows, walls and basement)"],
-      
+  
       "energy_demand": 0,
-      "energy_supply": 0,
+      "energy_generate": 0,
 
       "energy_bill_year": 0,
       "energy_bill_saved": 0,
@@ -48,10 +44,9 @@
       "pv_size": 0,
       "battery": false,
       "battery_capacity": 0,
-      "smes": 0,
+      "sems": false,
       "heating_system": "heating oil boiler",
       "hot_water_tank": true,
-      "hot_water_tank_size": 5,
       "space_heating_tank": true,
       "building_renovation": true,
 
