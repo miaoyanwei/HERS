@@ -2,54 +2,43 @@
 function handle_result(data) {
 
     // Get current total cost
-    $("#totalcost-placeholder").replaceWith(data.total_cost);
+    var current = data.current
+    $("#totalcost-placeholder").replaceWith(current.energy_data.energy_bill_year);
 
 
     // Get check or uncheck icons
+    improvement = new Map()
+    improvement.set('pv_size', 'Upgrade the PV system')
+    improvement.set('battery_capacity', 'Upgrade the battery system')
+    improvement.set('sems', 'Add a SEMS system')
+    improvement.set('heating_system_type', 'Change to a heat pump system')
+    improvement.set('building_renovation', 'Renovate the building')
 
-    if (data.pv) {
+    if (current.config.pv_size) {
         $("#pv-true").css('display', 'inline')
     } else {
         $("#pv-false").css('display', 'inline')
     }
 
-    if (data.battery) {
+    if (current.config.battery_capacity) {
         $("#battery-true").css('display', 'inline')
     } else {
         $("#battery-false").css('display', 'inline')
     }
 
-    if (data.sems) {
+    if (current.config.sems) {
         $("#sems-true").css('display', 'inline')
     } else {
         $("#sems-false").css('display', 'inline')
     }
 
-    if (data.heatsource) {
+    if (current.config.heating_system_type) {
         $("#heatsource-true").css('display', 'inline')
     } else {
         $("#heatsource-false").css('display', 'inline')
     }
 
-    if (data.hotwatertank) {
-        $("#hotwatertank-true").css('display', 'inline')
-    } else {
-        $("#hotwatertank-false").css('display', 'inline')
-    }
-
-    if (data.spaceheatingtank) {
-        $("#spaceheatingtank-true").css('display', 'inline')
-    } else {
-        $("#spaceheatingtank-false").css('display', 'inline')
-    }
-
-    if (data.ac) {
-        $("#ac-true").css('display', 'inline')
-    } else {
-        $("#ac-false").css('display', 'inline')
-    }
-
-    if (data.renovation) {
+    if (current.config.building_renovation) {
         $("#renovation-true").css('display', 'inline')
     } else {
         $("#renovation-false").css('display', 'inline')
@@ -58,16 +47,16 @@ function handle_result(data) {
 
     // Get recommendation list
 
-    const rec_list = data.recommendationList;
+    const rec_list = data.recommendation;
     let reclisthtml = '';
     rec_list.forEach((item, index) => {
         entry = '<div class="col-md-6">'
             + '<div class="improved">'
             + '<h2 class="bill">Save <span>&#8364;</span><span id="savedcost-placeholder"></span>'
-            + item.recommendationBill.energy_bill_year
+            + (current.energy_data.energy_bill_year - item.energy_data.energy_bill_year)
             + '<span style="font-size: 16px; font-weight: normal;"> / year</span></h2>'
             + '<p>If the following configurations are applied, the annual energy bill is estimated to be <span>&#8364;</span><span id="totalcost-placeholder"></span>'
-            + item.recommendationBill.energy_bill_saved_year
+            + item.energy_data.energy_bill_year
             + '</p>'
             + '<button type="button" class="btn btn-outline-dark" onclick="window.location.href=\'simulation.html\';">More details '
             + '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">'
@@ -78,20 +67,30 @@ function handle_result(data) {
         // Get configurations
 
         let confightml = '';
-        item.configurationList.forEach((technology, index) => {
-            config = '<div class="config">'
-                + technology
-                + '<br>'
-                + '</div>'
-            confightml += config
-        });
-        + confightml
-            + '<hr>'
-            + '<p>Investment costs from<span>&#8364;'
-            + item.investmentCost
-            + '</p>'
-            + '</div>'
-            + '</div>'
+        for (var key in item.config) {
+            var value = item.config[key]
+            if (current.config[key] !== value) {
+                config = '<div class="config">'
+                        + improvement.get(key)
+                        + '<br>'
+                        + '</div>'
+                confightml += config
+            }
+        }
+        //item.configurationList.forEach((technology, index) => {
+        //    config = '<div class="config">'
+        //        + technology
+        //        + '<br>'
+        //        + '</div>'
+        //    confightml += config
+        //});
+        confightml += ('<hr>'
+        + '<p>Investment costs from<span>&#8364;'
+        + item.investment_cost
+        + '</p>'
+        + '</div>'
+        + '</div>')
+        entry += confightml
 
         reclisthtml += entry
     });
