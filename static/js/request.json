@@ -5,7 +5,7 @@
     "person_total": 3
   },
 
-  "current_config": {
+  "config": {
 
     "energy_demand": 0,
     "energy_supply": 0,
@@ -33,7 +33,7 @@
 
   },
 
-  "recommendation_list": [{
+  "recommendation": [{
 
       "technology": ["Add a PV system", "Upgrade PV system", "Add a battery system", "Upgrade battery system", "Add a SEMS system", "Change to a heat pump system", "Renovate the building (roof, windows, walls and basement)"],
       
