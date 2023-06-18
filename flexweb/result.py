@@ -1,4 +1,4 @@
-import json
+import copy
 import pandas as pd
 from collections import OrderedDict
 
@@ -75,7 +75,7 @@ class EnergyData:
                             + table +
                             ' where ID_Scenario='
                             + str(self.scenario_id), con=self.db)
-        self.data["energy_bill_year"] = int(rows['TotalCost'].values[0])/100
+        self.data["energy_bill_year"] = int(rows['TotalCost'].values[0]/100)
 
     def json(self) -> any:
         return self.data
@@ -124,7 +124,6 @@ class RecommendationFinder:
 
     def init(self) -> None:
         current = pd.read_sql(  'select '
-                                'ID_Scenario, '
                                 'ID_Building, '
                                 'ID_Boiler, '
                                 'ID_PV, '
@@ -132,27 +131,26 @@ class RecommendationFinder:
                                 'from '
                                 'OperationScenario '
                                 'where ID_Scenario='
-                                + str(self.scenario_id), con=self.db)
+                                + str(self.scenario_id), con=self.db).iloc[0]
         canditates = {}
-        possible = {}
-        if current['ID_Building'].values[0] % 2 == 0:
-            possible['ID_Building'] = [current['ID_Building'].values[0] - 1]
-        if current['ID_Boiler'].values[0] > 1:
-            possible['ID_Boiler'] = [current['ID_Boiler'].values[0] -1]
-        if current['ID_PV'].values[0] > 1:
-            possible['ID_PV'] = [current['ID_PV'].values[0] -1]
-        if current['ID_Battery'].values[0] > 1:
-            possible['ID_Battery'] = [current['ID_Battery'].values[0] -1]
+        possibleImpr = {}
+        if current['ID_Building'] % 2 == 0:
+            possibleImpr['ID_Building'] = current['ID_Building'] - 1
+        if current['ID_Boiler'] > 1:
+            possibleImpr['ID_Boiler'] = current['ID_Boiler'] -1
+        if current['ID_PV'] > 1:
+            possibleImpr['ID_PV'] = current['ID_PV'] -1
+        if current['ID_Battery'] > 1:
+            possibleImpr['ID_Battery'] = current['ID_Battery'] -1
        
-        for key, value in possible.items():
-            rows = pd.read_sql( 'select '
-                                'ID_Scenario '
-                                'from '
-                                'OperationScenario '
-                                'where '
-                                + key +
-                                '='
-                                + str(value[0]), con=self.db)
+        for key, value in possibleImpr.items():
+            canditateConfig = copy.copy(current)
+            canditateConfig[key] = value
+            query = 'select ID_Scenario from OperationScenario where '
+            for key2, value2 in canditateConfig.items():
+                query += key2 + '=' + str(value2) + ' and '
+            query = query[:-5]
+            rows = pd.read_sql(query, con=self.db)
             canditates[key] = int(rows['ID_Scenario'].values[0])
         improvements = {}
         for key, value in canditates.items():
@@ -162,7 +160,7 @@ class RecommendationFinder:
                 'ID_Building': 2000,
                 'ID_Boiler': 900,
                 'ID_PV': 116 * int(config['pv_size']),
-                'ID_Battery': 41 * int(config['battery_capacity'])/1000
+                'ID_Battery': 41 * int(config['battery_capacity']/1000)
             }
             improvement = self.currentCost - energyData['energy_bill_year']
             improvement -= improvementCost[key]
