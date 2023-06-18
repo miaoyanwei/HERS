@@ -1,34 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+/* Background picture */
 
-
-/* View */
 body {
-    padding: 0;
-    min-height: 100vh;
-    display: grid;
+    background-image: url("../assets/welcome.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
 }
 
 main {
+    flex: 1;
+    padding-bottom: 0;
     justify-self: center;
     align-self: center;
 }
 
 
-/* Instruction */
-main .card {
-    background-color: transparent;
-    border-color: transparent;
-    width: 80%;
+/* Fonts */
+
+h1 {
+    color: #fff;
+    text-align: center;
 }
 
+h2 {
+    color: #fff;
+    text-align: center;
+}
+
+p {
+    color: #fff;
+    text-align: center;
+}
+
+.highlight {
+    color: #6dae47;
+}
+
+.description {
+    color: #fff;
+    opacity: 0.6;
+}
+
+
+/* The two steps instruction */
+
 .card {
+    background-color: transparent;
+    border-color: transparent;
+    width: 60%;
     margin: auto;
 }
 
 .card p {
-    font-family: 'Philosopher', sans-serif;
-    color: #fff;
-    font-size: 14px;
     text-align: left;
 }
 
@@ -38,56 +61,12 @@ main .card {
 }
 
 
-/* Body */
-body h1 {
-    font-family: 'Philosopher', sans-serif;
-    color: #fff;
-    font-size: 48px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 24px;
-}
+/* The start button */
 
-body h2 {
-    font-family: 'Philosopher', sans-serif;
-    color: #fff;
-    font-size: 20px;
-    text-align: center;
-}
-
-p {
-    font-family: 'Philosopher', sans-serif;
-    color: #fff;
-    font-size: 14px;
-    text-align: center;
-}
-
-.highlight {
-    color: #6DAE47;
-}
-
-.description {
-    color: #ebebeb;
-    opacity: 0.6;
-}
-
-
-/* Button */
 .btn {
-    margin: 16px;
-}
-
-main .btn {
     font-family: 'Philosopher', sans-serif;
     color: #345A46;
     font-size: 18px;
     font-weight: bold;
-}
-
-
-/* Background picture */
-body {
-    background-image: url("../assets/welcome.png");
-    background-repeat: no-repeat;
-    background-size: cover;
+    margin: 16px;
 }

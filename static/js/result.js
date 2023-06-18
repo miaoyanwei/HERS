@@ -85,7 +85,7 @@ function handle_result(data) {
         //    confightml += config
         //});
         confightml += ('<hr>'
-        + '<p>Investment costs from<span>&#8364;'
+        + '<p>The annualised cost of the investment is around <span>&#8364;'
         + item.investment_cost
         + '</p>'
         + '</div>'

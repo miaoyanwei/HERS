@@ -2,146 +2,204 @@
 @import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 
-/* View */
+/* Page View */
+
 body {
-    padding: 0;
+    position: relative;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 main {
-    flex: 1;
-    padding: 40px 80px;
+    padding-bottom: 120px;
 }
 
 
-/* Font */
-main p {
-    font-family: 'Philosopher', sans-serif;
-    color: #222;
-    font-size: 16px;
-    text-align: left;
-}
+/* All Fonts */
 
-main h1 {
+h1 {
     font-family: 'Philosopher', sans-serif;
     color: #222;
-    font-size: 28px;
+    font-size: 40px;
     font-weight: bold;
     text-align: left;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
 }
 
-main h2 {
+h2 {
     font-family: 'Philosopher', sans-serif;
     color: #222;
     font-size: 20px;
     font-weight: bold;
     text-align: left;
-    margin-top: 40px;
-    margin-bottom: 16px;
 }
 
-main h3 {
+h3 {
     font-family: 'Philosopher', sans-serif;
     color: #222;
     font-size: 16px;
     text-align: left;
 }
 
-main a {
+p {
+    font-family: 'Philosopher', sans-serif;
+    color: #222;
+    font-size: 14px;
+    text-align: left;
+}
+
+a {
     font-family: 'Philosopher', sans-serif;
     color: #222;
 }
 
-main a:hover {
+a:hover {
     color: #345A46;
 }
 
-main em {
+em {
     font-family: 'Philosopher', sans-serif;
     color: #222;
 }
 
-main li {
+li {
     font-family: 'Philosopher', sans-serif;
     color: #345A46;
 }
 
 
-/* Form
-#regForm {
+/* Main Navigation Bar */
+
+.navbar {
+    font-family: 'Philosopher', sans-serif;
+    margin: 0 40px;
+}
+
+.navbar a {
+    color: #D6B5C0;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    color: #D6B5C0; 
+}
+
+.navbar p {
+    font-size: 16px;
+    color: #D6B5C0;
+    margin-top: 20px;
+}
+
+.navbar img {
+    padding-right: 8px;
+}
+
+
+/* General Navigation Bar */
+
+.navbar-dark {
+    font-family: 'Philosopher', sans-serif;
+    margin: 0 40px;
     background-color: #fff;
-    font-family: 'Philosopher', sans-serif;
-    margin: auto;
-    padding: 40px;
-    width: 100%;
-    min-width: 300px;
 }
 
-.tab {
-    margin-bottom: 40px;
-    font-weight: bold; 
-    font-size: 22px;
-    justify-content: center;
+.navbar-dark a {
+    color: #222;
+    text-decoration: none;
+}
+
+.navbar-dark a:hover {
+    color: #222;
+}
+
+.navbar-dark p {
+    font-size: 16px;
+    color: #222;
+    margin-top: 20px;
+}
+
+.navbar-dark img {
+    padding-right: 8px;
 }
 
 .container-fluid {
-    padding-top: 40px;
+    padding-top: 0;
 }
 
-/* Style the buttons 
-#nextBtn {
-    background-color: #345A46;
-    border-color: #345A46;
-}
 
-#prevBtn {
-    background-color: #fff;
-    border-color: #345A46;
-    color: #345A46;
-}
-  
-/* Style the input fields 
-input {
+/* Main Footer */
+
+footer {
     padding: 10px;
+    font-family: 'Philosopher', sans-serif;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%; 
+} 
+
+.footer ul {
+    text-align: left;
+    font-size: 14px;
+}
+
+.footer li {
+    padding: 0 10px;
+}
+
+.footer a {
+    color: #D6B5C0;
+    padding: 0 8px;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: #fff; 
+}
+
+
+/* General Footer */
+
+footer-dark {
+    padding: 10px;
+    font-family: 'Philosopher', sans-serif;
+}
+
+.footer-dark {
+    position: absolute;
+    bottom: 0;
     width: 100%;
-    font-size: 16px;
-    border: 1px solid #717171;
+    height: 60px; 
 }
-  
-/* Mark input boxes that gets an error on validation: 
-input.invalid {
-    background-color: #ffdddd;
+
+.footer-dark ul {
+    text-align: left;
+    font-size: 14px;
 }
-  
-/* Hide all steps by default: 
-.tab {
-    display: none;
-    justify-content: center;
+
+.footer-dark li {
+    padding: 0 10px;
 }
-  
-/* Make circles that indicate the steps of the form: 
-.step {
-    height: 15px;
-    width: 15px;
-    margin: 0 2px;
-    background-color: #717171;
-    border: none;
-    border-radius: 50%;
-    display: inline-block;
-    opacity: 0.5;
+
+.footer-dark a {
+    color: #222;
+    padding: 0 8px;
+    text-decoration: none;
 }
-  
-/* Mark the active step: 
-.step.active {
-    opacity: 1;
+
+.footer-dark a:hover {
+    color: #345A46; 
 }
-  
-/* Mark the steps that are finished and valid: 
-.step.finish {
-    background-color: #345A46;
+
+
+/* Content View */
+
+#extra {
+    margin-top: 120px;
+    margin-left: 120px;
 }
-*/
-  
+
+#content {
+    margin-top: 120px;
+}

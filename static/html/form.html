@@ -15,8 +15,8 @@
   <!-- SurveyJS CSS-->
   <link href="https://unpkg.com/survey-jquery@1.9.83/defaultV2.css" type="text/css" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="../css/form.css" />
   <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/form.css" />
   <link rel="stylesheet" href="../css/navbar.css" />
   
   <!-- JQuery-->
@@ -28,140 +28,17 @@
   <div id="darknav-placeholder"></div>
 
 	<main>
-    <!-- Form
-    
-    <form id="regForm" class="text-center">-->
-        <!-- One "tab" for each step in the form: -->
-        <!--
-        <div class="tab">Which region does the house belong to?
-          <div class="container-fluid col-6">
-            <select class="form-select" id="regionSelect">
-              <option selected>Country</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="tab">What is the size of the house? <small>(Square metres)</small>
-          <div class="container-fluid col-6">
-            <div class="input-group">
-              <input type="number" class="form-control" id="inputSm" placeholder="Square metres">
-              <div class="input-group-text"><span>&#13217;</span></div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="tab">When was the house built?
-          <div class="container-fluid col-6">
-            <select class="form-select" id="builtYear">
-              <option selected>Year</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="tab">Has the house been renovated before?
-          <div class="container-fluid col-2">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="yesRadios" value="y">
-                <small>Yes</small>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="noRadios" value="n">
-                <small>No</small>
-            </div>
-          </div>
-        </div>
 
-        <div class="tab">What have been renovated in the house?
-          <div class="container-fluid col-2">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="roofCheck">
-                  <small>Roof</small>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="windowCheck">
-                  <small>Window</small>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="wallCheck">
-                  <small>Wall</small>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="basementCheck">
-                  <small>Basement</small>
-              </div>
-          </div>
-        </div>
-
-        <div class="tab">How many people are living in the house?
-          <div class="container-fluid col-6">
-            <div class="input-group mb-3">
-              <input type="number" class="form-control" id="adultNo" placeholder="Adults (Ages 25 or above)">
-            </div>
-            <div class="input-group mb-3">
-              <input type="number" class="form-control" id="adultNo" placeholder="Children (Ages 0-25)">
-            </div>
-          </div>
-        </div>
-
-        <div class="tab">How often does each adult work-from-home?
-          <div class="container-fluid col-6">
-            <select class="form-select" id="timeSelect">
-              <option selected>Often</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="tab">Is there any air conditioner in the house?
-          <div class="container-fluid col-2">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="yesAC" value="y">
-                <small>Yes</small>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="noAC" value="n">
-                <small>No</small>
-            </div>
-          </div>
-        </div>
-        
-        <div style="overflow:auto;">
-          <div style="float:middle;">
-            <button class="btn btn-primary col-2" type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-            <button class="btn btn-primary col-2" type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-          </div>
-        </div>
-        -->
-        <!-- Circles which indicates the steps of the form: -->
-        <!--
-            <div style="text-align:center;margin-top:40px;">
-              <span class="step"></span>
-              <span class="step"></span>
-              <span class="step"></span>
-              <span class="step"></span>
-              <span class="step"></span>
-              <span class="step"></span>
-            </div>
-        </form>-->
-        
     <!-- SurveyJS-->
     <div id="surveyContainer"></div>
-
-    <script src="https://unpkg.com/jquery"></script>
-    <script src="https://unpkg.com/survey-jquery@1.9.83/survey.jquery.min.js"></script>
-    <script src="https://unpkg.com/survey-core/plugins/bootstrap-integration.min.js"></script>
     
   </main>
 
   <div id="darkfooter-placeholder"></div>
+
+  <script src="https://unpkg.com/jquery"></script>
+  <script src="https://unpkg.com/survey-jquery@1.9.83/survey.jquery.min.js"></script>
+  <script src="https://unpkg.com/survey-core/plugins/bootstrap-integration.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>

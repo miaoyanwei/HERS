@@ -1,5 +1,14 @@
+/* Survey style */
+
 :root {
     --background-dim: #fff;
     --font-family: 'Philosopher', sans-serif;
     --primary: #345A46;
+}
+
+
+/* Survey position */
+
+#surveyContainer {
+    margin-top: 120px;
 }
