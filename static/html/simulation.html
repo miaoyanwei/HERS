@@ -21,15 +21,11 @@
     <!-- JQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
-    <!-- Google Charts library
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
-
     <!-- Highcharts-->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
-
 </head>
 
 <body onload="getAnnuCost()">
@@ -44,11 +40,12 @@
 
         <div class="container">
 
-            <div class="row g-2">
+            <div class="row g-4">
 
-                <!-- current-->
-                <div class="col">
-                    <div class="p-3" id="cur">
+                <!-- Current-->
+
+                <div class="col-sm">
+                    <div class="pp" id="cur">
 
                         <h2>Current</h2>
 
@@ -58,22 +55,24 @@
                             <button class="tablinks active" onclick="openTab(event, 'currentYear')" id="defaultOpen1">Year</button>
                         </div>-->
                         
-                        <!-- graph day
+                        <!-- Graph day
                         <div id="currentDay" class="tabcontent">
                             <div id="chart_current_day" style="height: 200px;"></div>
                         </div>-->
                         
-                        <!-- graph year-->
+                        <!-- Graph year-->
+
                         <div id="currentYear" class="tabcontent" style="display: block;">
                             <div id="chart_current_year" style="height: 200px;"></div> 
                         </div>
 
-                        <!-- total display-->
+                        <!-- Total energy-->
+
                         <div class="total">
 
                             <div class="totalDemand">
-                                <h3>Energy demand</h3>
-                                <p><span id="totalDemand-placeholder"></span> kWh</p>
+                                <p><b>Energy demand</b></p>
+                                <p><b><span id="totalDemand-placeholder"></span> kWh</b></p>
                             </div>
                             <div class="legend">
                                 <div class="foo heating"></div><p style="font-size: smaller; margin-right: 8px;">Heating</p>
@@ -85,8 +84,8 @@
                             <hr>
 
                             <div class="totalSupply">
-                                <h3>PV generation</h3>
-                                <p><span id="totalSupply-placeholder"></span> kWh</p>
+                                <p><b>PV generation</b></p>
+                                <p><b><span id="totalSupply-placeholder"></span> kWh</b></p>
                             </div>
                             <div class="legend">
                                 <div class="foo pv"></div><p style="font-size: smaller; margin-right: 8px;">PV</p>
@@ -96,23 +95,22 @@
 
                         </div>
 
-                        <!-- config-->
-                        <h2>Home Energy System</h2>
+                        <!-- Configuration-->
+
+                        <h3 style="margin-bottom: 24px;">Current Energy System</h3>
+
                         <div class="config">
                             <i class="bi bi-check2" id="pv-true"></i><i class="bi bi-x" id="pv-false"></i>PV system <span id="pvSize-placeholder"></span><span id="pvUnit-placeholder"></span><br><hr>
                             <i class="bi bi-check2" id="battery-true"></i><i class="bi bi-x" id="battery-false"></i>Battery system <span id="batterySize-placeholder"></span><span id="batteryUnit-placeholder"></span><br><hr>
                             <i class="bi bi-check2" id="sems-true"></i><i class="bi bi-x" id="sems-false"></i>SEMS system<br><hr>
                             <i class="bi bi-check2" id="heatsource-true"></i><i class="bi bi-x" id="heatsource-false"></i>Heating system <span id="heatsource-placeholder"></span><br><hr>
-                            <!--
-                            <i class="bi bi-check2" id="hotwatertank-true"></i><i class="bi bi-x" id="hotwatertank-false"></i>Hot water tank <span id="hotwatertankSize-placeholder"></span><span id="hotwatertankUnit-placeholder"></span><br><hr>
-                            <i class="bi bi-check2" id="spaceheatingtank-true"></i><i class="bi bi-x" id="spaceheatingtank-false"></i>Space heating tank <span id="spaceheatingtankSize-placeholder"></span><span id="spaceheatingtankUnit-placeholder"></span><br><hr>
-                            -->
                             <i class="bi bi-check2" id="renovation-true"></i><i class="bi bi-x" id="renovation-false"></i>Building renovation <span id="renovation-placeholder"></span><br><hr>
                         </div>
 
+                        <!-- Total cost-->
 
                         <div class="totalCost" style="background-color: #f9f9f9;">
-                            <div class="totalCur">
+                            <div class="totalDisplay">
                                 <h2>Energy Bill</h2>
                                 <h2>&#8364;<span id="totalcost-placeholder"></span></h2>
                             </div>
@@ -121,10 +119,10 @@
                     </div>
                 </div>
 
-                <!-- simulate-->
-                <div class="col">
-                    <div class="p-3" id="simu">
-                        
+                <!-- Simulated-->
+                <div class="col-sm">
+                    <div class="pp" id="simu">
+
                         <h2 style="color: #345A46">Simulate</h2>
 
                         <!-- tab
@@ -138,17 +136,19 @@
                             <div id="chart_simu_day" style="height: 200px;"></div>
                         </div>-->
                         
-                        <!-- graph year-->
+                        <!-- Graph year-->
+
                         <div id="simuYear" class="tabcontent" style="display: block;">
                             <div id="chart_simu_year" style="height: 200px;"></div> 
                         </div>
 
-                        <!-- total display-->
+                        <!-- Total energy-->
+
                         <div class="total">
 
                             <div class="totalDemand">
-                                <h3>Energy demand</h3>
-                                <p><span id="totalDemand-placeholder"></span> kWh</p>
+                                <p><b>Energy demand</b></p>
+                                <p><b><span id="totalDemand-placeholder"></span> kWh</b></p>
                             </div>
                             <div class="legend">
                                 <div class="foo heating"></div><p style="font-size: smaller; margin-right: 8px;">Heating</p>
@@ -160,8 +160,8 @@
                             <hr>
 
                             <div class="totalSupply">
-                                <h3>PV generation</h3>
-                                <p><span id="totalSupply-placeholder"></span> kWh</p>
+                                <p><b>PV generation</b></p>
+                                <p><b><span id="totalSupply-placeholder"></span> kWh</b></p>
                             </div>
                             <div class="legend">
                                 <div class="foo pv"></div><p style="font-size: smaller; margin-right: 8px;">PV</p>
@@ -171,8 +171,9 @@
 
                         </div>
 
-                        <!-- config-->
-                        <h2>Home Energy System</h2>
+                        <!-- Configuraion-->
+
+                        <h3>Simulated Energy System</h3>
                         
                         <div class="accordion accordion-flush">
 
@@ -259,54 +260,6 @@
                                 </div>
                             </div>
 
-                            <!-- the tanks
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingHotWaterTank">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseHotWaterTank" aria-expanded="false" aria-controls="flush-collapseHotWaterTank">
-                                            Hot water tank
-                                        </button>
-                                    </div>
-                                </h2>
-                                <div id="flush-collapseHotWaterTank" class="accordion-collapse collapse" aria-labelledby="flush-headingHotWaterTank" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">
-                                        A hot water tank is a device used to store domestic hot water for use in homes. The hot water in the tank can be used in sinks, showers, or appliances. <br>
-                                        <select class="form-select" aria-label="SelectHotwatertankSize">
-                                            <option selected value=" ">4 L</option>
-                                            <option value=" ">4 L</option>
-                                            <option value=" ">4 L</option>
-                                            <option value=" ">4 L</option>
-                                            <option value=" ">4 L</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingSpaceHeatingTank">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSpaceHeatingTank" aria-expanded="false" aria-controls="flush-collapseSpaceHeatingTank">
-                                            Space heating tank
-                                        </button>
-                                    </div>
-                                </h2>
-                                <div id="flush-collapseSpaceHeatingTank" class="accordion-collapse collapse" aria-labelledby="flush-headingSpaceHeatingTank" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">
-                                        A space heating tank is a device used to store hot water to provide heat to interior spaces in homes. <br>
-                                        <select class="form-select" aria-label="SelectSpaceheatingtankSize">
-                                            <option selected value=" ">4 L</option>
-                                            <option value=" ">4 L</option>
-                                            <option value=" ">4 L</option>
-                                            <option value=" ">4 L</option>
-                                            <option value=" ">4 L</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            -->
-
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="flush-headingRenovation">
                                     <div class="form-check">
@@ -326,13 +279,14 @@
                             </div>
 
                         </div>
-                        <!-- end of config-->
                         
+                        <!-- Total cost-->
+
                         <div class="totalCost" style="background-color: #fff;">
                             <div class="d-grid mx-auto">
                                 <button class="btn btn-primary" type="button" aria-disabled="true">Update</button>
                             </div>
-                            <div class="totalSimu">
+                            <div class="totalDisplay">
                                 <h2 style="margin-bottom:4px;">Energy Bill</h2>
                                 <h2 style="margin-bottom:4px;">&#8364;<span id="totalcost-placeholder"></span></h2>
                             </div>

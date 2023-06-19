@@ -7,12 +7,12 @@ h1.title {
 
 /* Cards */
 
-.totalDemand, .totalSupply, .totalCur, .totalSimu {
+.totalDemand, .totalSupply, .totalDisplay {
     display: flex;
     justify-content: space-between;
 }
 
-.totalCur, .totalSimu h2 {
+.totalDisplay h2 {
     margin-top: 10px;
 }
 
@@ -23,6 +23,10 @@ h1.title {
 
 .total {
     margin-top: 40px;
+}
+
+.pp {
+    padding: 24px 24px 0 24px;
 }
 
 /* Color squares */
@@ -115,10 +119,9 @@ hr {
 /* Current card */
 
 #cur {
-    background-color: #f9f9f9;
+    background-color: #f9f9f9; 
     border-radius: 12px;
     height: auto;
-    padding: 24px;
     }
 
 
@@ -148,12 +151,10 @@ hr {
 /* Simulate card */
 
 #simu {
-    background-color: #fff;
-    border-style: solid;
-    border-radius: 12px;
+    border-style: solid; 
+    border-radius: 12px; 
     border-color: #dddddd;
     height: auto;
-    padding: 24px;
 }
 
     /* Simulated configuration */
@@ -191,8 +192,11 @@ hr {
     .totalCost .btn {
         font-family: 'Philosopher', sans-serif;
         font-size: 16px;
-        background-color: #345A46;
-        border: none;
+        font-weight: bold;
+        color: #345A46;
+        border: solid;
+        border-color: #345A46;
+        background-color: #fff;
     }
 
     .form-check-input:checked {
