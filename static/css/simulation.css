@@ -1,75 +1,11 @@
 /* Title */
+
 h1.title {
     text-align: center;
 }
 
 
 /* Cards */
-.row {
-    display: flex;
-}
-
-
-/* Tab */
-.tab {
-    font-family: 'Philosopher', sans-serif;
-    color: #222;
-    font-size: 16px;
-    overflow: hidden;
-    background-color: #ebebeb;
-    width: max-content;
-    border-radius: 40px;
-    padding: 4px;
-    margin-bottom: 20px;
-    margin-left: auto;
-    margin-right: auto;
-}
-  
-/* Style the buttons inside the tab */
-.tab button {
-    background-color: #ebebeb;
-    float: left;
-    border: none;
-    border-radius: 40px;
-    outline: none;
-    cursor: pointer;
-    padding: 8px 60px;
-    transition: 0.3s;
-    font-size: 14px;
-}
-  
-/* Create an active/current tablink class */
-.tab button.active {
-    background-color: #fff;
-}
-  
-/* Style the tab content */
-.tabcontent {
-    display: none;
-    -webkit-animation: fadeEffect 1s;
-    animation: fadeEffect 1s;
-}
-  
-/* Fade in tabs */
-    @-webkit-keyframes fadeEffect {
-        from {opacity: 0;}
-        to {opacity: 1;}
-    }
-  
-    @keyframes fadeEffect {
-        from {opacity: 0;}
-        to {opacity: 1;}
-    }
-  
-
-/* current card */
-#cur {
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    height: auto;
-    padding: 24px;
-    margin-right: 10px;
-}
 
 .totalDemand, .totalSupply, .totalCur, .totalSimu {
     display: flex;
@@ -89,32 +25,33 @@ h1.title {
     margin-top: 40px;
 }
 
-/* color squares */
+/* Color squares */
+
 .foo {
     float: left;
     width: 8px;
     height: 8px;
     margin: 4px;
 }
- .heating {
-    background: #A78067;
- }
- .cooling {
-    background: #E2E2E2;
- }
- .appliance {
-    background: #ADA3A3;
- }
- .hotwater {
-    background: #DDB9A1;
- }
- .pv {
-    background: #6DAE47;
- }
+    .heating {
+        background: #A78067;
+    }
+    .cooling {
+        background: #E2E2E2;
+    }
+    .appliance {
+        background: #ADA3A3;
+    }
+    .hotwater {
+        background: #DDB9A1;
+    }
+    .pv {
+        background: #6DAE47;
+    }
 
-.legend {
-    display: flex;
-}
+    .legend {
+        display: flex;
+    }
 
 hr {
     color: #dddddd;
@@ -122,28 +59,94 @@ hr {
 }
 
 
-/* Current configuration */
-.config {
+/* Tab 
+
+.tab {
     font-family: 'Philosopher', sans-serif;
-    font-size: 16px;
     color: #222;
-    line-height: 2;
-}
-
-
-/* Check & uncheck icons */
-.bi-check2 {
-    margin-right: 8px;
+    font-size: 16px;
+    overflow: hidden;
+    background-color: #ebebeb;
+    width: max-content;
+    border-radius: 40px;
+    padding: 4px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}*/
+  
+/* Style the buttons inside the tab 
+.tab button {
+    background-color: #ebebeb;
+    float: left;
+    border: none;
+    border-radius: 40px;
+    outline: none;
+    cursor: pointer;
+    padding: 8px 60px;
+    transition: 0.3s;
+    font-size: 14px;
+}*/
+  
+/* Create an active/current tablink class 
+.tab button.active {
+    background-color: #fff;
+}*/
+  
+/* Style the tab content 
+.tabcontent {
     display: none;
-}
+    -webkit-animation: fadeEffect 1s;
+    animation: fadeEffect 1s;
+}*/
+  
+/* Fade in tabs 
+    @-webkit-keyframes fadeEffect {
+        from {opacity: 0;}
+        to {opacity: 1;}
+    }
+  
+    @keyframes fadeEffect {
+        from {opacity: 0;}
+        to {opacity: 1;}
+    }*/
+  
 
-.bi-x {
-    margin-right: 8px;
-    display: none;
-}
+/* Current card */
+
+#cur {
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    height: auto;
+    padding: 24px;
+    }
 
 
-/* simulate card */
+    /* Current configuration */
+
+    .config {
+        font-family: 'Philosopher', sans-serif;
+        font-size: 16px;
+        color: #222;
+        line-height: 2;
+    }
+
+
+    /* Check & uncheck icons */
+
+    .bi-check2 {
+        margin-right: 8px;
+        display: none;
+    }
+
+    .bi-x {
+        margin-right: 8px;
+        display: none;
+    }
+
+
+/* Simulate card */
+
 #simu {
     background-color: #fff;
     border-style: solid;
@@ -151,59 +154,60 @@ hr {
     border-color: #dddddd;
     height: auto;
     padding: 24px;
-    margin-left: 10px;
 }
 
+    /* Simulated configuration */
 
-.accordion-header {
-    font-size: 16px;
-}
+    .accordion-header {
+        font-size: 16px;
+    }
 
-.accordion-body {
-    font-size: 14px;
-}
+    .accordion-body {
+        font-size: 14px;
+    }
 
-.accordion {
-    font-family: 'Philosopher', sans-serif;
-    --bs-accordion-active-color: #222;
-    --bs-accordion-btn-focus-border-color: none;
-    --bs-accordion-btn-focus-box-shadow: none;
-    --bs-accordion-active-bg: none;
-}
+    .accordion {
+        font-family: 'Philosopher', sans-serif;
+        --bs-accordion-active-color: #222;
+        --bs-accordion-btn-focus-border-color: none;
+        --bs-accordion-btn-focus-box-shadow: none;
+        --bs-accordion-active-bg: none;
+    }
 
-.accordion-item h2 {
-    margin-top: 0;
-}
-
-
-.form-check {
-    display: flex;
-    align-items: center;
-}
-
-.form-floating, .form-select {
-    margin-top: 10px;
-}
-
-.totalCost .btn {
-    font-family: 'Philosopher', sans-serif;
-    font-size: 16px;
-    background-color: #345A46;
-    border: none;
-}
-
-.form-check-input:checked {
-    background-color: #222;
-    border-color: #222;
-}
-
-.form-check-input:focus {
-    border-color: none;
-    box-shadow: none;
-}
+    .accordion-item h2 {
+        margin-top: 0;
+    }
 
 
-/* Educate */
+    .form-check {
+        display: flex;
+        align-items: center;
+    }
+
+    .form-floating, .form-select {
+        margin-top: 10px;
+    }
+
+    .totalCost .btn {
+        font-family: 'Philosopher', sans-serif;
+        font-size: 16px;
+        background-color: #345A46;
+        border: none;
+    }
+
+    .form-check-input:checked {
+        background-color: #222;
+        border-color: #222;
+    }
+
+    .form-check-input:focus {
+        border-color: none;
+        box-shadow: none;
+    }
+
+
+/* Education card */
+
 .edu {
     background-color: #345A46;
     border-radius: 12px;
