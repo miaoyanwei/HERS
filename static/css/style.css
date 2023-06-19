@@ -9,10 +9,6 @@ body {
     min-height: 100vh;
 }
 
-main {
-    padding-bottom: 120px;
-}
-
 
 /* All Fonts */
 
@@ -67,76 +63,78 @@ li {
 }
 
 
-/* Main Navigation Bar */
+/* Navigation Bar */
 
 .navbar {
-    font-family: 'Philosopher', sans-serif;
-    margin: 0 40px;
-}
-
-.navbar a {
-    color: #D6B5C0;
-    text-decoration: none;
-}
-
-.navbar a:hover {
-    color: #D6B5C0; 
-}
-
-.navbar p {
-    font-size: 16px;
-    color: #D6B5C0;
-    margin-top: 20px;
-}
-
-.navbar img {
-    padding-right: 8px;
+    --bs-navbar-padding-y: 0;
 }
 
 
-/* General Navigation Bar */
+    /* Main Navbar */
 
-.navbar-dark {
-    font-family: 'Philosopher', sans-serif;
-    margin: 0 40px;
-    background-color: #fff;
-}
+    .navbar .container-fluid {
+        font-family: 'Philosopher', sans-serif;
+        padding: 0 40px;
+        align-items: baseline;
+    }
 
-.navbar-dark a {
-    color: #222;
-    text-decoration: none;
-}
+    .navbar a {
+        color: #D6B5C0;
+        text-decoration: none;
+    }
 
-.navbar-dark a:hover {
-    color: #222;
-}
+    .navbar a:hover {
+        color: #D6B5C0; 
+    }
 
-.navbar-dark p {
-    font-size: 16px;
-    color: #222;
-    margin-top: 20px;
-}
+    .navbar p {
+        font-size: 16px;
+        color: #D6B5C0;
+    }
 
-.navbar-dark img {
-    padding-right: 8px;
-}
+    .navbar img {
+        padding-right: 8px;
+    }
 
-.container-fluid {
-    padding-top: 0;
-}
+
+    /* General Navbar */
+
+    .navbar-dark .container-fluid {
+        font-family: 'Philosopher', sans-serif;
+        padding: 0 40px;
+        align-items: baseline;
+        background-color: #fff;
+    }
+
+    .navbar-dark a {
+        color: #222;
+        text-decoration: none;
+    }
+
+    .navbar-dark a:hover {
+        color: #222;
+    }
+
+    .navbar-dark p {
+        font-size: 16px;
+        color: #222;
+    }
+
+    .navbar-dark img {
+        padding-right: 8px;
+    }
 
 
 /* Main Footer */
 
 footer {
-    padding: 10px;
     font-family: 'Philosopher', sans-serif;
 }
 
 .footer {
     position: absolute;
     bottom: 0;
-    width: 100%; 
+    width: 100%;
 } 
 
 .footer ul {
@@ -169,17 +167,12 @@ footer-dark {
 .footer-dark {
     position: absolute;
     bottom: 0;
-    width: 100%;
-    height: 60px; 
+    width: 100%; 
 }
 
 .footer-dark ul {
     text-align: left;
     font-size: 14px;
-}
-
-.footer-dark li {
-    padding: 0 10px;
 }
 
 .footer-dark a {
@@ -195,11 +188,11 @@ footer-dark {
 
 /* Content View */
 
-#extra {
-    margin-top: 120px;
-    margin-left: 120px;
+#content {
+    padding-top: 120px;
+    padding-bottom: 120px;
 }
 
-#content {
-    margin-top: 120px;
+#extra {
+    padding: 120px;
 }
