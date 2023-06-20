@@ -1,4 +1,3 @@
-
 function handle_result(data) {
 
     // Get current total cost
@@ -96,6 +95,18 @@ function handle_result(data) {
     });
 
     $("#recommandation-list").html(reclisthtml)
+
+
+    // Show correct text
+
+    if (rec_list.length === 0) {
+        $("#withRec").hide()
+        $("#withoutRec").show()
+    }
+    else {
+        $("#withRec").show()
+        $("#withoutRec").hide()
+    }
 
 }
 
