@@ -75,12 +75,10 @@ a {
 /* Check & uncheck icons */
 
 .bi-check2 {
-    margin-right: 8px;
     display: none;
 }
 
 .bi-x {
-    margin-right: 8px;
     display: none;
 }
 

@@ -37,8 +37,8 @@ function getAnnuCost() {
   var perBattery = 41.29;
 
   // Retrieve the input values
-  var pv_size = 5;
-  var battery_capacity = 5;
+  let pv_size = document.getElementById("pv_size").value;
+  let battery_capacity = document.getElementById("battery_capacity").value;
 
   // Perform the calculation
   var annucostPV = parseFloat(perPV) * parseFloat(pv_size);
