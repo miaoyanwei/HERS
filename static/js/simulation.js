@@ -45,7 +45,10 @@ function getAnnuCost() {
   var annucostBattery = parseFloat(perBattery) * parseFloat(battery_capacity);
 
   // Update the HTML with the result
+  document.getElementById("sizePV").innerHTML = pv_size;
+  document.getElementById("capBattery").innerHTML = battery_capacity;
   document.getElementById("annucostPV").innerHTML = annucostPV;
   document.getElementById("annucostBattery").innerHTML = annucostBattery;
+
 
 }

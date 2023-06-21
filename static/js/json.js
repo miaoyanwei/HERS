@@ -370,7 +370,7 @@ function sendDataToServer(survey) {
       dataType: "json",
       contentType: "application/json"
     });
-  alert("The results are: " + JSON.stringify(survey.data));
+//  alert("The results are: " + JSON.stringify(survey.data));
 }
 
 
