@@ -210,7 +210,6 @@ class RecommendationFinder:
                 if value != currentConfig[key]:
                     improvementCost += configCost[key]
             improvement = self.currentCost - energyData["energy_bill_year"]
-            improvement -= improvementCost
             improvements[int(improvement)] = Recommendation(
                 self.db, id, self.sems, improvementCost
             ).json()
