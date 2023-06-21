@@ -43,6 +43,11 @@ p {
     text-align: left;
 }
 
+small {
+    font-family: 'Philosopher', sans-serif;
+    color: #717171;
+}
+
 a {
     font-family: 'Philosopher', sans-serif;
     color: #222;
