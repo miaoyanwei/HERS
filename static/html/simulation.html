@@ -37,254 +37,267 @@
         <h1 class="title">Estimates of your household energy use</h1>
 
         <!-- Cards-->
-
         <div class="container">
 
             <div class="row g-4">
 
                 <!-- Current-->
+                <div class="col">
+                    <div class="card h-100" id="cur">
 
-                <div class="col-sm">
-                    <div class="pp" id="cur">
+                        <div class="card-body">
 
-                        <h2>Current</h2>
+                            <h2 class="card-title">Current</h2>
 
-                        <!-- tab
-                        <div class="tab">
-                            <button class="tablinks" onclick="openTab(event, 'currentDay')">Day</button>
-                            <button class="tablinks active" onclick="openTab(event, 'currentYear')" id="defaultOpen1">Year</button>
-                        </div>-->
-                        
-                        <!-- Graph day
-                        <div id="currentDay" class="tabcontent">
-                            <div id="chart_current_day" style="height: 200px;"></div>
-                        </div>-->
-                        
-                        <!-- Graph year-->
+                            <div class="card-content">
 
-                        <div id="currentYear" class="tabcontent" style="display: block;">
-                            <div id="chart_current_year" style="height: 200px;"></div> 
-                        </div>
+                                <!-- tab
+                                <div class="tab">
+                                    <button class="tablinks" onclick="openTab(event, 'currentDay')">Day</button>
+                                    <button class="tablinks active" onclick="openTab(event, 'currentYear')" id="defaultOpen1">Year</button>
+                                </div>-->
+                                
+                                <!-- Graph day
+                                <div id="currentDay" class="tabcontent">
+                                    <div id="chart_current_day" style="height: 200px;"></div>
+                                </div>-->
+                                
+                                <!-- Graph year-->
 
-                        <!-- Total energy-->
+                                <div id="currentYear" class="tabcontent" style="display: block;">
+                                    <div id="chart_current_year" style="height: 200px;"></div> 
+                                </div>
 
-                        <div class="total">
+                                <!-- Total energy-->
 
-                            <div class="totalDemand">
-                                <p><b>Energy demand</b></p>
-                                <p><b><span id="totalDemand-placeholder"></span> kWh</b></p>
+                                <div class="total">
+
+                                    <div class="totalDemand">
+                                        <p><b>Energy demand</b></p>
+                                        <p><b><span id="totalDemand-placeholder"></span> kWh</b></p>
+                                    </div>
+                                    <div class="legend">
+                                        <div class="foo heating"></div><p style="font-size: smaller; margin-right: 8px;">Heating</p>
+                                        <div class="foo cooling"></div><p style="font-size: smaller; margin-right: 8px;">Cooling</p>
+                                        <div class="foo appliance"></div><p style="font-size: smaller; margin-right: 8px;">Appliance</p>
+                                        <div class="foo hotwater"></div><p style="font-size: smaller; margin-right: 8px;">Hot water</p>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="totalSupply">
+                                        <p><b>PV generation</b></p>
+                                        <p><b><span id="totalSupply-placeholder"></span> kWh</b></p>
+                                    </div>
+                                    <div class="legend">
+                                        <div class="foo pv"></div><p style="font-size: smaller; margin-right: 8px;">PV</p>
+                                    </div>
+
+                                    <hr>
+
+                                </div>
+
+                                <!-- Configuration-->
+
+                                <h3 style="margin-bottom: 24px;">Current Energy System</h3>
+
+                                <div class="config">
+                                    <i class="bi bi-check2" id="pv-true"></i><i class="bi bi-x" id="pv-false"></i>PV system <span id="pvSize-placeholder"></span><span id="pvUnit-placeholder"></span><br><hr>
+                                    <i class="bi bi-check2" id="battery-true"></i><i class="bi bi-x" id="battery-false"></i>Battery system <span id="batterySize-placeholder"></span><span id="batteryUnit-placeholder"></span><br><hr>
+                                    <i class="bi bi-check2" id="sems-true"></i><i class="bi bi-x" id="sems-false"></i>SEMS system<br><hr>
+                                    <i class="bi bi-check2" id="heatsource-true"></i><i class="bi bi-x" id="heatsource-false"></i>Heating system <span id="heatsource-placeholder"></span><br><hr>
+                                    <i class="bi bi-check2" id="renovation-true"></i><i class="bi bi-x" id="renovation-false"></i>Building renovation <span id="renovation-placeholder"></span><br><hr>
+                                </div>
+                            
                             </div>
-                            <div class="legend">
-                                <div class="foo heating"></div><p style="font-size: smaller; margin-right: 8px;">Heating</p>
-                                <div class="foo cooling"></div><p style="font-size: smaller; margin-right: 8px;">Cooling</p>
-                                <div class="foo appliance"></div><p style="font-size: smaller; margin-right: 8px;">Appliance</p>
-                                <div class="foo hotwater"></div><p style="font-size: smaller; margin-right: 8px;">Hot water</p>
-                            </div>
 
-                            <hr>
-
-                            <div class="totalSupply">
-                                <p><b>PV generation</b></p>
-                                <p><b><span id="totalSupply-placeholder"></span> kWh</b></p>
-                            </div>
-                            <div class="legend">
-                                <div class="foo pv"></div><p style="font-size: smaller; margin-right: 8px;">PV</p>
-                            </div>
-
-                            <hr>
-
-                        </div>
-
-                        <!-- Configuration-->
-
-                        <h3 style="margin-bottom: 24px;">Current Energy System</h3>
-
-                        <div class="config">
-                            <i class="bi bi-check2" id="pv-true"></i><i class="bi bi-x" id="pv-false"></i>PV system <span id="pvSize-placeholder"></span><span id="pvUnit-placeholder"></span><br><hr>
-                            <i class="bi bi-check2" id="battery-true"></i><i class="bi bi-x" id="battery-false"></i>Battery system <span id="batterySize-placeholder"></span><span id="batteryUnit-placeholder"></span><br><hr>
-                            <i class="bi bi-check2" id="sems-true"></i><i class="bi bi-x" id="sems-false"></i>SEMS system<br><hr>
-                            <i class="bi bi-check2" id="heatsource-true"></i><i class="bi bi-x" id="heatsource-false"></i>Heating system <span id="heatsource-placeholder"></span><br><hr>
-                            <i class="bi bi-check2" id="renovation-true"></i><i class="bi bi-x" id="renovation-false"></i>Building renovation <span id="renovation-placeholder"></span><br><hr>
                         </div>
 
                         <!-- Total cost-->
-
-                        <div class="totalCost" style="background-color: #f9f9f9;">
+                        <div class="card-footer totalCost" style="background-color: #f9f9f9;">
                             <div class="totalDisplay">
                                 <h2>Energy Bill</h2>
                                 <h2>&#8364;<span id="totalcost-placeholder"></span></h2>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
 
                 <!-- Simulated-->
-                <div class="col-sm">
-                    <div class="pp" id="simu">
+                <div class="col">
+                    <div class="card h-100" id="simu">
 
-                        <h2 style="color: #345A46">Simulate</h2>
+                        <div class="card-body">
 
-                        <!-- tab
-                        <div class="tab">
-                            <button class="tablinks" onclick="openTab(event, 'simuDay')">Day</button>
-                            <button class="tablinks active" onclick="openTab(event, 'simuYear')" id="defaultOpen2">Year</button>
-                        </div>-->
+                            <h2 class="card-title" style="color: #345A46">Simulate</h2>
 
-                        <!-- graph day
-                        <div id="simuDay" class="tabcontent">
-                            <div id="chart_simu_day" style="height: 200px;"></div>
-                        </div>-->
+                            <div class="card-content">
+
+                            <!-- tab
+                            <div class="tab">
+                                <button class="tablinks" onclick="openTab(event, 'simuDay')">Day</button>
+                                <button class="tablinks active" onclick="openTab(event, 'simuYear')" id="defaultOpen2">Year</button>
+                            </div>-->
+
+                            <!-- graph day
+                            <div id="simuDay" class="tabcontent">
+                                <div id="chart_simu_day" style="height: 200px;"></div>
+                            </div>-->
+                            
+                            <!-- Graph year-->
+
+                                <div id="simuYear" class="tabcontent" style="display: block;">
+                                    <div id="chart_simu_year" style="height: 200px;"></div> 
+                                </div>
+
+                                <!-- Total energy-->
+
+                                <div class="total">
+
+                                    <div class="totalDemand">
+                                        <p><b>Energy demand</b></p>
+                                        <p><b><span id="totalDemand-placeholder"></span> kWh</b></p>
+                                    </div>
+                                    <div class="legend">
+                                        <div class="foo heating"></div><p style="font-size: smaller; margin-right: 8px;">Heating</p>
+                                        <div class="foo cooling"></div><p style="font-size: smaller; margin-right: 8px;">Cooling</p>
+                                        <div class="foo appliance"></div><p style="font-size: smaller; margin-right: 8px;">Appliance</p>
+                                        <div class="foo hotwater"></div><p style="font-size: smaller; margin-right: 8px;">Hot water</p>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="totalSupply">
+                                        <p><b>PV generation</b></p>
+                                        <p><b><span id="totalSupply-placeholder"></span> kWh</b></p>
+                                    </div>
+                                    <div class="legend">
+                                        <div class="foo pv"></div><p style="font-size: smaller; margin-right: 8px;">PV</p>
+                                    </div>
+
+                                    <hr>
+
+                                </div>
+
+                                <!-- Configuraion-->
+
+                                <h3>Simulated Energy System</h3>
+                                
+                                <div class="accordion accordion-flush">
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="true" id="pv_exist">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsePV" aria-expanded="false" aria-controls="flush-collapse">
+                                                    PV system
+                                                </button>
+                                            </div>
+                                        </h2>
+                                        <div id="flush-collapsePV" class="accordion-collapse collapse" aria-labelledby="flush-heading" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                A PV system can convert sunlight directly into electricity.<br>
+                                                <select class="form-select" id="pv_size">
+                                                    <option value="5">around 5 kilowatt-peak</option>
+                                                    <option value="10">around 10 kilowatt-peak</option>
+                                                </select>
+                                                <br>The annualised cost of such a PV system is around &#8364;<span id="annucostPV"></span>.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="flush-headingBattery">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="true" id="battery_exist">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseBattery" aria-expanded="false" aria-controls="flush-collapse">
+                                                    Battery system
+                                                </button>
+                                            </div>
+                                        </h2>
+                                        <div id="flush-collapseBattery" class="accordion-collapse collapse" aria-labelledby="flush-heading" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                A battery system can store excess energy generated by solar panels or other renewable sources of energy during the day. <br>
+                                                <select class="form-select" id="battery_capacity">
+                                                    <option value="10">around 10 kilowatt-hours</option>
+                                                    <option value="20">around 20 kilowatt-hours</option>
+                                                </select>
+                                                <br>The stored energy can be used at night or during times when there is no sun or wind. In the event of a power outage, a home battery system can also provide backup power to keep essential appliances running. 
+                                                <br>The annualised cost of such a battery system is around &#8364;<span id="annucostBattery"></span>.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="flush-headingSEMS">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSEMS" aria-expanded="false" aria-controls="flush-collapseSEMS">
+                                                    SEMS system
+                                                </button>
+                                            </div>
+                                        </h2>
+                                        <div id="flush-collapseSEMS" class="accordion-collapse collapse" aria-labelledby="flush-headingSEMS" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">A Smart Energy Management System (SEMS) can optimise energy usage by adjusting heating and cooling systems, lighting, and other energy-consuming devices to minimise energy waste; and turning off or reducing energy usage during periods of low occupancy or when energy prices are high. 
+                                                <br>The annualised cost of a SEMS system is around &#8364;96.34. 
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="flush-headingHS">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseHS" aria-expanded="false" aria-controls="flush-collapseHS">
+                                                    Heating system
+                                                </button>
+                                            </div>
+                                        </h2>
+                                        <div id="flush-collapseHS" class="accordion-collapse collapse" aria-labelledby="flush-headingHS" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                The technology that is used to generate heat in order to warm a space or provide hot water. <br>
+                                                <select class="form-select" aria-label="SelectHeatSource">
+                                                    <option selected value="solids">Biomass boiler</option>
+                                                    <option value="district_heating">District heating</option>
+                                                    <option value="Air_HP">Heat pump</option>
+                                                    <option value="liquids">Heating oil boiler</option>
+                                                    <option value="gases">Natural gas boiler</option>
+                                                </select>
+                                                <br>The annualised cost of a heat pump is around &#8364;900. 
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="flush-headingRenovation">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseRenovation" aria-expanded="false" aria-controls="flush-collapseRenovation">
+                                                    Building renovation
+                                                </button>
+                                            </div>
+                                        </h2>
+                                        <div id="flush-collapseRenovation" class="accordion-collapse collapse" aria-labelledby="flush-headingRenovation" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">
+                                                If your house has not been renovated for a long time, we would recommend you to renovate your roof, windows, walls and basement. 
+                                                Building renovation can have a significant impact on improving home energy efficiency performance by reducing the amount of energy needed to heat, cool, and operate a home. <br>
+                                                The annualised cost of renovating a house is around &#8364;2000. 
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
                         
-                        <!-- Graph year-->
-
-                        <div id="simuYear" class="tabcontent" style="display: block;">
-                            <div id="chart_simu_year" style="height: 200px;"></div> 
                         </div>
 
-                        <!-- Total energy-->
-
-                        <div class="total">
-
-                            <div class="totalDemand">
-                                <p><b>Energy demand</b></p>
-                                <p><b><span id="totalDemand-placeholder"></span> kWh</b></p>
-                            </div>
-                            <div class="legend">
-                                <div class="foo heating"></div><p style="font-size: smaller; margin-right: 8px;">Heating</p>
-                                <div class="foo cooling"></div><p style="font-size: smaller; margin-right: 8px;">Cooling</p>
-                                <div class="foo appliance"></div><p style="font-size: smaller; margin-right: 8px;">Appliance</p>
-                                <div class="foo hotwater"></div><p style="font-size: smaller; margin-right: 8px;">Hot water</p>
-                            </div>
-
-                            <hr>
-
-                            <div class="totalSupply">
-                                <p><b>PV generation</b></p>
-                                <p><b><span id="totalSupply-placeholder"></span> kWh</b></p>
-                            </div>
-                            <div class="legend">
-                                <div class="foo pv"></div><p style="font-size: smaller; margin-right: 8px;">PV</p>
-                            </div>
-
-                            <hr>
-
-                        </div>
-
-                        <!-- Configuraion-->
-
-                        <h3>Simulated Energy System</h3>
-                        
-                        <div class="accordion accordion-flush">
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="true" id="pv_exist">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsePV" aria-expanded="false" aria-controls="flush-collapse">
-                                            PV system
-                                        </button>
-                                    </div>
-                                </h2>
-                                <div id="flush-collapsePV" class="accordion-collapse collapse" aria-labelledby="flush-heading" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">
-                                        A PV system can convert sunlight directly into electricity.<br>
-                                        <select class="form-select" id="pv_size">
-                                            <option value="5">around 5 kilowatt-peak</option>
-                                            <option value="10">around 10 kilowatt-peak</option>
-                                        </select>
-                                        <br>The annualised cost of such a PV system is around &#8364;<span id="annucostPV"></span>.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingBattery">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="true" id="battery_exist">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseBattery" aria-expanded="false" aria-controls="flush-collapse">
-                                            Battery system
-                                        </button>
-                                    </div>
-                                </h2>
-                                <div id="flush-collapseBattery" class="accordion-collapse collapse" aria-labelledby="flush-heading" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">
-                                        A battery system can store excess energy generated by solar panels or other renewable sources of energy during the day. <br>
-                                        <select class="form-select" id="battery_capacity">
-                                            <option value="10">around 10 kilowatt-hours</option>
-                                            <option value="20">around 20 kilowatt-hours</option>
-                                        </select>
-                                        <br>The stored energy can be used at night or during times when there is no sun or wind. In the event of a power outage, a home battery system can also provide backup power to keep essential appliances running. 
-                                        <br>The annualised cost of such a battery system is around &#8364;<span id="annucostBattery"></span>.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingSEMS">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSEMS" aria-expanded="false" aria-controls="flush-collapseSEMS">
-                                            SEMS system
-                                        </button>
-                                    </div>
-                                </h2>
-                                <div id="flush-collapseSEMS" class="accordion-collapse collapse" aria-labelledby="flush-headingSEMS" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">A Smart Energy Management System (SEMS) can optimise energy usage by adjusting heating and cooling systems, lighting, and other energy-consuming devices to minimise energy waste; and turning off or reducing energy usage during periods of low occupancy or when energy prices are high. 
-                                        <br>The annualised cost of a SEMS system is around &#8364;96.34. 
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingHS">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseHS" aria-expanded="false" aria-controls="flush-collapseHS">
-                                            Heating system
-                                        </button>
-                                    </div>
-                                </h2>
-                                <div id="flush-collapseHS" class="accordion-collapse collapse" aria-labelledby="flush-headingHS" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">
-                                        The technology that is used to generate heat in order to warm a space or provide hot water. <br>
-                                        <select class="form-select" aria-label="SelectHeatSource">
-                                            <option selected value="solids">Biomass boiler</option>
-                                            <option value="district_heating">District heating</option>
-                                            <option value="Air_HP">Heat pump</option>
-                                            <option value="liquids">Heating oil boiler</option>
-                                            <option value="gases">Natural gas boiler</option>
-                                        </select>
-                                        <br>The annualised cost of a heat pump is around &#8364;900. 
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingRenovation">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseRenovation" aria-expanded="false" aria-controls="flush-collapseRenovation">
-                                            Building renovation
-                                        </button>
-                                    </div>
-                                </h2>
-                                <div id="flush-collapseRenovation" class="accordion-collapse collapse" aria-labelledby="flush-headingRenovation" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">
-                                        If your house has not been renovated for a long time, we would recommend you to renovate your roof, windows, walls and basement. 
-                                        Building renovation can have a significant impact on improving home energy efficiency performance by reducing the amount of energy needed to heat, cool, and operate a home. <br>
-                                        The annualised cost of renovating a house is around &#8364;2000. 
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        
                         <!-- Total cost-->
 
-                        <div class="totalCost" style="background-color: #fff;">
+                        <div class="card-footer totalCost" style="background-color: #fff;">
                             <div class="d-grid mx-auto">
-                                <button class="btn btn-primary" type="button" aria-disabled="true">Update</button>
+                                <button class="btn btn-outline-dark" type="button" aria-disabled="true">Update</button>
                             </div>
                             <div class="totalDisplay">
                                 <h2 style="margin-bottom:4px;">Energy Bill</h2>
@@ -294,7 +307,6 @@
                         </div>
 
                     </div>
-
                 </div>
 
             </div>
