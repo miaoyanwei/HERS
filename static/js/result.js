@@ -8,7 +8,7 @@ function handle_result(data) {
     $("#personNumber-placeholder").replaceWith(data.profile.person);
     // Get location
     $("#location-placeholder").replaceWith(data.profile.location);
-
+    
     // Get check or uncheck icons
     improvement = new Map()
     improvement.set('pv_size', 'Upgrade the PV system')
@@ -19,12 +19,16 @@ function handle_result(data) {
 
     if (current.config.pv_size) {
         $("#pv-true").css('display', 'inline')
+        // Get current PV size
+        $("#currentPVSize").replaceWith(': ' + current.config.pv_size + 'kWp');
     } else {
         $("#pv-false").css('display', 'inline')
     }
 
     if (current.config.battery_capacity) {
         $("#battery-true").css('display', 'inline')
+        // Get current Battery capacity
+        $("#currentBatteryCapacity").replaceWith(': ' + current.config.battery_capacity + 'kWh');
     } else {
         $("#battery-false").css('display', 'inline')
     }
