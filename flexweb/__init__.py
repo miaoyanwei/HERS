@@ -132,9 +132,6 @@ def get_scenario_id(json):
         con=db,
     )
     building_id = building["ID_Building"].values[int(json["building"]["renovate"] == False)] if building.shape[0] > 0 else 1
-    print(building)
-    print(json["building"]["renovate"] == True)
-    print("building_id: {}".format(building_id))
 
     # PV ID
     pv_size = 0
