@@ -354,7 +354,7 @@ var surveyJSON =  {
   ],
   "showTitle": false,
   "showCompletedPage": false,
-  "navigateToUrl": "result.html"
+  "navigateToUrl": "recommendation.html"
 }
 
 

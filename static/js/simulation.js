@@ -30,7 +30,8 @@
 
 // Calculate annualised costs of PV and battery system
 
-function getAnnuCost() {
+function getAnnuCost() 
+{
 
   // Annualised costs (/kWp and /kWh)
   const perPV = 115.61;
@@ -41,14 +42,19 @@ function getAnnuCost() {
   let battery_capacity = document.getElementById("battery_capacity").value;
 
   // Perform the calculation
-  var annucostPV = parseFloat(perPV) * parseFloat(pv_size);
-  var annucostBattery = parseFloat(perBattery) * parseFloat(battery_capacity);
+  let annucostPV = parseFloat(perPV) * parseFloat(pv_size);
+  let annucostBattery = parseFloat(perBattery) * parseFloat(battery_capacity);
 
   // Update the HTML with the result
   document.getElementById("sizePV").innerHTML = pv_size;
   document.getElementById("capBattery").innerHTML = battery_capacity;
   document.getElementById("annucostPV").innerHTML = annucostPV;
   document.getElementById("annucostBattery").innerHTML = annucostBattery;
+}
 
+function handleResult(data)
+{
 
 }
+
+export {getAnnuCost, handleResult}
