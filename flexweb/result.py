@@ -12,14 +12,14 @@ class Result:
         self.init()
 
     def init(self) -> None:
-        self.data["profile"] = Profile(self.db, self.scenario_id).json()
-        self.data["current"] = Current(self.db, self.scenario_id, self.sems).json()
+        self.data["profile"] = Profile(self.db, self.scenario_id).get_data()
+        self.data["current"] = Current(self.db, self.scenario_id, self.sems).get_data()
         currentCost = int(self.data["current"]["energy_data"]["energy_bill_year"])
         self.data["recommendation"] = RecommendationFinder(
             self.db, self.scenario_id, self.sems, currentCost
-        ).json()
+        ).get_data()
 
-    def json(self) -> any:
+    def get_data(self) -> any:
         return self.data
 
 
@@ -58,8 +58,9 @@ class Config:
         self.data["building_renovation"] = bool(rows["building_id"].values[0] % 2 == 0)
         self.data["sems"] = self.sems
 
-    def json(self) -> any:
+    def get_data(self) -> any:
         return self.data
+
 
 class Profile:
     def __init__(self, db, scenario_id) -> None:
@@ -84,9 +85,43 @@ class Profile:
         )
         self.data["person"] = int(rows["person"].values[0])
         self.data["region"] = rows["region"].values[0]
-    
-    def json(self) -> any:
+
+    def get_data(self) -> any:
         return self.data
+
+
+class MonthlyComponentEnergyData:
+    def __init__(self, db, scenario_id, sems, component) -> None:
+        self.db = db
+        self.scenario_id = scenario_id
+        self.sems = sems
+        self.component = component
+        self.data = []
+        self.init()
+
+    def init(self) -> None:
+        table = "EnergyData_ReferenceMonth"
+        if self.sems:
+            table = "EnergyData_OptimizationMonth"
+        data = pd.read_sql(
+            "select "
+            + self.component
+            + " from "
+            + table
+            + " where ID_Scenario="
+            + str(self.scenario_id)
+            + " order by Month",
+            con=self.db,
+        )
+        for i in range(12):
+            self.data.append(int(data[self.component].values[i]))
+
+    def sum(self) -> int:
+        return sum(self.data)
+
+    def get_data(self) -> any:
+        return self.data
+
 
 class EnergyData:
     def __init__(self, db, scenario_id, sems) -> None:
@@ -109,8 +144,32 @@ class EnergyData:
             con=self.db,
         )
         self.data["energy_bill_year"] = int(rows["TotalCost"].values[0] / 100)
+        heating = MonthlyComponentEnergyData(
+            self.db, self.scenario_id, self.sems, "Heating"
+        ).get_data()
+        cooling = MonthlyComponentEnergyData(
+            self.db, self.scenario_id, self.sems, "Cooling"
+        ).get_data()
+        appliance = MonthlyComponentEnergyData(
+            self.db, self.scenario_id, self.sems, "Appliance"
+        ).get_data()
+        hotwater = MonthlyComponentEnergyData(
+            self.db, self.scenario_id, self.sems, "Hotwater"
+        ).get_data()
+        pv = MonthlyComponentEnergyData(
+            self.db, self.scenario_id, self.sems, "PV"
+        ).get_data()
+        self.data["energy_demant"] = sum(
+            [heating[i] + cooling[i] + appliance[i] + hotwater[i] for i in range(12)]
+        )
+        self.data["energy_generate"] = sum(pv)
+        self.data["heating"] = heating
+        self.data["cooling"] = cooling
+        self.data["appliance"] = appliance
+        self.data["hotwater"] = hotwater
+        self.data["pv"] = pv
 
-    def json(self) -> any:
+    def get_data(self) -> any:
         return self.data
 
 
@@ -123,12 +182,12 @@ class Current:
         self.init()
 
     def init(self) -> None:
-        self.data["config"] = Config(self.db, self.scenario_id, self.sems).json()
+        self.data["config"] = Config(self.db, self.scenario_id, self.sems).get_data()
         self.data["energy_data"] = EnergyData(
             self.db, self.scenario_id, self.sems
-        ).json()
+        ).get_data()
 
-    def json(self) -> any:
+    def get_data(self) -> any:
         return self.data
 
 
@@ -142,13 +201,13 @@ class Recommendation:
         self.init()
 
     def init(self) -> None:
-        self.data["config"] = Config(self.db, self.scenario_id, self.sems).json()
+        self.data["config"] = Config(self.db, self.scenario_id, self.sems).get_data()
         self.data["energy_data"] = EnergyData(
             self.db, self.scenario_id, self.sems
-        ).json()
+        ).get_data()
         self.data["investment_cost"] = self.investmentCost
 
-    def json(self) -> any:
+    def get_data(self) -> any:
         return self.data
 
 
@@ -194,10 +253,10 @@ class RecommendationFinder:
         canditates = pd.read_sql(query, con=self.db)["ID_Scenario"].values
         improvements = {}
 
-        currentConfig = Config(self.db, self.scenario_id, self.sems).json()
+        currentConfig = Config(self.db, self.scenario_id, self.sems).get_data()
         for id in canditates:
-            energyData = EnergyData(self.db, id, self.sems).json()
-            config = Config(self.db, id, self.sems).json()
+            energyData = EnergyData(self.db, id, self.sems).get_data()
+            config = Config(self.db, id, self.sems).get_data()
             improvementCost = 0
             configCost = {
                 "building_renovation": 2000,
@@ -212,10 +271,10 @@ class RecommendationFinder:
             improvement = self.currentCost - energyData["energy_bill_year"]
             improvements[int(improvement)] = Recommendation(
                 self.db, id, self.sems, improvementCost
-            ).json()
+            ).get_data()
         ordered = OrderedDict(sorted(improvements.items(), reverse=True))
         for key, value in ordered.items():
             self.data.append(value)
 
-    def json(self) -> OrderedDict:
+    def get_data(self) -> OrderedDict:
         return self.data
