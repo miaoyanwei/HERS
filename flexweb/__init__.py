@@ -5,7 +5,7 @@ import json
 import pandas as pd
 import sqlite3
 from copy import copy
-from .result import Result
+from flexweb.result import Result
 
 DATABASE = "FLEX.sqlite"
 
@@ -71,7 +71,7 @@ def create_app(test_config=None):
 
     @app.route("/api/v1/result", methods=["GET"])
     def result():
-        doc = Result(get_db(), session["scenario_id"], session["sems"]).json()
+        doc = Result(get_db(), session["scenario_id"], session["sems"]).get_data()
         print(doc)
         return json.dumps(doc)
 
