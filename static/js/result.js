@@ -10,9 +10,21 @@ function handle_result(data) {
     $("#location-placeholder").replaceWith(data.profile.location);
     
     // Get check or uncheck icons
+
     improvement = new Map()
-    improvement.set('pv_size', 'Upgrade the PV system')
-    improvement.set('battery_capacity', 'Upgrade the battery system')
+
+    if (current.config.pv_size === 0) {
+        improvement.set('pv_size', 'Add a PV system')
+    } else {
+        improvement.set('pv_size', 'Upgrade the PV system')
+    }
+    
+    if (current.config.battery_capacity === 0) {
+        improvement.set('battery_capacity', 'Add a battery system' )
+    } else {
+        improvement.set('battery_capacity', 'Upgrade the battery system' )
+    }
+    
     improvement.set('sems', 'Add a SEMS system')
     improvement.set('heating_system_type', 'Change to a heat pump system')
     improvement.set('building_renovation', 'Renovate the building')
