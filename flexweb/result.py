@@ -228,41 +228,38 @@ class CandidateFinder:
             con=self.db,
         ).iloc[0]
 
-        possibleImpr = {}
-        degrading = {}
-        eq = copy.copy(current)
-        eq.pop("ID_Scenario")
-
+        constraint = copy.copy(current)
+        constraint.pop("ID_Scenario")
+        degradingImpr = {}
+        stagedImpr = {}
+        fixedImpr = {}
         if current["ID_Building"] % 2 == 0:
-            degrading["ID_Building"] = current["ID_Building"]
-            eq.pop("ID_Building")
+            degradingImpr["ID_Building"] = current["ID_Building"]
+            constraint.pop("ID_Building")
         if current["ID_Boiler"] > 1:
-            eq["ID_Boiler"] = 1
+            fixedImpr["ID_Boiler"] = current["ID_Boiler"]
+            constraint.pop("ID_Boiler")
         if current["ID_PV"] > 1:
-            possibleImpr["ID_PV"] = current["ID_PV"]
-            eq.pop("ID_PV")
+            stagedImpr["ID_PV"] = current["ID_PV"]
+            constraint.pop("ID_PV")
         if current["ID_Battery"] > 1:
-            possibleImpr["ID_Battery"] = current["ID_Battery"]
-            eq.pop("ID_Battery")
+            stagedImpr["ID_Battery"] = current["ID_Battery"]
+            constraint.pop("ID_Battery")
+        if current["ID_HotWaterTank"] > 1:
+            stagedImpr["ID_HotWaterTank"] = current["ID_HotWaterTank"]
+            constraint.pop("ID_HotWaterTank")
 
         query = "select ID_Scenario from OperationScenario where "
-        for key, value in eq.items():
+        for key, value in constraint.items():
             query += key + "=" + str(value) + " and "
-        for key, value in possibleImpr.items():
-            query += key + "<" + str(value) + " and "
-        for key, value in degrading.items():
-            query += (
-                "("
-                + key
-                + "="
-                + str(value)
-                + " or "
-                + key
-                + "="
-                + str(value + -1)
-                + ") and "
-            )
+        for key, value in degradingImpr.items():
+            query += "(" + key + "=" + str(value -1) + " or " + key + "=" + str(value) + ") and "
+        for key, value in fixedImpr.items():
+            query += "(" + key + "=1 or " + key + "=" + str(value) + ") and "
+        for key, value in stagedImpr.items():
+            query += key + "<=" + str(value) + " and "
         query = query[:-5]
+        print (query)
         self.canditates = pd.read_sql(query, con=self.db)["ID_Scenario"].values
 
     def getCandidates(self) -> list:
@@ -291,12 +288,8 @@ class Improvement:
             "sems": 96,
         }
         for key, value in config.items():
-            print(key, value)
-            print(self.currentConfig[key])
-            print(configCost[key])
             if value != self.currentConfig[key]:
                 self.cost += configCost[key]
-            print(self.cost)
         self.value = self.currentCost - energyData["energy_bill_year"]
 
     def getValue(self) -> int:
@@ -334,14 +327,6 @@ class RecommendationList:
                 improvements.append(
                     Improvement(self.db, id, True, self.currentCost, currentConfig)
                 )
-        # Simply adding a smartphone system to the current system
-        # is also a possible improvement
-        if self.sems == False:
-            improvements.append(
-                Improvement(
-                    self.db, self.scenario_id, True, self.currentCost, currentConfig
-                )
-            )
         improvements.sort(key=lambda x: x.getValue(), reverse=True)
         for improvement in improvements:
             self.data.append(
