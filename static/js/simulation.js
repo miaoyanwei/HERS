@@ -109,13 +109,29 @@ function initChart() {
   });
 }
 
+
+// Shared xAxis configuration
+var sharedXAxis = {
+  categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+  labels: {
+    style: {
+      fontFamily: 'Philosopher',
+      fontSize: '10px'
+    }
+  }
+}
+
 // Shared yAxis configuration
 var sharedYAxis = [{
   title: {
     text: null
   },
-  labels: { // Disable labels on the right side of the graph
-    enabled: false
+  labels: { // Ensable labels on the right side of the graph
+    enabled: true,
+    style: {
+      fontFamily: 'Philosopher',
+      fontSize: '10px'
+    }
   },
 }, { // Secondary Y-axis
   title: {
@@ -139,39 +155,35 @@ function createCurrentEnergyChart(energyData) {
     legend: {
       enabled: false
     },
-    xAxis: {
-      categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
-      labels: {
-        style: {
-          fontFamily: 'Philosopher',
-          fontSize: '10px'
-        }
-      }
-    },
+    xAxis: sharedXAxis,
     // Primary Y-axis
     yAxis: sharedYAxis,
     series: [{
       name: 'Heating',
       data: energyData.heating,
       stack: 'amount',
+      yAxis: 0
     }, {
       name: 'Cooling',
       data: energyData.cooling,
-      stack: 'amount'
+      stack: 'amount',
+      yAxis: 0
     }, {
       name: 'Appliance',
       data: energyData.appliance,
-      stack: 'amount'
+      stack: 'amount',
+      yAxis: 0
     }, {
       name: 'Hot water',
       data: energyData.hotwater,
-      stack: 'amount'
+      stack: 'amount',
+      yAxis: 0
     }, {
 
       // Second bar
       name: 'PV',
       data: energyData.pv,
-      yAxis: 1
+      yAxis: 0
     }],
     plotOptions: {
       column: {
@@ -200,39 +212,35 @@ function createSimuEnergyChart(energyData) {
     legend: {
       enabled: false
     },
-    xAxis: {
-      categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
-      labels: {
-        style: {
-          fontFamily: 'Philosopher',
-          fontSize: '10px'
-        }
-      }
-    },
+    xAxis: sharedXAxis,
     // Primary Y-axis
     yAxis: sharedYAxis,
     series: [{
       name: 'Heating',
       data: energyData.heating,
       stack: 'amount',
+      yAxis: 0
     }, {
       name: 'Cooling',
       data: energyData.cooling,
-      stack: 'amount'
+      stack: 'amount',
+      yAxis: 0
     }, {
       name: 'Appliance',
       data: energyData.appliance,
-      stack: 'amount'
+      stack: 'amount',
+      yAxis: 0
     }, {
       name: 'Hot water',
       data: energyData.hotwater,
-      stack: 'amount'
+      stack: 'amount',
+      yAxis: 0
     }, {
 
       // Second bar
       name: 'PV',
       data: energyData.pv,
-      yAxis: 1
+      yAxis: 0
     }],
     plotOptions: {
       column: {

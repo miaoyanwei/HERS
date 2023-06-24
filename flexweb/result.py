@@ -245,9 +245,9 @@ class CandidateFinder:
         if current["ID_Battery"] > 1:
             stagedImpr["ID_Battery"] = current["ID_Battery"]
             constraint.pop("ID_Battery")
-        if current["ID_HotWaterTank"] > 1:
-            stagedImpr["ID_HotWaterTank"] = current["ID_HotWaterTank"]
-            constraint.pop("ID_HotWaterTank")
+        #if current["ID_HotWaterTank"] > 1:
+        #    stagedImpr["ID_HotWaterTank"] = current["ID_HotWaterTank"]
+        #    constraint.pop("ID_HotWaterTank")
 
         query = "select ID_Scenario from OperationScenario where "
         for key, value in constraint.items():
