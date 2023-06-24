@@ -15,7 +15,7 @@ class Result:
         self.data["profile"] = Profile(self.db, self.scenario_id).get_data()
         self.data["current"] = Current(self.db, self.scenario_id, self.sems).get_data()
         currentCost = int(self.data["current"]["energy_data"]["energy_bill_year"])
-        self.data["recommendation"] = RecommendationFinder(
+        self.data["recommendation"] = RecommendationList(
             self.db, self.scenario_id, self.sems, currentCost
         ).get_data()
 
@@ -53,9 +53,9 @@ class Config:
             con=self.db,
         )
         self.data["pv_size"] = int(rows["pv_size"].values[0])
-        self.data["battery_capacity"] = int(rows["battery_capacity"].values[0])
+        self.data["battery_capacity"] = int(rows["battery_capacity"].values[0] / 1000)
         self.data["heating_system_type"] = rows["hs_type"].values[0]
-        self.data["building_renovation"] = bool(rows["building_id"].values[0] % 2 == 0)
+        self.data["building_renovation"] = bool(rows["building_id"].values[0] % 2 != 0)
         self.data["sems"] = self.sems
 
     def get_data(self) -> any:
@@ -114,7 +114,7 @@ class MonthlyComponentEnergyData:
             con=self.db,
         )
         for i in range(12):
-            self.data.append(int(data[self.component].values[i]))
+            self.data.append(int(data[self.component].values[i] / 1000))
 
     def sum(self) -> int:
         return sum(self.data)
@@ -159,7 +159,7 @@ class EnergyData:
         pv = MonthlyComponentEnergyData(
             self.db, self.scenario_id, self.sems, "PV"
         ).get_data()
-        self.data["energy_demant"] = sum(
+        self.data["energy_demand"] = sum(
             [heating[i] + cooling[i] + appliance[i] + hotwater[i] for i in range(12)]
         )
         self.data["energy_generate"] = sum(pv)
@@ -211,13 +211,11 @@ class Recommendation:
         return self.data
 
 
-class RecommendationFinder:
-    def __init__(self, db, scenario_id, sems, currentCost) -> None:
+class CandidateFinder:
+    def __init__(self, db, scenario_id) -> None:
         self.db = db
         self.scenario_id = scenario_id
-        self.sems = sems
-        self.data = []
-        self.currentCost = currentCost
+        self.candidates = []
         self.init()
 
     def init(self) -> None:
@@ -231,50 +229,129 @@ class RecommendationFinder:
         ).iloc[0]
 
         possibleImpr = {}
-        constraints = copy.copy(current)
-        constraints.pop("ID_Scenario")
+        degrading = {}
+        eq = copy.copy(current)
+        eq.pop("ID_Scenario")
+
         if current["ID_Building"] % 2 == 0:
-            constraints["ID_Building"] = current["ID_Building"] - 1
+            degrading["ID_Building"] = current["ID_Building"]
+            eq.pop("ID_Building")
         if current["ID_Boiler"] > 1:
-            constraints["ID_Boiler"] = 1
+            eq["ID_Boiler"] = 1
         if current["ID_PV"] > 1:
             possibleImpr["ID_PV"] = current["ID_PV"]
-            constraints.pop("ID_PV")
+            eq.pop("ID_PV")
         if current["ID_Battery"] > 1:
             possibleImpr["ID_Battery"] = current["ID_Battery"]
-            constraints.pop("ID_Battery")
+            eq.pop("ID_Battery")
 
         query = "select ID_Scenario from OperationScenario where "
-        for key, value in constraints.items():
+        for key, value in eq.items():
             query += key + "=" + str(value) + " and "
         for key, value in possibleImpr.items():
             query += key + "<" + str(value) + " and "
+        for key, value in degrading.items():
+            query += (
+                "("
+                + key
+                + "="
+                + str(value)
+                + " or "
+                + key
+                + "="
+                + str(value + -1)
+                + ") and "
+            )
         query = query[:-5]
-        canditates = pd.read_sql(query, con=self.db)["ID_Scenario"].values
-        improvements = {}
+        self.canditates = pd.read_sql(query, con=self.db)["ID_Scenario"].values
 
+    def getCandidates(self) -> list:
+        return self.canditates
+
+
+class Improvement:
+    def __init__(self, db, scenario_id, sems, currentCost, currentConfig) -> None:
+        self.db = db
+        self.scenario_id = scenario_id
+        self.sems = sems
+        self.currentCost = currentCost
+        self.currentConfig = currentConfig
+        self.value = 0
+        self.cost = 0
+        self.init()
+
+    def init(self) -> None:
+        energyData = EnergyData(self.db, self.scenario_id, self.sems).get_data()
+        config = Config(self.db, self.scenario_id, self.sems).get_data()
+        configCost = {
+            "building_renovation": 2000,
+            "heating_system_type": 900,
+            "pv_size": 116 * int(config["pv_size"]),
+            "battery_capacity": 41 * int(config["battery_capacity"]),
+            "sems": 96,
+        }
+        for key, value in config.items():
+            print(key, value)
+            print(self.currentConfig[key])
+            print(configCost[key])
+            if value != self.currentConfig[key]:
+                self.cost += configCost[key]
+            print(self.cost)
+        self.value = self.currentCost - energyData["energy_bill_year"]
+
+    def getValue(self) -> int:
+        return self.value
+
+    def getCost(self) -> int:
+        return self.cost
+
+    def getSems(self) -> int:
+        return self.sems
+
+    def getScenarioId(self) -> int:
+        return self.scenario_id
+
+
+class RecommendationList:
+    def __init__(self, db, scenario_id, sems, currentCost) -> None:
+        self.db = db
+        self.scenario_id = scenario_id
+        self.sems = sems
+        self.data = []
+        self.currentCost = currentCost
+        self.init()
+
+    def init(self) -> None:
+        canditates = CandidateFinder(self.db, self.scenario_id).getCandidates()
+
+        improvements = []
         currentConfig = Config(self.db, self.scenario_id, self.sems).get_data()
         for id in canditates:
-            energyData = EnergyData(self.db, id, self.sems).get_data()
-            config = Config(self.db, id, self.sems).get_data()
-            improvementCost = 0
-            configCost = {
-                "building_renovation": 2000,
-                "heating_system_type": 900,
-                "pv_size": 116 * int(config["pv_size"]),
-                "battery_capacity": 41 * int(config["battery_capacity"] / 1000),
-            }
-            for key, value in config.items():
-                print(key, value)
-                if value != currentConfig[key]:
-                    improvementCost += configCost[key]
-            improvement = self.currentCost - energyData["energy_bill_year"]
-            improvements[int(improvement)] = Recommendation(
-                self.db, id, self.sems, improvementCost
-            ).get_data()
-        ordered = OrderedDict(sorted(improvements.items(), reverse=True))
-        for key, value in ordered.items():
-            self.data.append(value)
+            improvements.append(
+                Improvement(self.db, id, self.sems, self.currentCost, currentConfig)
+            )
+            if self.sems == False:
+                improvements.append(
+                    Improvement(self.db, id, True, self.currentCost, currentConfig)
+                )
+        # Simply adding a smartphone system to the current system
+        # is also a possible improvement
+        if self.sems == False:
+            improvements.append(
+                Improvement(
+                    self.db, self.scenario_id, True, self.currentCost, currentConfig
+                )
+            )
+        improvements.sort(key=lambda x: x.getValue(), reverse=True)
+        for improvement in improvements:
+            self.data.append(
+                Recommendation(
+                    self.db,
+                    improvement.getScenarioId(),
+                    improvement.getSems(),
+                    improvement.getCost(),
+                ).get_data()
+            )
 
     def get_data(self) -> OrderedDict:
         return self.data

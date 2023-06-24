@@ -41,14 +41,223 @@ function getAnnuCost() {
   let battery_capacity = document.getElementById("battery_capacity").value;
 
   // Perform the calculation
-  var annucostPV = parseFloat(perPV) * parseFloat(pv_size);
-  var annucostBattery = parseFloat(perBattery) * parseFloat(battery_capacity);
+  let annucostPV = parseFloat(perPV) * parseFloat(pv_size);
+  let annucostBattery = parseFloat(perBattery) * parseFloat(battery_capacity);
 
   // Update the HTML with the result
   document.getElementById("sizePV").innerHTML = pv_size;
   document.getElementById("capBattery").innerHTML = battery_capacity;
   document.getElementById("annucostPV").innerHTML = annucostPV;
   document.getElementById("annucostBattery").innerHTML = annucostBattery;
-
-
 }
+
+function handleResult(data) {
+  let current = data.current;
+
+  // Get current total cost
+  $("#totalcost-placeholder").replaceWith(current.energy_data.energy_bill_year);
+
+  // Get location
+  if (current.config.pv_size) {
+    $("#pv-true").css('display', 'inline')
+  } else {
+    $("#pv-false").css('display', 'inline')
+  }
+
+  if (current.config.battery_capacity) {
+    $("#battery-true").css('display', 'inline')
+  } else {
+    $("#battery-false").css('display', 'inline')
+  }
+
+  if (current.config.sems) {
+    $("#sems-true").css('display', 'inline')
+  } else {
+    $("#sems-false").css('display', 'inline')
+  }
+
+  if (current.config.heating_system_type) {
+    $("#heatsource-true").css('display', 'inline')
+  } else {
+    $("#heatsource-false").css('display', 'inline')
+  }
+
+  if (current.config.building_renovation) {
+    $("#renovation-true").css('display', 'inline')
+  } else {
+    $("#renovation-false").css('display', 'inline')
+  }
+
+  let energyData = current.energy_data;
+  $("#totalDemand-placeholder").replaceWith(energyData.energy_demand);
+  $("#totalSupply-placeholder").replaceWith(energyData.energy_generate);
+  createCurrentEnergyChart(energyData);
+
+  // get cookie value selected=<value>
+  let selected = document.cookie.split(';').find(row => row.startsWith('selection=')).split('=')[1];
+  let simuEnergyData = data.recommendation[selected].energy_data;
+  $("#totalSimuDemand-placeholder").replaceWith(simuEnergyData.energy_demand);
+  $("#totalSimuSupply-placeholder").replaceWith(simuEnergyData.energy_generate);
+  $("#totalSimuCost-placeholder").replaceWith(simuEnergyData.energy_bill_year);
+  $("#investmentSimuCost-placeholder").replaceWith(data.recommendation[selected].investment_cost);
+  createSimuEnergyChart(simuEnergyData);
+}
+
+function initChart() {
+  Highcharts.setOptions({
+    colors: ['#A78067', '#E2E2E2', '#ADA3A3', '#DDB9A1', '#6DAE47']
+  });
+}
+
+function createCurrentEnergyChart(energyData) {
+  Highcharts.chart('chart_current_year', {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: ' '
+    },
+    // Hide the legend
+    legend: {
+      enabled: false
+    },
+    xAxis: {
+      categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+      labels: {
+        style: {
+          fontFamily: 'Philosopher',
+          fontSize: '10px'
+        }
+      }
+    },
+    // Primary Y-axis
+    yAxis: [{
+      title: {
+        text: null
+      },
+      labels: { // Disable labels on the right side of the graph
+        enabled: false
+      },
+    }, { // Secondary Y-axis
+      title: {
+        text: null
+      },
+      opposite: false,
+      labels: { // Disable labels on the right side of the graph
+        enabled: false
+      }
+    }],
+    series: [{
+      name: 'Heating',
+      data: energyData.heating,
+      stack: 'amount',
+    }, {
+      name: 'Cooling',
+      data: energyData.cooling,
+      stack: 'amount'
+    }, {
+      name: 'Appliance',
+      data: energyData.appliance,
+      stack: 'amount'
+    }, {
+      name: 'Hot water',
+      data: energyData.hotwater,
+      stack: 'amount'
+    }, {
+
+      // Second bar
+      name: 'PV',
+      data: energyData.pv,
+      yAxis: 1
+    }],
+    plotOptions: {
+      column: {
+        stacking: 'normal',
+      }
+    },
+    tooltip: {
+      style: {
+        fontFamily: 'Philosopher', // Set the desired font family
+        fontSize: '12px' // Set the desired font size
+      }
+    },
+  });
+}
+
+
+function createSimuEnergyChart(energyData) {
+  Highcharts.chart('chart_simu_year', {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: ' '
+    },
+    // Hide the legend
+    legend: {
+      enabled: false
+    },
+    xAxis: {
+      categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+      labels: {
+        style: {
+          fontFamily: 'Philosopher',
+          fontSize: '10px'
+        }
+      }
+    },
+    // Primary Y-axis
+    yAxis: [{
+      title: {
+        text: null
+      },
+      labels: { // Disable labels on the right side of the graph
+        enabled: false
+      },
+    }, { // Secondary Y-axis
+      title: {
+        text: null
+      },
+      opposite: false,
+      labels: { // Disable labels on the right side of the graph
+        enabled: false
+      }
+    }],
+    series: [{
+      name: 'Heating',
+      data: energyData.heating,
+      stack: 'amount',
+    }, {
+      name: 'Cooling',
+      data: energyData.cooling,
+      stack: 'amount'
+    }, {
+      name: 'Appliance',
+      data: energyData.appliance,
+      stack: 'amount'
+    }, {
+      name: 'Hot water',
+      data: energyData.hotwater,
+      stack: 'amount'
+    }, {
+
+      // Second bar
+      name: 'PV',
+      data: energyData.pv,
+      yAxis: 1
+    }],
+    plotOptions: {
+      column: {
+        stacking: 'normal',
+      }
+    },
+    tooltip: {
+      style: {
+        fontFamily: 'Philosopher', // Set the desired font family
+        fontSize: '12px' // Set the desired font size
+      }
+    },
+  });
+}
+
+export { getAnnuCost, handleResult, initChart }

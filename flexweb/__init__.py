@@ -128,7 +128,8 @@ def get_scenario_id(json):
         + " and construction_period_end<="
         + json["building"]["range_end"]
         + " and person_num="
-        + json["person"]["no"],
+        + json["person"]["no"]
+        + " order by ID_Building",
         con=db,
     )
     building_id = building["ID_Building"].values[int(json["building"]["renovate"] == False)] if building.shape[0] > 0 else 1
