@@ -12,33 +12,35 @@ export function handleResult(data) {
     $("#location-placeholder").replaceWith(data.profile.location);
 
     let improvement = new Map()
-
     if (current.config.pv_size === 0) {
         improvement.set('pv_size', 'Add a PV system')
     } else {
         improvement.set('pv_size', 'Upgrade the PV system')
     }
-    
     if (current.config.battery_capacity === 0) {
-        improvement.set('battery_capacity', 'Add a battery system' )
+        improvement.set('battery_capacity', 'Add a battery system')
     } else {
-        improvement.set('battery_capacity', 'Upgrade the battery system' )
+        improvement.set('battery_capacity', 'Upgrade the battery system')
     }
-
     improvement.set('sems', 'Add a SEMS system')
     improvement.set('heating_system_type', 'Change to a heat pump system')
     improvement.set('building_renovation', 'Renovate the building')
 
     // Get check or uncheck icons
 
+
     if (current.config.pv_size) {
         $("#pv-true").css('display', 'inline')
+        // Get current PV size
+        $("#currentPVSize").replaceWith(getImprovementInfo('pv_size', current.config.pv_size));
     } else {
         $("#pv-false").css('display', 'inline')
     }
 
     if (current.config.battery_capacity) {
         $("#battery-true").css('display', 'inline')
+        // Get current Battery capacity
+        $("#currentBatteryCapacity").replaceWith(getImprovementInfo('battery_capacity', current.config.battery_capacity));
     } else {
         $("#battery-false").css('display', 'inline')
     }
@@ -85,7 +87,9 @@ export function handleResult(data) {
                 + '<p>If the following configurations are applied, the annual energy bill is estimated to be <span>&#8364;</span><span id="totalcost-placeholder"></span>'
                 + item.energy_data.energy_bill_year
                 + '</p>'
-                + '<button class="btn btn-outline-dark" onclick="window.location.href=\'simulation.html\';">More details '
+                + '<button class="btn btn-outline-dark" id="btn-detail-'
+                + index
+                + '">More details '
                 + '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">'
                 + '<path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>'
                 + '</svg>'
@@ -99,6 +103,7 @@ export function handleResult(data) {
                 if (current.config[key] !== value) {
                     let config = '<div class="config">'
                         + improvement.get(key)
+                        + getImprovementInfo(key, value)
                         + '<br>'
                         + '</div>'
                     confightml += config
@@ -120,14 +125,34 @@ export function handleResult(data) {
 
             reclisthtml += entry
         });
-
         $("#recommandation-list").html(reclisthtml)
-
+        rec_list.forEach((item, index) => {
+            document.querySelector('#btn-detail-' + index).addEventListener('click',
+                function () {
+                    document.cookie = "selection=" + JSON.stringify(index);
+                    window.location.href = '/html/simulation.html';
+                });
+        });
     } else {
 
         // Hide withRec text
-
         $("#withRec").hide()
         $("#withoutRec").show()
+    }
+}
+
+function getImprovementInfo(key, value)
+{
+    if (key == 'pv_size') 
+    {
+        return ' (' + value + 'kWp)'
+    }
+    else if (key == 'battery_capacity')
+    {
+        return ' (' + value + 'kWh)'
+    }
+    else
+    {
+        return ''
     }
 }
