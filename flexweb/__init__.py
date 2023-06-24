@@ -113,15 +113,24 @@ def get_scenario_id(json):
     # Battey ID
     battery_capacity = 0
     if json.get("battery") is not None:
-        battery_capacity = json["battery"]["capacity"] * 1000
+        battery_capacity = int(json["battery"]["capacity"]) * 1000
     battery = pd.read_sql(
         "select * from OperationScenario_Component_Battery where capacity="
         + str(battery_capacity),
         con=db,
     )
-    battery_id = battery["ID_Battery"].values[0] if battery.shape[0] > 0 else 1
+    battery_id = battery["ID_Battery"].values[0]
 
     # Building ID
+    range_begin = 1880
+    range_end = 1949
+    person_no = 5
+    if json.get("building") is not None:
+        range_begin = json["building"]["range_begin"]
+        range_end = json["building"]["range_end"]
+    if json.get("person") is not None:
+        person_no = json["person"]["no"]
+
     building = pd.read_sql(
         "select * from OperationScenario_Component_Building where construction_period_start>="
         + json["building"]["range_begin"]
@@ -132,7 +141,9 @@ def get_scenario_id(json):
         + " order by ID_Building",
         con=db,
     )
-    building_id = building["ID_Building"].values[int(json["building"]["renovate"] == False)] if building.shape[0] > 0 else 1
+    building_id = building["ID_Building"].values[
+        int(json["building"]["renovate"] == False)
+    ]
 
     # PV ID
     pv_size = 0
@@ -142,18 +153,44 @@ def get_scenario_id(json):
         "select * from OperationScenario_Component_PV where size=" + str(pv_size),
         con=db,
     )
-    pv_id = pv["ID_PV"].values[0] if pv.shape[0] > 0 else 1
+    pv_id = pv["ID_PV"].values[0]
+
+    # Boiler ID
+    boiler_type = "liquids"
+    if json.get("boiler_type") is not None:
+        boiler_type = json["boiler_type"]
+    boiler_id = pd.read_sql(
+        "select * from OperationScenario_Component_Boiler where type='"
+        + boiler_type
+        + "'",
+        con=db,
+    )["ID_Boiler"].values[0]
+    print("Boiler ID: {}".format(boiler_id))
+
+    # Hot water tank ID
+    tank_size = 0
+    if json.get("tank") is not None:
+        tank_size = 450
+    tank_id = pd.read_sql(
+        "select * from OperationScenario_Component_HotWaterTank where size="
+        + str(tank_size),
+        con=db,
+    )["ID_HotWaterTank"].values[0]
+
     # Scenario ID
-    scenario = pd.read_sql(
+    scenario_id = pd.read_sql(
         "select * from OperationScenario where ID_Battery="
         + str(battery_id)
         + " and ID_Building="
         + str(building_id)
         + " and ID_PV="
-        + str(pv_id),
+        + str(pv_id)
+        + " and ID_Boiler="
+        + str(boiler_id)
+        + " and ID_HotWaterTank="
+        + str(tank_id),
         con=db,
-    )
-    scenario_id = scenario["ID_Scenario"].values[0] if scenario.shape[0] > 0 else -1
+    )["ID_Scenario"].values[0]
     return scenario_id
 
 
