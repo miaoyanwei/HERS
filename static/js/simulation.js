@@ -96,19 +96,28 @@ function handleResult(data) {
   // get cookie value selected=<value>
   let selected = document.cookie.split(';').find(row => row.startsWith('selection=')).split('=')[1];
   let simuEnergyData = data.recommendation[selected].energy_data;
+  let simuConfig = data.recommendation[selected].config;
   $("#totalSimuDemand-placeholder").replaceWith(simuEnergyData.energy_demand);
   $("#totalSimuSupply-placeholder").replaceWith(simuEnergyData.energy_generate);
   $("#totalSimuCost-placeholder").replaceWith(simuEnergyData.energy_bill_year);
   $("#investmentSimuCost-placeholder").replaceWith(data.recommendation[selected].investment_cost);
   createSimuEnergyChart(simuEnergyData);
+
+  // Get simulated configuration
+  if (simuConfig.pv_size !== 0) {
+    $("#pv_exist").prop('checked', true);
+    $("#pv_size").val(simuConfig.pv_size).change();
+  }
+  
 }
 
+
+// Highcharts
 function initChart() {
   Highcharts.setOptions({
     colors: ['#A78067', '#E2E2E2', '#ADA3A3', '#DDB9A1', '#6DAE47']
   });
 }
-
 
 // Shared xAxis configuration
 var sharedXAxis = {
