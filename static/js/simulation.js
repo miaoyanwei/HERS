@@ -98,6 +98,8 @@ function handleResult(data) {
   let simuEnergyData = data.recommendation[selected].energy_data;
   $("#totalSimuDemand-placeholder").replaceWith(simuEnergyData.energy_demand);
   $("#totalSimuSupply-placeholder").replaceWith(simuEnergyData.energy_generate);
+  $("#totalSimuCost-placeholder").replaceWith(simuEnergyData.energy_bill_year);
+  $("#investmentSimuCost-placeholder").replaceWith(data.recommendation[selected].investment_cost);
   createSimuEnergyChart(simuEnergyData);
 }
 
@@ -151,7 +153,7 @@ function createCurrentEnergyChart(energyData) {
       stack: 'amount',
     }, {
       name: 'Cooling',
-      data:  energyData.cooling,
+      data: energyData.cooling,
       stack: 'amount'
     }, {
       name: 'Appliance',
@@ -183,8 +185,7 @@ function createCurrentEnergyChart(energyData) {
 }
 
 
-function createSimuEnergyChart(energyData)
-{
+function createSimuEnergyChart(energyData) {
   Highcharts.chart('chart_simu_year', {
     chart: {
       type: 'column'
@@ -228,7 +229,7 @@ function createSimuEnergyChart(energyData)
       stack: 'amount',
     }, {
       name: 'Cooling',
-      data:  energyData.cooling,
+      data: energyData.cooling,
       stack: 'amount'
     }, {
       name: 'Appliance',
