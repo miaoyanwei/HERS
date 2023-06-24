@@ -108,6 +108,24 @@ function handleResult(data) {
     $("#pv_exist").prop('checked', true);
     $("#pv_size").val(simuConfig.pv_size).change();
   }
+
+  if (simuConfig.battery_exist !== 0) {
+    $("#battery_exist").prop('checked', true);
+    $("#battery_capacity").val(simuConfig.battery_capacity).change();
+  }
+
+  if (simuConfig.sems_exist !== 0) {
+    $("#sems_exist").prop('checked', true);
+  }
+
+  if (simuConfig.boiler_type !== 0) {
+    $("#boiler_exist").prop('checked', true);
+  //  $("#boiler_type").val(simuConfig.boiler_type).change();
+  }
+
+  if (simuConfig.building_renovation !== 0) {
+    $("#building_renovation").prop('checked', true);
+  }
   
 }
 
