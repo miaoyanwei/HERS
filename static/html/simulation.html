@@ -229,7 +229,7 @@
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="flush-headingSEMS">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                <input class="form-check-input" type="checkbox" value="true" id="sems_exist">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSEMS" aria-expanded="false" aria-controls="flush-collapseSEMS">
                                                     SEMS system
                                                 </button>
@@ -237,7 +237,7 @@
                                         </h2>
                                         <div id="flush-collapseSEMS" class="accordion-collapse collapse" aria-labelledby="flush-headingSEMS" data-bs-parent="#accordionFlushExample">
                                             <div class="accordion-body">A Smart Energy Management System (SEMS) can optimise energy usage by adjusting heating and cooling systems, lighting, and other energy-consuming devices to minimise energy waste; and turning off or reducing energy usage during periods of low occupancy or when energy prices are high. 
-                                                <br><small>The annualised cost of a SEMS system is approx. &#8364;96.34.</small>
+                                                <br><small>The annualised cost of a SEMS system is approx. &#8364;96.</small>
                                             </div>
                                         </div>
                                     </div>
@@ -245,7 +245,7 @@
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="flush-headingHS">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                <input class="form-check-input" type="checkbox" value="true" id="boiler_exist">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseHS" aria-expanded="false" aria-controls="flush-collapseHS">
                                                     Heating system
                                                 </button>
@@ -254,7 +254,7 @@
                                         <div id="flush-collapseHS" class="accordion-collapse collapse" aria-labelledby="flush-headingHS" data-bs-parent="#accordionFlushExample">
                                             <div class="accordion-body">
                                                 The technology that is used to generate heat in order to warm a space or provide hot water. <br>
-                                                <select class="form-select" aria-label="SelectHeatSource">
+                                                <select class="form-select" id="boiler_type">
                                                     <option selected value="solids">Biomass boiler</option>
                                                     <option value="district_heating">District heating</option>
                                                     <option value="Air_HP">Heat pump</option>
@@ -269,7 +269,7 @@
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="flush-headingRenovation">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                <input class="form-check-input" type="checkbox" value="true" id="building_renovation">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseRenovation" aria-expanded="false" aria-controls="flush-collapseRenovation">
                                                     Building renovation
                                                 </button>
@@ -294,7 +294,7 @@
 
                         <div class="card-footer totalCost" style="background-color: #fff;">
                             <div class="d-grid mx-auto">
-                                <button class="btn btn-outline-dark" type="button" aria-disabled="true">Update</button>
+                                <button class="btn btn-outline-dark" type="submit" value="submit">Update</button>
                             </div>
                             <div class="totalDisplay">
                                 <h2 style="margin-bottom:4px;">Energy Bill</h2>
@@ -336,6 +336,7 @@
         getAnnuCost();
         getResult(handleResult);
     </script>
+    
     <script src="../js/navbar.js"></script>
 
 

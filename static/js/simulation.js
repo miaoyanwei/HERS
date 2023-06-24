@@ -33,8 +33,8 @@
 function getAnnuCost() {
 
   // Annualised costs (/kWp and /kWh)
-  const perPV = 115.61;
-  const perBattery = 41.29;
+  const perPV = 116;
+  const perBattery = 41;
 
   // Retrieve the input values
   let pv_size = document.getElementById("pv_size").value;
