@@ -109,6 +109,24 @@ function initChart() {
   });
 }
 
+// Shared yAxis configuration
+var sharedYAxis = [{
+  title: {
+    text: null
+  },
+  labels: { // Disable labels on the right side of the graph
+    enabled: false
+  },
+}, { // Secondary Y-axis
+  title: {
+    text: null
+  },
+  opposite: false,
+  labels: { // Disable labels on the right side of the graph
+    enabled: false
+  }
+}]
+
 function createCurrentEnergyChart(energyData) {
   Highcharts.chart('chart_current_year', {
     chart: {
@@ -131,22 +149,7 @@ function createCurrentEnergyChart(energyData) {
       }
     },
     // Primary Y-axis
-    yAxis: [{
-      title: {
-        text: null
-      },
-      labels: { // Disable labels on the right side of the graph
-        enabled: false
-      },
-    }, { // Secondary Y-axis
-      title: {
-        text: null
-      },
-      opposite: false,
-      labels: { // Disable labels on the right side of the graph
-        enabled: false
-      }
-    }],
+    yAxis: sharedYAxis,
     series: [{
       name: 'Heating',
       data: energyData.heating,
@@ -207,22 +210,7 @@ function createSimuEnergyChart(energyData) {
       }
     },
     // Primary Y-axis
-    yAxis: [{
-      title: {
-        text: null
-      },
-      labels: { // Disable labels on the right side of the graph
-        enabled: false
-      },
-    }, { // Secondary Y-axis
-      title: {
-        text: null
-      },
-      opposite: false,
-      labels: { // Disable labels on the right side of the graph
-        enabled: false
-      }
-    }],
+    yAxis: sharedYAxis,
     series: [{
       name: 'Heating',
       data: energyData.heating,
