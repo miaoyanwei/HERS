@@ -229,24 +229,39 @@ class CandidateFinder:
         ).iloc[0]
 
         possibleImpr = {}
-        constraints = copy.copy(current)
-        constraints.pop("ID_Scenario")
+        degrading = {}
+        eq = copy.copy(current)
+        eq.pop("ID_Scenario")
+
         if current["ID_Building"] % 2 == 0:
-            constraints["ID_Building"] = current["ID_Building"] - 1
+            degrading["ID_Building"] = current["ID_Building"]
+            eq.pop("ID_Building")
         if current["ID_Boiler"] > 1:
-            constraints["ID_Boiler"] = 1
+            eq["ID_Boiler"] = 1
         if current["ID_PV"] > 1:
             possibleImpr["ID_PV"] = current["ID_PV"]
-            constraints.pop("ID_PV")
+            eq.pop("ID_PV")
         if current["ID_Battery"] > 1:
             possibleImpr["ID_Battery"] = current["ID_Battery"]
-            constraints.pop("ID_Battery")
+            eq.pop("ID_Battery")
 
         query = "select ID_Scenario from OperationScenario where "
-        for key, value in constraints.items():
+        for key, value in eq.items():
             query += key + "=" + str(value) + " and "
         for key, value in possibleImpr.items():
             query += key + "<" + str(value) + " and "
+        for key, value in degrading.items():
+            query += (
+                "("
+                + key
+                + "="
+                + str(value)
+                + " or "
+                + key
+                + "="
+                + str(value + -1)
+                + ") and "
+            )
         query = query[:-5]
         self.canditates = pd.read_sql(query, con=self.db)["ID_Scenario"].values
 
@@ -272,13 +287,16 @@ class Improvement:
             "building_renovation": 2000,
             "heating_system_type": 900,
             "pv_size": 116 * int(config["pv_size"]),
-            "battery_capacity": 41 * int(config["battery_capacity"] / 1000),
+            "battery_capacity": 41 * int(config["battery_capacity"]),
             "sems": 96,
         }
         for key, value in config.items():
             print(key, value)
+            print(self.currentConfig[key])
+            print(configCost[key])
             if value != self.currentConfig[key]:
                 self.cost += configCost[key]
+            print(self.cost)
         self.value = self.currentCost - energyData["energy_bill_year"]
 
     def getValue(self) -> int:
@@ -315,7 +333,7 @@ class RecommendationList:
             if self.sems == False:
                 improvements.append(
                     Improvement(self.db, id, True, self.currentCost, currentConfig)
-                ) 
+                )
         # Simply adding a smartphone system to the current system
         # is also a possible improvement
         if self.sems == False:
