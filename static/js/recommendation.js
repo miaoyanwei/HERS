@@ -13,18 +13,18 @@ export function handleResult(data) {
 
     let improvement = new Map()
     if (current.config.pv_size === 0) {
-        improvement.set('pv_size', 'Add a PV system')
+        improvement.set('pv_size', '<i class="bi bi-plus"></i>Add a PV system')
     } else {
-        improvement.set('pv_size', 'Upgrade the PV system')
+        improvement.set('pv_size', '<i class="bi bi-arrow-up-short"></i>Upgrade the PV system')
     }
     if (current.config.battery_capacity === 0) {
-        improvement.set('battery_capacity', 'Add a battery system')
+        improvement.set('battery_capacity', '<i class="bi bi-plus"></i>Add a battery system')
     } else {
-        improvement.set('battery_capacity', 'Upgrade the battery system')
+        improvement.set('battery_capacity', '<i class="bi bi-arrow-up-short"></i>Upgrade the battery system')
     }
-    improvement.set('sems', 'Add a SEMS system')
-    improvement.set('heating_system_type', 'Change to a heat pump system')
-    improvement.set('building_renovation', 'Renovate the building')
+    improvement.set('sems', '<i class="bi bi-plus"></i>Add a SEMS system')
+    improvement.set('heating_system_type', '<i class="bi bi-arrow-up-short"></i>Change to a heat pump system')
+    improvement.set('building_renovation', '<i class="bi bi-arrow-up-short"></i>Renovate the building')
 
     // Get check or uncheck icons
 
