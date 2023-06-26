@@ -11,7 +11,11 @@ export function handleResult(data) {
     // Get location
     $("#location-placeholder").replaceWith(data.profile.location);
 
+
+    // Recommendation content
+
     let improvement = new Map()
+
     if (current.config.pv_size === 0) {
         improvement.set('pv_size', '<i class="bi bi-plus"></i>Add a PV system')
     } else {
@@ -26,8 +30,8 @@ export function handleResult(data) {
     improvement.set('heating_system_type', '<i class="bi bi-arrow-up-short"></i>Change to a heat pump system')
     improvement.set('building_renovation', '<i class="bi bi-arrow-up-short"></i>Renovate the building')
 
-    // Get check or uncheck icons
 
+    // Get check or uncheck icons
 
     if (current.config.pv_size) {
         $("#pv-true").css('display', 'inline')
@@ -137,12 +141,15 @@ export function handleResult(data) {
         });
     } else {
 
+
         // Hide withRec text
         $("#withRec").hide()
         $("#withoutRec").show()
     }
 }
 
+
+// Add configuration detail of PV and Battery
 function getImprovementInfo(key, value)
 {
     if (key == 'pv_size') 

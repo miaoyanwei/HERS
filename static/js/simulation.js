@@ -57,18 +57,24 @@ function handleResult(data) {
   // Get current total cost
   $("#totalcost-placeholder").replaceWith(current.energy_data.energy_bill_year);
 
-  // Get location
+
+  // Get check or uncheck icons
+
   if (current.config.pv_size) {
     $("#pv-true").css('display', 'inline')
-  } else {
+    // Get current PV size
+    $("#currentPVSize").replaceWith(getImprovementInfo('pv_size', current.config.pv_size));
+} else {
     $("#pv-false").css('display', 'inline')
-  }
+}
 
-  if (current.config.battery_capacity) {
+if (current.config.battery_capacity) {
     $("#battery-true").css('display', 'inline')
-  } else {
+    // Get current Battery capacity
+    $("#currentBatteryCapacity").replaceWith(getImprovementInfo('battery_capacity', current.config.battery_capacity));
+} else {
     $("#battery-false").css('display', 'inline')
-  }
+}
 
   if (current.config.sems) {
     $("#sems-true").css('display', 'inline')
@@ -77,9 +83,11 @@ function handleResult(data) {
   }
 
   if (current.config.heating_system_type) {
-    $("#heatsource-true").css('display', 'inline')
+    $("#boiler-true").css('display', 'inline')
+    // Get current heating system
+    $("#currentBoilerType").replaceWith(getImprovementInfo('boiler_type', current.config.heating_system_type));
   } else {
-    $("#heatsource-false").css('display', 'inline')
+    $("#boiler-false").css('display', 'inline')
   }
 
   if (current.config.building_renovation) {
@@ -118,9 +126,9 @@ function handleResult(data) {
     $("#sems_exist").prop('checked', true);
   }
 
-  if (simuConfig.boiler_type !== 0) {
+  if (simuConfig.heating_system_type !== 0) {
     $("#boiler_exist").prop('checked', true);
-  //  $("#boiler_type").val(simuConfig.boiler_type).change();
+    $("#boiler_type").val(simuConfig.heating_system_type).change();
   }
 
   if (simuConfig.building_renovation !== 0) {
@@ -284,3 +292,28 @@ function createSimuEnergyChart(energyData) {
 }
 
 export { getAnnuCost, handleResult, initChart }
+
+
+// Add configuration detail
+function getImprovementInfo(key, value)
+{
+    if (key == 'pv_size') 
+    {
+        return ' (' + value + 'kWp)'
+    }
+    else if (key == 'battery_capacity')
+    {
+        return ' (' + value + 'kWh)'
+    }
+    else if (key == 'boiler_type')
+    {
+        return ' (' + value + ')'
+    }
+    else
+    {
+        return ''
+    }
+}
+
+
+// Post the new configuration

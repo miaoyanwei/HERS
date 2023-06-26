@@ -99,11 +99,11 @@
                                 <h3 style="margin-bottom: 24px;">Current Energy System</h3>
 
                                 <div class="config">
-                                    <i class="bi bi-check2" id="pv-true"></i><i class="bi bi-x" id="pv-false"></i>PV system <span id="pvSize-placeholder"></span><span id="pvUnit-placeholder"></span><br><hr>
-                                    <i class="bi bi-check2" id="battery-true"></i><i class="bi bi-x" id="battery-false"></i>Battery system <span id="batterySize-placeholder"></span><span id="batteryUnit-placeholder"></span><br><hr>
+                                    <i class="bi bi-check2" id="pv-true"></i><i class="bi bi-x" id="pv-false"></i>PV system <span id="currentPVSize"></span><br><hr>
+                                    <i class="bi bi-check2" id="battery-true"></i><i class="bi bi-x" id="battery-false"></i>Battery system <span id="currentBatteryCapacity"></span><br><hr>
                                     <i class="bi bi-check2" id="sems-true"></i><i class="bi bi-x" id="sems-false"></i>SEMS system<br><hr>
-                                    <i class="bi bi-check2" id="heatsource-true"></i><i class="bi bi-x" id="heatsource-false"></i>Heating system <span id="heatsource-placeholder"></span><br><hr>
-                                    <i class="bi bi-check2" id="renovation-true"></i><i class="bi bi-x" id="renovation-false"></i>Building renovation <span id="renovation-placeholder"></span><br><hr>
+                                    <i class="bi bi-check2" id="boiler-true"></i><i class="bi bi-x" id="boiler-false"></i>Heating system <span id="currentBoilerType"></span><br><hr>
+                                    <i class="bi bi-check2" id="renovation-true"></i><i class="bi bi-x" id="renovation-false"></i>Building renovation<br><hr>
                                 </div>
                             
                             </div>
@@ -294,7 +294,7 @@
 
                         <div class="card-footer totalCost" style="background-color: #fff;">
                             <div class="d-grid mx-auto">
-                                <button class="btn btn-outline-dark" type="submit" value="submit" disabled>Update</button>
+                                <button class="btn btn-outline-dark" type="submit">Update</button>
                             </div>
                             <div class="totalDisplay">
                                 <h2 style="margin-bottom:4px;">Energy Bill</h2>
