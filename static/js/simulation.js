@@ -289,10 +289,62 @@ function createSimuEnergyChart(energyData) {
 }
 
 // Retrieve new survey
+
 function retrieveNewSurvey() {
+  var pvExist = document.getElementById("pv_exist").checked;
+  var batteryExist = document.getElementById("battery_exist").checked;
+  var semsExist = document.getElementById("sems_exist").checked;
+  var boilerExist = document.getElementById("boiler_exist").checked;
+  var renovationExist = document.getElementById("building_renovation").checked;
+
+  if (pvExist) {
+    var pv_exist = 'true';
+  } else {
+    var pv_exist = 'false';
+  }
+  if (batteryExist) {
+    var battery_exist = 'true';
+  } else {
+    var battery_exist = 'false';
+  }
+  if (semsExist) {
+    var sems_exist = 'true';
+  } else {
+    var sems_exist = 'false';
+  }
+  if (boilerExist) {
+    var boiler_exist = 'true';
+  } else {
+    var boiler_exist = 'false';
+  }
+  if (renovationExist) {
+    var building_innovation = 'true';
+  } else {
+    var building_innovation = 'false';
+  }
+
   var pv_size = document.getElementById("pv_size").value;
-  console.log(pv_size);
+  var battery_capacity = document.getElementById("battery_capacity").value;
+  var boiler_type = document.getElementById("boiler_type").value;
+
+  // Create a JavaScript object with the collected form data
+  var newSurvey = {
+    pv_exist: pv_exist,
+    pv_size: pv_size,
+    battery_exist: battery_exist,
+    battery_capacity: battery_capacity,
+    sems_exist: sems_exist,
+    boiler_exist: boiler_exist,
+    boiler_type: boiler_type,
+    building_innovation: building_innovation
+  };
+
+  // Convert the JavaScript object to JSON
+  var newJson = JSON.stringify(newSurvey);
+
+  console.log(newJson);
 }
+
 
 export { handleResult, initChart, retrieveNewSurvey }
 
