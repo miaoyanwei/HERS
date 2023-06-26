@@ -81,6 +81,7 @@ export function handleResult(data) {
         rec_list.forEach((item, index) => {
             var entry = '<div class="col-md-6">'
                 + '<div class="card h-100 improved">'
+                + '<div class="card-body">'
                 + '<h2 class="bill">Save <span>&#8364;</span><span id="savedcost-placeholder"></span>'
                 + (current.energy_data.energy_bill_year - item.energy_data.energy_bill_year)
                 + '<span style="font-size: 16px; font-weight: normal;"> / year</span></h2>'
@@ -101,7 +102,7 @@ export function handleResult(data) {
             for (let key in item.config) {
                 let value = item.config[key]
                 if (current.config[key] !== value) {
-                    let config = '<div class="config">'
+                    let config = '<div class="card-content config">'
                         + improvement.get(key)
                         + getImprovementInfo(key, value)
                         + '<br>'
@@ -116,7 +117,8 @@ export function handleResult(data) {
             //        + '</div>'
             //    confightml += config
             //});
-            confightml += ('<small class="card-footer" style="color:#345A46; background-color:#fff; line-height:1;"><em>The annualised investment cost is approx. <span>&#8364;'
+            confightml += ('</div>'
+                + '<small class="card-footer" style="color:#345A46; background-color:#fff; line-height:1;"><em>The annualised investment cost is approx. <span>&#8364;'
                 + item.investment_cost
                 + '</em></small>'
                 + '</div>'
