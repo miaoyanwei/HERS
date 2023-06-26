@@ -157,8 +157,8 @@ def get_scenario_id(json):
 
     # Boiler ID
     boiler_type = "liquids"
-    if json.get("boiler_type") is not None:
-        boiler_type = json["boiler_type"]
+    if json.get("boiler") is not None:
+        boiler_type = json["boiler"]["type"]
     boiler_id = pd.read_sql(
         "select * from OperationScenario_Component_Boiler where type='"
         + boiler_type
