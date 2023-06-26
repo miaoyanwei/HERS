@@ -30,26 +30,6 @@
 
 // Calculate annualised costs of PV and battery system
 
-function getAnnuCost() {
-
-  // Annualised costs (/kWp and /kWh)
-  const perPV = 116;
-  const perBattery = 41;
-
-  // Retrieve the input values
-  let pv_size = document.getElementById("pv_size").value;
-  let battery_capacity = document.getElementById("battery_capacity").value;
-
-  // Perform the calculation
-  let annucostPV = parseFloat(perPV) * parseFloat(pv_size);
-  let annucostBattery = parseFloat(perBattery) * parseFloat(battery_capacity);
-
-  // Update the HTML with the result
-  document.getElementById("sizePV").innerHTML = pv_size;
-  document.getElementById("capBattery").innerHTML = battery_capacity;
-  document.getElementById("annucostPV").innerHTML = annucostPV;
-  document.getElementById("annucostBattery").innerHTML = annucostBattery;
-}
 
 function handleResult(data) {
   let current = data.current;
@@ -134,6 +114,25 @@ if (current.config.battery_capacity) {
   if (simuConfig.building_renovation !== 0) {
     $("#building_renovation").prop('checked', true);
   }
+
+
+  // Annualised costs (/kWp and /kWh)
+  const perPV = 116;
+  const perBattery = 41;
+
+  // Retrieve the input values
+  let pv_size = simuConfig.pv_size;
+  let battery_capacity = simuConfig.battery_capacity;
+
+  // Perform the calculation
+  let annucostPV = parseFloat(perPV) * parseFloat(pv_size);
+  let annucostBattery = parseFloat(perBattery) * parseFloat(battery_capacity);
+
+  // Update the HTML with the result
+  document.getElementById("sizePV").innerHTML = pv_size;
+  document.getElementById("capBattery").innerHTML = battery_capacity;
+  document.getElementById("annucostPV").innerHTML = annucostPV;
+  document.getElementById("annucostBattery").innerHTML = annucostBattery;
   
 }
 
@@ -155,7 +154,6 @@ var sharedXAxis = {
     }
   }
 }
-
 // Shared yAxis configuration
 var sharedYAxis = [{
   title: {
@@ -234,7 +232,6 @@ function createCurrentEnergyChart(energyData) {
   });
 }
 
-
 function createSimuEnergyChart(energyData) {
   Highcharts.chart('chart_simu_year', {
     chart: {
@@ -291,7 +288,13 @@ function createSimuEnergyChart(energyData) {
   });
 }
 
-export { getAnnuCost, handleResult, initChart }
+// Retrieve new survey
+function retrieveNewSurvey() {
+  var pv_size = document.getElementById("pv_size").value;
+  console.log(pv_size);
+}
+
+export { handleResult, initChart, retrieveNewSurvey }
 
 
 // Add configuration detail
@@ -314,6 +317,3 @@ function getImprovementInfo(key, value)
         return ''
     }
 }
-
-
-// Post the new configuration
