@@ -11,17 +11,22 @@ class RecommendationType(StrEnum):
 class Recommendation:
     def __init__(
         self,
+        id : int,
         scenario: Scenario,
         sems: bool,
         type: RecommendationType,
         energy_bill_year: int,
         investment_cost: int,
     ):
+        self.__id = id
         self.__scenario = scenario
         self.__sems = sems
         self.__type = type
         self.__energy_bill_year = energy_bill_year
         self.__investment_cost = investment_cost
+
+    def get_id(self) -> int:
+        return self.__id
 
     def get_scenario(self) -> Scenario:
         return self.__scenario
@@ -40,6 +45,7 @@ class Recommendation:
 
     def to_dict(self) -> dict:
         return {
+            "id": self.__id,
             "config": self.__scenario.to_dict() | {"sems": self.__sems},
             "type": self.__type.value,
             "yearly_bill": self.__energy_bill_year,

@@ -41,15 +41,17 @@ class RecommendationRepository(BaseRecommendationRepository):
         ).get_yearly_bill()
         improvements = []
         candidates = finder.get_candidates()
-        for id in candidates:
-            candidate_scenario = self.__scenario_repository.get_scenario_by_id(id)
+        for candidate_id in candidates:
+            candidate_scenario = self.__scenario_repository.get_scenario_by_id(
+                candidate_id
+            )
             improvements.append(
                 _Improvement(
                     self.__db,
-                    id,
+                    candidate_id,
                     candidate_scenario,
                     self.__energy_repository.get_energy_cost_by_id(
-                        id, sems
+                        candidate_id, sems
                     ).get_yearly_bill(),
                     sems,
                     scenario,
@@ -60,10 +62,10 @@ class RecommendationRepository(BaseRecommendationRepository):
                 improvements.append(
                     _Improvement(
                         self.__db,
-                        id,
+                        candidate_id,
                         candidate_scenario,
                         self.__energy_repository.get_energy_cost_by_id(
-                            id, True
+                            candidate_id, True
                         ).get_yearly_bill(),
                         True,
                         scenario,
@@ -72,7 +74,7 @@ class RecommendationRepository(BaseRecommendationRepository):
                 )
 
         # Remove impromments with no benefit
-        improvements = list(filter(lambda x: x.get_benefit() > 0, improvements))
+        improvements = list(filter(lambda x: x.get_value() > 0, improvements))
         if len(improvements) == 0:
             return RecommendationList([])
 
@@ -82,6 +84,7 @@ class RecommendationRepository(BaseRecommendationRepository):
         improvements.sort(key=lambda x: x.get_benefit(), reverse=True)
         best: _Improvement = improvements[0]
         recommendations[best.get_scenario_id()] = Recommendation(
+            best.get_scenario_id(),
             best.get_scenario(),
             best.get_sems(),
             RecommendationType.COST_BENEFIT,
@@ -90,9 +93,10 @@ class RecommendationRepository(BaseRecommendationRepository):
         )
 
         # Get Lowest energy bill
-        improvements.sort(key=lambda x: x.get_value())
+        improvements.sort(key=lambda x: x.get_value(), reverse=True)
         best = improvements[0]
         recommendations[best.get_scenario_id()] = Recommendation(
+            best.get_scenario_id(),
             best.get_scenario(),
             best.get_sems(),
             RecommendationType.LOWEST_ENERGY_BILL,
@@ -104,6 +108,7 @@ class RecommendationRepository(BaseRecommendationRepository):
         improvements.sort(key=lambda x: x.get_investment_cost())
         best = improvements[0]
         recommendations[best.get_scenario_id()] = Recommendation(
+            best.get_scenario_id(),
             best.get_scenario(),
             best.get_sems(),
             RecommendationType.LOWEST_INVESTMENT,
@@ -172,7 +177,9 @@ class _CandidateFinder:
         for key, value in stagedImpr.items():
             query += key + "<=" + str(value) + " and "
         query = query[:-5]
-        self.canditates = pd.read_sql(query, con=self.db)["ID_Scenario"].values
+        self.canditates = [
+            int(x) for x in pd.read_sql(query, con=self.db)["ID_Scenario"].values
+        ]
 
     def get_candidates(self) -> list:
         return self.canditates

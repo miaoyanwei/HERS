@@ -31,87 +31,82 @@
 // Calculate annualised costs of PV and battery system
 
 
-function handleResult(data) {
-  let current = data.current;
+function handleResult(current, selected, investment_cost) {
 
   // Get current total cost
-  $("#totalcost-placeholder").replaceWith(current.energy_data.energy_bill_year);
+  $("#totalcost-placeholder").replaceWith(current.energy_cost.yearly_bill);
 
 
   // Get check or uncheck icons
 
-  if (current.config.pv_size) {
+  if (current.scenario.pv.size > 0) {
     $("#pv-true").css('display', 'inline')
     // Get current PV size
-    $("#currentPVSize").replaceWith(getImprovementInfo('pv_size', current.config.pv_size));
-} else {
+    $("#currentPVSize").replaceWith(getImprovementInfo('pv_size', current.scenario.pv.size));
+  } else {
     $("#pv-false").css('display', 'inline')
-}
+  }
 
-if (current.config.battery_capacity) {
+  if (current.scenario.battery.capacity > 0) {
     $("#battery-true").css('display', 'inline')
     // Get current Battery capacity
-    $("#currentBatteryCapacity").replaceWith(getImprovementInfo('battery_capacity', current.config.battery_capacity));
-} else {
+    $("#currentBatteryCapacity").replaceWith(getImprovementInfo('battery_capacity', current.scenario.battery.capacity));
+  } else {
     $("#battery-false").css('display', 'inline')
-}
+  }
 
-  if (current.config.sems) {
+  if (current.scenario.sems === true) {
     $("#sems-true").css('display', 'inline')
   } else {
     $("#sems-false").css('display', 'inline')
   }
 
-  if (current.config.heating_system_type) {
+  if (current.scenario.boiler.type !== null) {
     $("#boiler-true").css('display', 'inline')
     // Get current heating system
-    $("#currentBoilerType").replaceWith(getImprovementInfo('boiler_type', current.config.heating_system_type));
+    $("#currentBoilerType").replaceWith(getImprovementInfo('boiler_type', current.scenario.boiler.type));
   } else {
     $("#boiler-false").css('display', 'inline')
   }
 
-  if (current.config.building_renovation) {
+  if (current.scenario.building.renovated === true) {
     $("#renovation-true").css('display', 'inline')
   } else {
     $("#renovation-false").css('display', 'inline')
   }
 
-  let energyData = current.energy_data;
-  $("#totalDemand-placeholder").replaceWith(energyData.energy_demand);
-  $("#totalSupply-placeholder").replaceWith(energyData.energy_generate);
-  createCurrentEnergyChart(energyData);
+  $("#totalDemand-placeholder").replaceWith(current.energy_data.energy_demand);
+  $("#totalSupply-placeholder").replaceWith(current.energy_data.energy_generate);
+  createCurrentEnergyChart(current.energy_data);
 
   // get cookie value selected=<value>
-  let selected = document.cookie.split(';').find(row => row.startsWith('selection=')).split('=')[1];
-  let simuEnergyData = data.recommendation[selected].energy_data;
-  let simuConfig = data.recommendation[selected].config;
-  $("#totalSimuDemand-placeholder").replaceWith(simuEnergyData.energy_demand);
-  $("#totalSimuSupply-placeholder").replaceWith(simuEnergyData.energy_generate);
-  $("#totalSimuCost-placeholder").replaceWith(simuEnergyData.energy_bill_year);
-  $("#investmentSimuCost-placeholder").replaceWith(data.recommendation[selected].investment_cost);
-  createSimuEnergyChart(simuEnergyData);
+  $("#totalSimuDemand-placeholder").replaceWith(selected.energy_data.energy_demand);
+  $("#totalSimuSupply-placeholder").replaceWith(selected.energy_data.energy_generate);
+  $("#totalSimuCost-placeholder").replaceWith(selected.energy_data.energy_bill_year);
+  $("#investmentSimuCost-placeholder").replaceWith(investment_cost);
+  createSimuEnergyChart(selected.energy_data);
 
   // Get simulated configuration
-  if (simuConfig.pv_size !== 0) {
+  if (selected.scenario.pv.size !== 0) {
     $("#pv_exist").prop('checked', true);
-    $("#pv_size").val(simuConfig.pv_size).change();
+    $("#pv_size").val(selected.scenario.pv.size).change();
   }
 
-  if (simuConfig.battery_exist !== 0) {
+  if (selected.scenario.battery_exist !== 0) {
     $("#battery_exist").prop('checked', true);
-    $("#battery_capacity").val(simuConfig.battery_capacity).change();
+    $("#battery_capacity").val(selected.scenario.battery_capacity).change();
   }
 
-  if (simuConfig.sems_exist !== 0) {
+  if (selected.scenario.sems !== 0) {
     $("#sems_exist").prop('checked', true);
   }
 
-  if (simuConfig.heating_system_type !== 0) {
+  if (selected.scenario.boiler.type !== 0) {
     $("#boiler_exist").prop('checked', true);
-    $("#boiler_type").val(simuConfig.heating_system_type).change();
+    $("#boiler_type").val(selected.scenario.boiler.type).change();
   }
 
-  if (simuConfig.building_renovation !== 0) {
+  if (selected.scenario.building.renovated !== 0) {
     $("#building_renovation").prop('checked', true);
   }
 
@@ -121,8 +116,8 @@ if (current.config.battery_capacity) {
   const perBattery = 41;
 
   // Retrieve the input values
-  let pv_size = simuConfig.pv_size;
-  let battery_capacity = simuConfig.battery_capacity;
+  let pv_size = selected.scenario.pv.size;
+  let battery_capacity = selected.scenario.battery.capacity;
 
   // Perform the calculation
   let annucostPV = parseFloat(perPV) * parseFloat(pv_size);
@@ -133,7 +128,7 @@ if (current.config.battery_capacity) {
   document.getElementById("capBattery").innerHTML = battery_capacity;
   document.getElementById("annucostPV").innerHTML = annucostPV;
   document.getElementById("annucostBattery").innerHTML = annucostBattery;
-  
+
 }
 
 
@@ -318,9 +313,9 @@ function retrieveNewSurvey() {
     var boiler_exist = 'false';
   }
   if (renovationExist) {
-    var building_innovation = 'true';
+    var building_renovated = 'true';
   } else {
-    var building_innovation = 'false';
+    var building_renovated = 'false';
   }
 
   var pv_size = document.getElementById("pv_size").value;
@@ -336,36 +331,115 @@ function retrieveNewSurvey() {
     sems_exist: sems_exist,
     boiler_exist: boiler_exist,
     boiler_type: boiler_type,
-    building_innovation: building_innovation
+    building_renovated: building_renovated
   };
 
   // Convert the JavaScript object to JSON
   var newJson = JSON.stringify(newSurvey);
 
-  console.log(newJson);
+  // Send the data using pos
+  $.ajax({
+    url: '/api/v1/survey_scenario',
+    type: 'POST',
+    contentType: 'application/json',
+    data: newJson,
+    dataType: 'json'
+  }).then(function (data) {
+    let id = data.id;
+    // Set cookie
+    document.cookie = "selected_id=" + id;
+    document.cookie = "selected_sems=" + sems_exist;
+  });
 }
-
-
-export { handleResult, initChart, retrieveNewSurvey }
-
 
 // Add configuration detail
-function getImprovementInfo(key, value)
-{
-    if (key == 'pv_size') 
-    {
-        return ' (' + value + 'kWp)'
-    }
-    else if (key == 'battery_capacity')
-    {
-        return ' (' + value + 'kWh)'
-    }
-    else if (key == 'boiler_type')
-    {
-        return ' (' + value + ')'
-    }
-    else
-    {
-        return ''
-    }
+function getImprovementInfo(key, value) {
+  if (key == 'pv_size') {
+    return ' (' + value + 'kWp)'
+  }
+  else if (key == 'battery_capacity') {
+    return ' (' + value + 'kWh)'
+  }
+  else if (key == 'boiler_type') {
+    return ' (' + value + ')'
+  }
+  else {
+    return ''
+  }
 }
+
+function updateData() {
+  // get cookie value selected=<value>
+  let my_scenario = document.cookie.split('; ').find(row => row.startsWith('my_scenario')).split('=')[1];
+  let my_sems = document.cookie.split('; ').find(row => row.startsWith('my_sems')).split('=')[1];
+  let selected_id = document.cookie.split('; ').find(row => row.startsWith('selected_id')).split('=')[1];
+  let selected_sems = document.cookie.split('; ').find(row => row.startsWith('selected_sems')).split('=')[1];
+  let selected_investment_cost = document.cookie.split('; ').find(row => row.startsWith('selected_investment_cost')).split('=')[1];
+  $.when(
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/scenario",
+      data: {
+        'id': my_scenario
+      }
+    }),
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/energy_cost",
+      data: {
+        'id': my_scenario,
+        'sems': my_sems
+      }
+    }),
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/energy_data",
+      data: {
+        'id': my_scenario,
+        'sems': my_sems
+      }
+    }),
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/scenario",
+      data: {
+        'id': selected_id
+      }
+    }),
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/energy_cost",
+      data: {
+        'id': selected_id,
+        'sems': selected_sems
+      }
+    }),
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/energy_data",
+      data: {
+        'id': selected_id,
+        'sems': selected_sems
+      }
+    })
+  ).done(function (
+    my_scenario_res,
+    my_energy_cost_res, my_energy_data_res,
+    selected_scenario_res,
+    selected_energy_cost_res,
+    selected_energy_data_res) {
+    let current = {};
+    current.scenario = JSON.parse(my_scenario_res[0]);
+    current.scenario.sems = my_sems;
+    current.energy_cost = JSON.parse(my_energy_cost_res[0]);
+    current.energy_data = JSON.parse(my_energy_data_res[0]);
+    let selected = {};
+    selected.scenario = JSON.parse(selected_scenario_res[0]);
+    selected.scenario.sems = selected_sems;
+    selected.energy_cost = JSON.parse(selected_energy_cost_res[0]);
+    selected.energy_data = JSON.parse(selected_energy_data_res[0]);
+    handleResult(current, selected, selected_investment_cost);
+  });
+}
+
+export { updateData, initChart, retrieveNewSurvey }

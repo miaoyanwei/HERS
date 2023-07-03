@@ -133,7 +133,9 @@ export function handleResult(energy_cost, recommendation, scenario) {
         rec_list.forEach((item, index) => {
             document.querySelector('#btn-detail-' + index).addEventListener('click',
                 function () {
-                    document.cookie = "selection=" + JSON.stringify(index);
+                    document.cookie = "selected_id=" + JSON.stringify(item.id);
+                    document.cookie = "selected_sems=" + JSON.stringify(item.config.sems);
+                    document.cookie = "selected_investment_cost=" + JSON.stringify(item.investment_cost);
                     window.location.href = '/html/simulation.html';
                 });
         });
