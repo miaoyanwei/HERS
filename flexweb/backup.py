@@ -6,17 +6,21 @@ import pandas as pd
 import sqlite3
 from copy import copy
 from flexweb.result import Result
-from flexweb.repository.pandas_sql.repository import Repository
-from flexweb.api.controller import Controller as ApiController
 
 DATABASE = "FLEX.sqlite"
 
 
-def get_api():
-    api = getattr(g, "api", None)
-    if api is None:
-        api = ApiController(Repository(sqlite3.connect(DATABASE)))
-    return api
+def get_db():
+    db = getattr(g, "db", None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+
+
+def close_db(exception):
+    db = getattr(g, "db", None)
+    if db is not None:
+        db.close()
 
 
 def create_app(test_config=None):
@@ -40,6 +44,10 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    @app.teardown_appcontext
+    def teardown_db(exception):
+        close_db(exception)
+
     @app.route("/", methods=["GET"])
     def index():
         return send_from_directory("../static", "index.html")
@@ -48,56 +56,22 @@ def create_app(test_config=None):
     def html(path):
         return send_from_directory("../static", path)
 
-    @app.route("/api/v1/scenario", methods=["POST"])
-    def post_scenario():
-        doc = get_api().handle("v1", "POST", "scenario", request.json)
-        print(doc)
-        return doc
+    @app.route("/api/v1/my_scenario", methods=["POST"])
+    def my_scenario():
+        print("body: " + request.json.__str__())
+        new_json = map_json(request.json)
+        print(new_json)
+        scenario_id = get_scenario_id(new_json)
+        sems = get_sems(new_json)
 
-    @app.route("/api/v1/survey_scenario", methods=["POST"])
-    def post_survey_scenario():
-        json = map_json(request.json)
-        print(json)
-        doc = get_api().handle("v1", "POST", "scenario", json)
-        print(doc)
-        return doc
+        print("scenario_id: {}".format(scenario_id))
+        session["scenario_id"] = scenario_id.item()
+        session["sems"] = sems
+        return "OK"
 
-    @app.route("/api/v1/scenario", methods=["GET"])
-    def get_scenario():
-        doc = get_api().handle("v1", "GET", "scenario", {"id": request.args.get("id")})
-        print(doc)
-        return json.dumps(doc)
-
-    @app.route("/api/v1/energy_data", methods=["GET"])
-    def get_energy_data():
-        doc = get_api().handle(
-            "v1",
-            "GET",
-            "energy_data",
-            {"id": int(request.args.get("id")), "sems": request.args.get("sems")},
-        )
-        print(doc)
-        return json.dumps(doc)
-
-    @app.route("/api/v1/energy_cost", methods=["GET"])
-    def get_energy_cost():
-        doc = get_api().handle(
-            "v1",
-            "GET",
-            "energy_cost",
-            {"id": int(request.args.get("id")), "sems": request.args.get("sems")},
-        )
-        print(doc)
-        return json.dumps(doc)
-
-    @app.route("/api/v1/recommendation", methods=["GET"])
-    def get_recommendation():
-        doc = get_api().handle(
-            "v1",
-            "GET",
-            "recommendation",
-            {"id": int(request.args.get("id")), "sems": request.args.get("sems")},
-        )
+    @app.route("/api/v1/result", methods=["GET"])
+    def result():
+        doc = Result(get_db(), session["scenario_id"], session["sems"]).get_data()
         print(doc)
         return json.dumps(doc)
 
@@ -126,10 +100,8 @@ def map_json(data):
                 new_json[category][variable] = value
             elif variable == "construction":
                 years = value.split("-")
-                new_json[category]["construction_period_start"] = years[0]
-                new_json[category]["construction_period_end"] = years[1]
-            elif variable == "person":
-                new_json[category]["person_num"] = value
+                new_json[category]["range_begin"] = years[0]
+                new_json[category]["range_end"] = years[1]
             else:
                 new_json[category][variable] = value
     return new_json
