@@ -34,7 +34,7 @@ export function handleResult(energy_cost, recommendation, scenario) {
     if (scenario.pv.size) {
         $("#pv-true").css('display', 'inline')
         // Get current PV size
-        $("#currentPVSize").replaceWith(getImprovementInfo('pv_size', scenario.pv));
+        $("#currentPVSize").replaceWith(getImprovementInfo('pv', scenario.pv));
     } else {
         $("#pv-false").css('display', 'inline')
     }
@@ -42,7 +42,7 @@ export function handleResult(energy_cost, recommendation, scenario) {
     if (scenario.battery.capacity) {
         $("#battery-true").css('display', 'inline')
         // Get current Battery capacity
-        $("#currentBatteryCapacity").replaceWith(getImprovementInfo('battery_capacity', scenario.battery));
+        $("#currentBatteryCapacity").replaceWith(getImprovementInfo('battery', scenario.battery));
     } else {
         $("#battery-false").css('display', 'inline')
     }
@@ -103,7 +103,7 @@ export function handleResult(energy_cost, recommendation, scenario) {
                 if (key === 'region')
                     continue
                 let value = item.config[key]
-                if (scenario[key] !== value) {
+                if (JSON.stringify(scenario[key]) !== JSON.stringify(value)) {
                     let config = '<div class="card-content config">'
                         + improvement.get(key)
                         + getImprovementInfo(key, value)
@@ -149,10 +149,10 @@ export function handleResult(energy_cost, recommendation, scenario) {
 
 // Add configuration detail of PV and Battery
 function getImprovementInfo(key, value) {
-    if (key == 'pv_size') {
+    if (key == 'pv') {
         return ' (' + value.size + 'kWp)'
     }
-    else if (key == 'battery_capacity') {
+    else if (key == 'battery') {
         return ' (' + value.capacity + 'kWh)'
     }
     else {
