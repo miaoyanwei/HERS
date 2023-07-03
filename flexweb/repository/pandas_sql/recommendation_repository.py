@@ -206,9 +206,7 @@ class _Improvement:
             comp = self.__current_scenario.get_components()[key]
             if value.equals(comp):
                 self.__investment_cost += comp.get_cost()
-        if self.__sems:
-            self.__investment_cost += 96
-        self.value = self.__current_cost - self.__energy_cost
+        self.__value = self.__current_cost - self.__energy_cost
 
     def get_value(self) -> int:
         return self.__value
