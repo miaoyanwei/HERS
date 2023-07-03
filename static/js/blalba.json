@@ -1,0 +1,49 @@
+
+```json
+{
+    "battery": {
+        "capacity": 20
+    }, 
+    "building": {
+        "construction_period_start": 1880, 
+        "construction_period_end": 1948, 
+        "renovated": true, 
+        "person_num": 3
+        }, 
+    "pv": {
+        "size": 10
+    }, 
+    "boiler": {
+        "type": "Air_HP"
+        }, 
+    "region": {
+        "code": "DE"
+        }
+    }
+}
+```
+
+
+```json
+{
+    "battery": {
+        "capacity": <int>
+    }, 
+    "building": {
+        "construction_period_start": <int>, 
+        "construction_period_end": <int>, 
+        "renovated": <bool>, 
+        "person_num": <int>
+        }, 
+    "pv": {
+        "size": <int>
+    }, 
+    "boiler": {
+        "type": <string> ("Air_HP")
+        }, 
+    "region": {
+        "code": <string> ("DE")
+        }
+    }
+}
+```

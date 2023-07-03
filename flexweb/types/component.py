@@ -60,7 +60,7 @@ class Battery:
 
     @staticmethod
     def from_dict(dict: dict):
-        return Battery(dict["capacity"])
+        return Battery(dict.get("capacity", 0))
 
 
 class Building:
@@ -132,7 +132,7 @@ class PV:
 
     @staticmethod
     def from_dict(dict: dict):
-        return PV(size=dict["size"])
+        return PV(size=dict.get("size", 0))
 
 
 class Region:

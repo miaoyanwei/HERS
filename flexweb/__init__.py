@@ -56,6 +56,7 @@ def create_app(test_config=None):
 
     @app.route("/api/v1/survey_scenario", methods=["POST"])
     def post_survey_scenario():
+        print(request.json)
         json = map_json(request.json)
         print(json)
         doc = get_api().handle("v1", "POST", "scenario", json)

@@ -43,7 +43,6 @@ class RecommendationRepository(BaseRecommendationRepository):
         candidates = finder.get_candidates()
         for id in candidates:
             candidate_scenario = self.__scenario_repository.get_scenario_by_id(id)
-            print(candidate_scenario.to_dict())
             improvements.append(
                 _Improvement(
                     self.__db,
@@ -71,7 +70,7 @@ class RecommendationRepository(BaseRecommendationRepository):
                         yearly_bill,
                     )
                 )
-        
+
         # Remove impromments with no benefit
         improvements = list(filter(lambda x: x.get_benefit() > 0, improvements))
         if len(improvements) == 0:
@@ -91,7 +90,7 @@ class RecommendationRepository(BaseRecommendationRepository):
         )
 
         # Get Lowest energy bill
-        improvements.sort(key=lambda x: x.get_value(), reverse=True)
+        improvements.sort(key=lambda x: x.get_value())
         best = improvements[0]
         recommendations[best.get_scenario_id()] = Recommendation(
             best.get_scenario(),
@@ -173,7 +172,6 @@ class _CandidateFinder:
         for key, value in stagedImpr.items():
             query += key + "<=" + str(value) + " and "
         query = query[:-5]
-        print(query)
         self.canditates = pd.read_sql(query, con=self.db)["ID_Scenario"].values
 
     def get_candidates(self) -> list:
@@ -204,8 +202,10 @@ class _Improvement:
     def init(self) -> None:
         for key, value in self.__scenario.get_components().items():
             comp = self.__current_scenario.get_components()[key]
-            if value.equals(comp):
-                self.__investment_cost += comp.get_cost()
+            if not value.equals(comp):
+                self.__investment_cost += value.get_cost()
+        if self.__sems:
+            self.__investment_cost += 96
         self.__value = self.__current_cost - self.__energy_cost
 
     def get_value(self) -> int:

@@ -56,7 +56,7 @@ class RecommendationList:
 
     def to_dict(self) -> dict:
         return {
-            "recommendations": [
-                recommendation.to_dict() for recommendation in self.__recommendations
+            "list": [
+                r.to_dict() for r in self.__recommendations
             ],
         }

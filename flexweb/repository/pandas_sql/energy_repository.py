@@ -60,5 +60,5 @@ class EnergyRepository(BaseEnergyRepository):
         if len(rows) == 0:
             return None
         return CostData(
-            yearly_bill=int(rows.iloc[0]["TotalCost"])
+            yearly_bill=int(rows.iloc[0]["TotalCost"] / 100)
         )

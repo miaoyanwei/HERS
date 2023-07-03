@@ -30,7 +30,7 @@ class Scenario:
 
     def get_region(self) -> Region:
         return self.__region
-    
+
     def equals(self, other) -> bool:
         if not isinstance(other, Scenario):
             return False
@@ -50,7 +50,7 @@ class Scenario:
             "boiler": self.__boiler.to_dict(),
             "region": self.__region.to_dict(),
         }
-    
+
     def get_component_by_name(self, name: str):
         if name == "battery":
             return self.__battery
@@ -73,13 +73,13 @@ class Scenario:
             "boiler": self.__boiler,
             "region": self.__region,
         }
-    
+
     @staticmethod
     def from_dict(dict: dict):
         return Scenario(
-            battery=Battery.from_dict(dict["battery"]),
+            battery=Battery.from_dict(dict.get("battery", {})),
             building=Building.from_dict(dict["building"]),
-            pv=PV.from_dict(dict["pv"]),
+            pv=PV.from_dict(dict.get("pv", {})),
             boiler=Boiler.from_dict(dict["boiler"]),
             region=Region.from_dict(dict["region"]),
         )
