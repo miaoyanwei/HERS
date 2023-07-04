@@ -57,6 +57,7 @@ class ScenarioRepository(BaseScenarioRepository):
         )
 
     def get_id_by_scenario(self, scenario: Scenario) -> Optional[int]:
+        print(scenario.to_dict())
         battery_capacity: int = int(scenario.get_battery().get_capacity()) * 1000
         rows = pd.read_sql(
             "select "

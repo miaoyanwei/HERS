@@ -92,14 +92,12 @@ function handleResult(current, selected, investment_cost) {
     $("#pv_size").val(selected.scenario.pv.size).change();
   }
 
-  if (selected.scenario.battery_exist !== 0) {
+  if (selected.scenario.battery.capacity !== 0) {
     $("#battery_exist").prop('checked', true);
-    $("#battery_capacity").val(selected.scenario.battery_capacity).change();
+    $("#battery_capacity").val(selected.scenario.battery.capacity).change();
   }
 
-  if (selected.scenario.sems !== 0) {
-    $("#sems_exist").prop('checked', true);
-  }
+  $("#sems_exist").prop('checked', selected.scenario.sems);
 
   if (selected.scenario.boiler.type !== 0) {
     $("#boiler_exist").prop('checked', true);
@@ -293,33 +291,33 @@ function retrieveNewSurvey() {
   var renovationExist = document.getElementById("building_renovation").checked;
 
   if (pvExist) {
-    var pv_exist = 'true';
+    var pv_exist = true;
   } else {
-    var pv_exist = 'false';
+    var pv_exist = false;
   }
   if (batteryExist) {
-    var battery_exist = 'true';
+    var battery_exist = true;
   } else {
-    var battery_exist = 'false';
+    var battery_exist = false;
   }
   if (semsExist) {
-    var sems_exist = 'true';
+    var sems_exist = true;
   } else {
-    var sems_exist = 'false';
+    var sems_exist = false;
   }
   if (boilerExist) {
-    var boiler_exist = 'true';
+    var boiler_exist = true;
   } else {
-    var boiler_exist = 'false';
+    var boiler_exist = false;
   }
   if (renovationExist) {
-    var building_renovated = 'true';
+    var building_renovated = true;
   } else {
-    var building_renovated = 'false';
+    var building_renovated = false;
   }
 
-  var pv_size = document.getElementById("pv_size").value;
-  var battery_capacity = document.getElementById("battery_capacity").value;
+  var pv_size = parseInt(document.getElementById("pv_size").value);
+  var battery_capacity = parseInt(document.getElementById("battery_capacity").value);
   var boiler_type = document.getElementById("boiler_type").value;
 
   // Create a JavaScript object with the collected form data
@@ -334,21 +332,43 @@ function retrieveNewSurvey() {
     building_renovated: building_renovated
   };
 
-  // Convert the JavaScript object to JSON
-  var newJson = JSON.stringify(newSurvey);
+  let my_scenario_id = document.cookie.split('; ').find(row => row.startsWith('my_scenario')).split('=')[1];
 
-  // Send the data using pos
+  // retrieve my scenario
   $.ajax({
-    url: '/api/v1/survey_scenario',
-    type: 'POST',
-    contentType: 'application/json',
-    data: newJson,
-    dataType: 'json'
+    url: '/api/v1/scenario',
+    type: 'GET',
+    data: {
+      id: my_scenario_id
+    },
   }).then(function (data) {
-    let id = data.id;
+    let scenario = JSON.parse(data);
+    if (newSurvey.pv_exist == true) {
+      scenario.pv.size = newSurvey.pv_size;
+    }
+    if (newSurvey.battery_exist == true) {
+      scenario.battery.capacity = newSurvey.battery_capacity;
+    }
+    if (newSurvey.boiler_exist == true) {
+      scenario.boiler.type = newSurvey.boiler_type;
+    }
+    scenario.building.renovated = newSurvey.building_renovated;
+    // Convert the JavaScript object to JSON
+    let newJson = JSON.stringify(scenario);
+    return $.ajax({
+      url: '/api/v1/scenario',
+      type: 'POST',
+      contentType: 'application/json',
+      data: newJson,
+      dataType: 'json'
+    })
+  }).then(function (data) {
     // Set cookie
-    document.cookie = "selected_id=" + id;
+    document.cookie = "selected_id=" + data.id;
     document.cookie = "selected_sems=" + sems_exist;
+  }).then(function () {
+    // Update data
+    updateData();
   });
 }
 
