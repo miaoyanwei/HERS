@@ -1,5 +1,5 @@
 from .scenario import Scenario
-from enum import StrEnum
+from strenum import StrEnum
 
 
 class RecommendationType(StrEnum):
