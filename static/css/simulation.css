@@ -11,6 +11,7 @@
 #subtitle {
     font-family: 'Lato', sans-serif;
     font-weight: bold;
+    color: #222;
 }
 
 
@@ -190,6 +191,7 @@ hr {
     .accordion-item h2 {
         font-family: 'Lato', sans-serif;
         margin-top: 0;
+        color: #222;
     }
 
     .form-check {

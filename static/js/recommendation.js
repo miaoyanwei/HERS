@@ -81,14 +81,16 @@ export function handleResult(energy_cost, recommendation, scenario) {
         rec_list.forEach((item, index) => {
             var entry = '<div class="col-md-6">'
                 + '<div class="card h-100 improved">'
-                + '<em id="recTag">CURRENT</em>'
+                + '<em id="recTag">'
+                + item.type
+                + '</em>'
                 + '<div class="card-body">'
                 + '<h2 id="recSave">Save <span>&#8364;</span><span id="savedcost-placeholder"></span>'
                 + (energy_cost.yearly_bill - item.yearly_bill)
                 + '<span style="font-size: 16px; font-weight: normal;"> / year</span></h2>'
                 + '<small>If the following configurations are applied, the annual energy bill is estimated to be <span>&#8364;</span><span id="totalcost-placeholder"></span>'
                 + item.yearly_bill
-                + '</small>'
+                + '<br></small>'
                 + '<button class="btn btn-outline-dark" id="btn-detail-'
                 + index
                 + '">More details '
@@ -127,7 +129,9 @@ export function handleResult(energy_cost, recommendation, scenario) {
             entry += confightml
 
             reclisthtml += entry
+
         });
+
         $("#recommandation-list").html(reclisthtml)
         rec_list.forEach((item, index) => {
             document.querySelector('#btn-detail-' + index).addEventListener('click',
@@ -138,12 +142,14 @@ export function handleResult(energy_cost, recommendation, scenario) {
                     window.location.href = '/html/simulation.html';
                 });
         });
+        
     } else {
 
 
         // Hide withRec text
         $("#withRec").hide()
         $("#withoutRec").show()
+
     }
 }
 
