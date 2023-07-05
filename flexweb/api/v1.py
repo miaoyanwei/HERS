@@ -31,7 +31,6 @@ class V1:
         return self.__handlers[endpoint]
 
     def energy_data(self, method: str, data: dict) -> Optional[dict]:
-        # Returns the energy data of the scenario id
         if method == "GET":
             data = self.__repository.get_energy_repository().get_energy_data_by_id(
                 data["id"], _str_to_bool(data["sems"])
@@ -66,7 +65,6 @@ class V1:
             return "Method Not Allowed", 405
 
     def scenario(self, method: str, data: dict) -> Optional[dict]:
-        print("Mehod: ", method)
         if method == "GET":
             scenario = self.__repository.get_scenario_repository().get_scenario_by_id(
                 data["id"]
