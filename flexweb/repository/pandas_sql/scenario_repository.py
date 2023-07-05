@@ -40,7 +40,6 @@ class ScenarioRepository(BaseScenarioRepository):
         if len(rows) == 0:
             return None
         row = rows.iloc[0]
-        print(row)
         return Scenario(
             pv=PV(size=int(row["pv_size"])),
             battery=Battery(capacity=int(row["battery_capacity"] / 1000)),
@@ -57,7 +56,6 @@ class ScenarioRepository(BaseScenarioRepository):
         )
 
     def get_id_by_scenario(self, scenario: Scenario) -> Optional[int]:
-        print(scenario.to_dict())
         battery_capacity: int = int(scenario.get_battery().get_capacity()) * 1000
         rows = pd.read_sql(
             "select "
