@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, session, request, g, send_from_directory
-import json
+import logging
 import pandas as pd
 import sqlite3
 from copy import copy
@@ -18,20 +18,16 @@ def get_api():
     return api
 
 
-def create_app(test_config=None):
+def create_app():
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY="dev",
         DATABASE=os.path.join(app.instance_path, "flaskr.sqlite"),
     )
-
-    if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile("config.py", silent=True)
-    else:
-        # load the test config if passed in
-        app.config.from_mapping(test_config)
+    app.logger.addHandler(logging.FileHandler(filename='flexweb.log', encoding='utf-8', maxBytes=4 * 1000 * 1000))
+    app.logger.setLevel(logging.DEBUG)
+    app.logger.info('Flexweb started')
 
     # ensure the instance folder exists
     try:
@@ -49,12 +45,22 @@ def create_app(test_config=None):
 
     @app.route("/api/<version>/<endpoint>", methods=["GET", "POST"])
     def api(version, endpoint):
-        print("Method is", request.method)
-        doc = get_api().version(version).endpoint(endpoint)(request.method, get_request_payload(request))
-        print(doc)
+        app.logger.debug(f"API request: {version}/{endpoint}")
+        app.logger.debug(f"Method: {request.method}")
+        app.logger.debug(f"Payload: {get_request_payload(request)}")
+        app.logger.debug(f"--------------------------")
+
+        doc = (
+            get_api()
+            .version(version)
+            .endpoint(endpoint)(request.method, get_request_payload(request))
+        )
+        
+        app.logger.debug(f"Response: {doc}")
         return doc
 
     return app
+
 
 def get_request_payload(request) -> dict:
     if request.method == "GET":
