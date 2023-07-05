@@ -87,7 +87,7 @@ class ScenarioRepository(BaseScenarioRepository):
             "building.construction_period_end="
             + str(scenario.get_building().get_construction_period()[1])
             + " and "
-            + "MOD(scenario.ID_Building,2)="
+            + "scenario.ID_Building%2="
             + str(1 if scenario.get_building().get_renovated() else 0)
             + " and "
             "region.code='" + str(scenario.get_region().get_code()) + "'",
