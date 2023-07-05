@@ -298,6 +298,7 @@ function createSimuEnergyChart(energyData) {
 // Retrieve new survey
 
 function retrieveNewSurvey() {
+  $(window).scrollTop(0);
   var pvExist = document.getElementById("pv_exist").checked;
   var batteryExist = document.getElementById("battery_exist").checked;
   var semsExist = document.getElementById("sems_exist").checked;
