@@ -34,7 +34,7 @@
 function handleResult(current, selected, investment_cost) {
 
   // Get current total cost
-  $("#totalcost-placeholder").replaceWith(current.energy_cost.yearly_bill);
+  $("#totalcost-placeholder").html(current.energy_cost.yearly_bill);
 
 
   // Get check or uncheck icons
@@ -42,7 +42,7 @@ function handleResult(current, selected, investment_cost) {
   if (current.scenario.pv.size > 0) {
     $("#pv-true").css('display', 'inline')
     // Get current PV size
-    $("#currentPVSize").replaceWith(getImprovementInfo('pv_size', current.scenario.pv.size));
+    $("#currentPVSize").html(getImprovementInfo('pv_size', current.scenario.pv.size));
   } else {
     $("#pv-false").css('display', 'inline')
   }
@@ -50,7 +50,7 @@ function handleResult(current, selected, investment_cost) {
   if (current.scenario.battery.capacity > 0) {
     $("#battery-true").css('display', 'inline')
     // Get current Battery capacity
-    $("#currentBatteryCapacity").replaceWith(getImprovementInfo('battery_capacity', current.scenario.battery.capacity));
+    $("#currentBatteryCapacity").html(getImprovementInfo('battery_capacity', current.scenario.battery.capacity));
   } else {
     $("#battery-false").css('display', 'inline')
   }
@@ -64,7 +64,7 @@ function handleResult(current, selected, investment_cost) {
   if (current.scenario.boiler.type !== null) {
     $("#boiler-true").css('display', 'inline')
     // Get current heating system
-    $("#currentBoilerType").replaceWith(getImprovementInfo('boiler_type', current.scenario.boiler.type));
+    $("#currentBoilerType").html(getImprovementInfo('boiler_type', current.scenario.boiler.type));
   } else {
     $("#boiler-false").css('display', 'inline')
   }
@@ -79,16 +79,19 @@ function handleResult(current, selected, investment_cost) {
   if (current.scenario.boiler.type !== "Air_HP") {
     $("#curNotHP").css('display', 'block')
   }
+  else {
+    $("#curNotHP").css('display', 'none')
+  }
 
-  $("#totalDemand-placeholder").replaceWith(current.energy_data.total_demand);
-  $("#totalSupply-placeholder").replaceWith(current.energy_data.total_generate);
+  $("#totalDemand-placeholder").html(current.energy_data.total_demand);
+  $("#totalSupply-placeholder").html(current.energy_data.total_generate);
   createCurrentEnergyChart(current.energy_data);
 
   // get cookie value selected=<value>
-  $("#totalSimuDemand-placeholder").replaceWith(selected.energy_data.total_demand);
-  $("#totalSimuSupply-placeholder").replaceWith(selected.energy_data.total_generate);
-  $("#totalSimuCost-placeholder").replaceWith(selected.energy_cost.yearly_bill);
-  $("#investmentSimuCost-placeholder").replaceWith(investment_cost);
+  $("#totalSimuDemand-placeholder").html(selected.energy_data.total_demand);
+  $("#totalSimuSupply-placeholder").html(selected.energy_data.total_generate);
+  $("#totalSimuCost-placeholder").html(selected.energy_cost.yearly_bill);
+  $("#investmentSimuCost-placeholder").html(investment_cost);
   createSimuEnergyChart(selected.energy_data);
 
   // Get simulated configuration
@@ -109,13 +112,13 @@ function handleResult(current, selected, investment_cost) {
     $("#boiler_type").val(selected.scenario.boiler.type).change();
   }
 
-  if (selected.scenario.building.renovated !== 0) {
-    $("#building_renovation").prop('checked', true);
-  }
+  $("#building_renovation").prop('checked', selected.scenario.building.renovated !== 0);
 
   // Show text if heating system is not heat pump
   if (selected.scenario.boiler.type !== "Air_HP") {
     $("#simuNotHP").css('display', 'block')
+  } else {
+    $("#simuNotHP").css('display', 'none')
   }
 
 
@@ -132,10 +135,10 @@ function handleResult(current, selected, investment_cost) {
   let annucostBattery = parseFloat(perBattery) * parseFloat(battery_capacity);
 
   // Update the HTML with the result
-  document.getElementById("sizePV").innerHTML = pv_size;
-  document.getElementById("capBattery").innerHTML = battery_capacity;
-  document.getElementById("annucostPV").innerHTML = annucostPV;
-  document.getElementById("annucostBattery").innerHTML = annucostBattery;
+  $("#sizePV").html(pv_size);
+  $("#capBattery").html(battery_capacity);
+  $("#annucostPV").html(annucostPV);
+  $("#annucostBattery").html(annucostBattery);
 
 }
 
