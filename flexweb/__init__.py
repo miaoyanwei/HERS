@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, session, request, g, send_from_directory
 import logging
+from logging.handlers import RotatingFileHandler
 import pandas as pd
 import sqlite3
 from copy import copy
@@ -25,9 +26,13 @@ def create_app():
         SECRET_KEY="dev",
         DATABASE=os.path.join(app.instance_path, "flaskr.sqlite"),
     )
-    app.logger.addHandler(logging.FileHandler(filename='flexweb.log', encoding='utf-8', maxBytes=4 * 1000 * 1000))
+    app.logger.addHandler(
+        RotatingFileHandler(
+            filename="flexweb.log", encoding="utf-8", maxBytes=4 * 1000 * 1000, backupCount=2
+        )
+    )
     app.logger.setLevel(logging.DEBUG)
-    app.logger.info('Flexweb started')
+    app.logger.info("Flexweb started")
 
     # ensure the instance folder exists
     try:
@@ -55,7 +60,7 @@ def create_app():
             .version(version)
             .endpoint(endpoint)(request.method, get_request_payload(request))
         )
-        
+
         app.logger.debug(f"Response: {doc}")
         return doc
 
