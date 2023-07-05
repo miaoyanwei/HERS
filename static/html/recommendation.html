@@ -16,7 +16,7 @@
     <link href="https://unpkg.com/survey-jquery@1.9.83/defaultV2.css" type="text/css" rel="stylesheet"/>
 
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/result.css" />
+    <link rel="stylesheet" href="../css/recommendation.css" />
     
     <!-- JQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -26,28 +26,29 @@
 
     <div id="darknav-placeholder"></div>
 
-    <main id="content">
+    <main>
+
         <div class="container">
-            <div class="row">
+            <div class="row g-5">
 
                 <!-- Current-->
                 <div class="col-md-4">
 
                     <h2>Current</h2>
-                    <p>
-                        <i class="bi bi-geo-alt"></i>Germany<br>
-                        <i class="bi bi-person"></i><span id="personNumber-placeholder"></span> people household
-                    </p>
+                    <div class="explainText">
+                        <p id="profileData">
+                            <i class="bi bi-geo-alt"></i>Germany<br>
+                            <i class="bi bi-person"></i><span id="personNumber-placeholder"></span> people household
+                        </p>
+                    </div>
 
                     <!-- current card-->
-                    <div class="current">
+                    <div class="card current">
                         <em>CURRENT</em>
-                        <p>Your current energy bill is</p>
-                        <h2 class="bill"><span>&#8364;</span><span id="totalcost-placeholder"></span><span style="font-size: 16px; font-weight: normal; color: #717171;"> / year</span></h2>
+                        <small style="margin-top: 8px;">Your current energy bill is</small>
+                        <h2 class="bill" style="margin-bottom: 0;"><span>&#8364;</span><span id="totalcost-placeholder"></span><span style="font-size: 16px; font-weight: normal; color: #222;"> / year</span></h2>
                         <button type="button" class="btn btn-outline-dark" onclick="window.location.href='simulation.html';">More details 
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
-                            </svg>
+                            <i class="bi bi-arrow-right"></i>
                         </button>
                         <div class="config">
                             <i class="bi bi-check2" id="pv-true"></i><i class="bi bi-x" id="pv-false"></i>PV system <span id="currentPVSize"></span><br>
@@ -73,11 +74,13 @@
 
                 <!-- Recommendations-->
                 <div class="col-md-8">
-                    <h2>Recommended configurations</h2>
-                    <p id="withRec">Follwings are energy configurations available for your house that may lower future energy costs and improve energy efficiency.</p>
-                    <p id="withoutRec">It seems that your home energy system is already very technically economical and we do not have a recommendation that may lower future energy costs for you at the moment. You can also see how different configurations will affect your house's energy consumption by manually customising your home energy system using our service.</p>
-                    
-                    <div class="row g-4" id="recommandation-list">
+                    <h2 id="recTitle">Recommended configurations</h2>
+                    <div class="explainText">
+                        <p id="withRec">Follwings are energy configurations available for your house that may lower future energy costs and improve energy efficiency.</p>
+                        <p id="withoutRec">It seems that your home energy system is already very technically economical and we do not have a recommendation that may lower future energy costs for you at the moment. You can also see how different configurations will affect your house's energy consumption by manually customising your home energy system using our service.</p>
+                    </div>
+
+                    <div class="row g-5" id="recommandation-list">
 
                         <!-- diy card-->
                         <div class="col-md-6">
@@ -92,7 +95,10 @@
                     </div>
 
                 </div>
+
             </div>
+        </div>
+
     </main>
 
     <div id="darkfooter-placeholder"></div>

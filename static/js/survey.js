@@ -240,7 +240,7 @@ export function setupSurvey() {
               "de": "Gibt es einen Warmwasserspeicher im Haus?"
             },
             "description": {
-              "default": "A hot water tank is a device used to store domestic hot water for use in homes. ",
+              "default": "A hot water tank or a space heating tank is a device used to store hot water for domestic use or to provide heat in homes.",
               "de": "Ein Warmwasserspeicher ist ein Gerät, das zur Speicherung von Warmwasser für den Gebrauch in Haushalten verwendet wird. "
             },
             "isRequired": true

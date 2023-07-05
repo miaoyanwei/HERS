@@ -2,8 +2,12 @@
 
 :root {
     --background-dim: #fff;
-    --font-family: 'Philosopher', sans-serif;
+    --font-family: 'Lato', sans-serif;
     --primary: #345A46;
+}
+
+:root h4 {
+    --font-family: 'Philosopher', sans-serif;
 }
 
 
