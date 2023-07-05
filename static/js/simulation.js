@@ -142,7 +142,7 @@ var sharedXAxis = {
   categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
   labels: {
     style: {
-      fontFamily: 'Philosopher',
+      fontFamily: 'Lato',
       fontSize: '10px'
     }
   }
@@ -150,12 +150,16 @@ var sharedXAxis = {
 // Shared yAxis configuration
 var sharedYAxis = [{
   title: {
-    text: null
+    text: "kWh",
+    style: {
+      fontFamily: 'Lato', // Set the desired font family
+      fontSize: '12px' // Set the desired font size
+    }
   },
   labels: { // Ensable labels on the right side of the graph
     enabled: true,
     style: {
-      fontFamily: 'Philosopher',
+      fontFamily: 'Lato',
       fontSize: '10px'
     }
   },
@@ -218,7 +222,7 @@ function createCurrentEnergyChart(energyData) {
     },
     tooltip: {
       style: {
-        fontFamily: 'Philosopher', // Set the desired font family
+        fontFamily: 'Lato', // Set the desired font family
         fontSize: '12px' // Set the desired font size
       }
     },
@@ -274,7 +278,7 @@ function createSimuEnergyChart(energyData) {
     },
     tooltip: {
       style: {
-        fontFamily: 'Philosopher', // Set the desired font family
+        fontFamily: 'Lato', // Set the desired font family
         fontSize: '12px' // Set the desired font size
       }
     },
