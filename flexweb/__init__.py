@@ -1,11 +1,11 @@
 import os
-
-from flask import Flask, session, request, g, send_from_directory
 import logging
-from logging.handlers import RotatingFileHandler
+import json
 import pandas as pd
 import sqlite3
-from copy import copy
+
+from flask import Flask, request, g, send_from_directory
+from logging.handlers import RotatingFileHandler
 from flexweb.repository.pandas_sql.repository import Repository
 from flexweb.api.controller import Controller as ApiController
 
@@ -28,7 +28,10 @@ def create_app():
     )
     app.logger.addHandler(
         RotatingFileHandler(
-            filename="flexweb.log", encoding="utf-8", maxBytes=4 * 1000 * 1000, backupCount=2
+            filename="flexweb.log",
+            encoding="utf-8",
+            maxBytes=4 * 1000 * 1000,
+            backupCount=2,
         )
     )
     app.logger.setLevel(logging.DEBUG)
@@ -62,7 +65,7 @@ def create_app():
         )
 
         app.logger.debug(f"Response: {doc}")
-        return doc
+        return json.dumps(doc)
 
     return app
 
