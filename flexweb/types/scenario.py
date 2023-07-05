@@ -1,4 +1,4 @@
-from .component import Battery, Building, PV, Boiler, Region
+from .component import *
 
 
 class Scenario:
@@ -9,12 +9,14 @@ class Scenario:
         pv: PV,
         boiler: Boiler,
         region: Region,
+        hot_water_tank: HotWaterTank,
     ) -> None:
         self.__battery = battery
         self.__building = building
         self.__pv = pv
         self.__boiler = boiler
         self.__region = region
+        self.__hot_water_tank = hot_water_tank
 
     def get_battery(self) -> Battery:
         return self.__battery
@@ -30,6 +32,9 @@ class Scenario:
 
     def get_region(self) -> Region:
         return self.__region
+    
+    def get_hot_water_tank(self) -> HotWaterTank:
+        return self.__hot_water_tank
 
     def equals(self, other) -> bool:
         if not isinstance(other, Scenario):
@@ -40,6 +45,7 @@ class Scenario:
             and self.__pv.equals(other.__pv)
             and self.__boiler.equals(other.__boiler)
             and self.__region.equals(other.__region)
+            and self.__hot_water_tank.equals(other.__hot_water_tank)
         )
 
     def to_dict(self) -> dict:
@@ -49,6 +55,7 @@ class Scenario:
             "pv": self.__pv.to_dict(),
             "boiler": self.__boiler.to_dict(),
             "region": self.__region.to_dict(),
+            "hot_water_tank": self.__hot_water_tank.to_dict(),
         }
 
     def get_component_by_name(self, name: str):
@@ -62,6 +69,8 @@ class Scenario:
             return self.__boiler
         elif name == "region":
             return self.__region
+        elif name == "hot_water_tank":
+            return self.__hot_water_tank
         else:
             return None
 
@@ -72,6 +81,7 @@ class Scenario:
             "pv": self.__pv,
             "boiler": self.__boiler,
             "region": self.__region,
+            "hot_water_tank": self.__hot_water_tank,
         }
 
     @staticmethod
@@ -82,4 +92,5 @@ class Scenario:
             pv=PV.from_dict(dict.get("pv", {})),
             boiler=Boiler.from_dict(dict["boiler"]),
             region=Region.from_dict(dict["region"]),
+            hot_water_tank=HotWaterTank.from_dict(dict.get("hot_water_tank", {})),
         )

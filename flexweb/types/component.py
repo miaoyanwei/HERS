@@ -156,3 +156,25 @@ class Region:
     @staticmethod
     def from_dict(dict: dict):
         return Region(code=dict["code"])
+
+class HotWaterTank:
+    def __init__(self, size: int) -> None:
+        self.__size = size
+
+    def get_capacity(self) -> int:
+        return self.__size
+
+    def get_cost(self) -> int:
+        return self.__size * 41
+
+    def equals(self, other) -> bool:
+        if not isinstance(other, HotWaterTank):
+            return False
+        return self.__size == other.__size
+
+    def to_dict(self) -> dict:
+        return {"size": self.__size}
+
+    @staticmethod
+    def from_dict(dict: dict):
+        return HotWaterTank(dict.get("size", 0))

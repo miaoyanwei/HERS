@@ -21,7 +21,8 @@ class ScenarioRepository(BaseScenarioRepository):
             "building.construction_period_start as building_construction_period_start, "
             "building.construction_period_end as building_construction_period_end, "
             "scenario.ID_Building as building_id, "
-            "region.code as region_code "
+            "region.code as region_code, "
+            "hot_water_tank.size as hot_water_tank_size "
             "from "
             "(OperationScenario scenario "
             "inner join OperationScenario_Component_PV pv "
@@ -33,7 +34,9 @@ class ScenarioRepository(BaseScenarioRepository):
             "inner join OperationScenario_Component_Building building "
             "on scenario.ID_Building = building.ID_Building "
             "inner join OperationScenario_Component_Region region "
-            "on scenario.ID_Region = region.ID_Region) "
+            "on scenario.ID_Region = region.ID_Region "
+            "inner join OperationScenario_Component_HotWaterTank hot_water_tank "
+            "on scenario.ID_HotWaterTank = hot_water_tank.ID_HotWaterTank) "
             "where scenario.ID_Scenario=" + str(id),
             con=self.__db,
         )
@@ -53,6 +56,7 @@ class ScenarioRepository(BaseScenarioRepository):
                 person_num=int(row["building_person_num"]),
             ),
             region=Region(code=row["region_code"]),
+            hot_water_tank=HotWaterTank(size=int(row["hot_water_tank_size"])),
         )
 
     def get_id_by_scenario(self, scenario: Scenario) -> Optional[int]:
@@ -71,7 +75,9 @@ class ScenarioRepository(BaseScenarioRepository):
             "inner join OperationScenario_Component_Building building "
             "on scenario.ID_Building = building.ID_Building "
             "inner join OperationScenario_Component_Region region "
-            "on scenario.ID_Region = region.ID_Region) "
+            "on scenario.ID_Region = region.ID_Region "
+            "inner join OperationScenario_Component_HotWaterTank hot_water_tank "
+            "on scenario.ID_HotWaterTank = hot_water_tank.ID_HotWaterTank) "
             "where "
             "pv.size=" + str(scenario.get_pv().get_size()) + " and "
             "battery.capacity=" + str(battery_capacity) + " and "
@@ -88,7 +94,9 @@ class ScenarioRepository(BaseScenarioRepository):
             + "scenario.ID_Building%2="
             + str(1 if scenario.get_building().get_renovated() else 0)
             + " and "
-            "region.code='" + str(scenario.get_region().get_code()) + "'",
+            "region.code='" + str(scenario.get_region().get_code()) + "'"
+            + " and "
+            + "hot_water_tank.size=" + str(scenario.get_hot_water_tank().get_capacity()),
             con=self.__db,
         )
         if len(rows) == 0:
