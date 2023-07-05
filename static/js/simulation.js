@@ -75,6 +75,11 @@ function handleResult(current, selected, investment_cost) {
     $("#renovation-false").css('display', 'inline')
   }
 
+  // Show text if heating system is not heat pump
+  if (current.scenario.boiler.type !== "Air_HP") {
+    $("#curNotHP").css('display', 'block')
+  }
+
   $("#totalDemand-placeholder").replaceWith(current.energy_data.total_demand);
   $("#totalSupply-placeholder").replaceWith(current.energy_data.total_generate);
   createCurrentEnergyChart(current.energy_data);
@@ -106,6 +111,11 @@ function handleResult(current, selected, investment_cost) {
 
   if (selected.scenario.building.renovated !== 0) {
     $("#building_renovation").prop('checked', true);
+  }
+
+  // Show text if heating system is not heat pump
+  if (selected.scenario.boiler.type !== "Air_HP") {
+    $("#simuNotHP").css('display', 'block')
   }
 
 

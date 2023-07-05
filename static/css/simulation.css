@@ -75,6 +75,10 @@ hr {
     margin-top: 10px;
 }
 
+#curNotHP, #simuNotHP {
+    display: none;
+}
+
 
 /* Tab 
 
