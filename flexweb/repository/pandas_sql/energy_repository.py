@@ -15,16 +15,17 @@ class EnergyRepository(BaseEnergyRepository):
             table = "EnergyData_OptimizationMonth"
         rows = pd.read_sql(
             "select "
-            + "Heating/1000, Cooling/1000, Appliance/1000, Hotwater/1000, PV/1000 "
+            + "Heating, Cooling, Appliance, Hotwater, PV "
             + " from "
             + table
             + " where ID_Scenario="
             + str(id)
             + " order by Month",
             con=self.__db,
-        )
+        ) / 1000
         if len(rows) == 0:
             return None
+        
         total_generate: int = 0
         total_demand: int = 0
         for idx in range(len(rows)):
