@@ -15,7 +15,7 @@ class EnergyRepository(BaseEnergyRepository):
             table = "EnergyData_OptimizationMonth"
         rows = pd.read_sql(
             "select "
-            + "Heating, Cooling, Appliance, Hotwater, PV "
+            + "Heating/1000, Cooling/1000, Appliance/1000, Hotwater/1000, PV/1000 "
             + " from "
             + table
             + " where ID_Scenario="
