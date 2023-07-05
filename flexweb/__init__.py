@@ -5,7 +5,6 @@ import json
 import pandas as pd
 import sqlite3
 from copy import copy
-from flexweb.result import Result
 from flexweb.repository.pandas_sql.repository import Repository
 from flexweb.api.controller import Controller as ApiController
 
