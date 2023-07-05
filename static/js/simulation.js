@@ -75,14 +75,14 @@ function handleResult(current, selected, investment_cost) {
     $("#renovation-false").css('display', 'inline')
   }
 
-  $("#totalDemand-placeholder").replaceWith(current.energy_data.energy_demand);
-  $("#totalSupply-placeholder").replaceWith(current.energy_data.energy_generate);
+  $("#totalDemand-placeholder").replaceWith(current.energy_data.total_demand);
+  $("#totalSupply-placeholder").replaceWith(current.energy_data.total_generate);
   createCurrentEnergyChart(current.energy_data);
 
   // get cookie value selected=<value>
-  $("#totalSimuDemand-placeholder").replaceWith(selected.energy_data.energy_demand);
-  $("#totalSimuSupply-placeholder").replaceWith(selected.energy_data.energy_generate);
-  $("#totalSimuCost-placeholder").replaceWith(selected.energy_data.energy_bill_year);
+  $("#totalSimuDemand-placeholder").replaceWith(selected.energy_data.total_demand);
+  $("#totalSimuSupply-placeholder").replaceWith(selected.energy_data.total_generate);
+  $("#totalSimuCost-placeholder").replaceWith(selected.energy_cost.yearly_bill);
   $("#investmentSimuCost-placeholder").replaceWith(investment_cost);
   createSimuEnergyChart(selected.energy_data);
 
