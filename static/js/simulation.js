@@ -69,7 +69,7 @@ function handleResult(current, selected, investment_cost) {
     $("#boiler-false").css('display', 'inline')
   }
 
-  if (current.scenario.building.renovated === true) {
+  if (current.scenario.building.renovated) {
     $("#renovation-true").css('display', 'inline')
   } else {
     $("#renovation-false").css('display', 'inline')
@@ -112,7 +112,7 @@ function handleResult(current, selected, investment_cost) {
     $("#boiler_type").val(selected.scenario.boiler.type).change();
   }
 
-  $("#building_renovation").prop('checked', selected.scenario.building.renovated !== 0);
+  $("#building_renovation").prop('checked', selected.scenario.building.renovated);
 
   // Show text if heating system is not heat pump
   if (selected.scenario.boiler.type !== "Air_HP") {
@@ -408,11 +408,11 @@ function getImprovementInfo(key, value) {
 
 function updateData() {
   // get cookie value selected=<value>
-  let my_scenario = document.cookie.split('; ').find(row => row.startsWith('my_scenario')).split('=')[1];
-  let my_sems = document.cookie.split('; ').find(row => row.startsWith('my_sems')).split('=')[1];
-  let selected_id = document.cookie.split('; ').find(row => row.startsWith('selected_id')).split('=')[1];
-  let selected_sems = document.cookie.split('; ').find(row => row.startsWith('selected_sems')).split('=')[1];
-  let selected_investment_cost = document.cookie.split('; ').find(row => row.startsWith('selected_investment_cost')).split('=')[1];
+  let my_scenario = parseInt(document.cookie.split('; ').find(row => row.startsWith('my_scenario')).split('=')[1]);
+  let my_sems = (document.cookie.split('; ').find(row => row.startsWith('my_sems')).split('=')[1] === 'true')
+  let selected_id = parseInt(document.cookie.split('; ').find(row => row.startsWith('selected_id')).split('=')[1]);
+  let selected_sems = (document.cookie.split('; ').find(row => row.startsWith('selected_sems')).split('=')[1] === 'true')
+  let selected_investment_cost = parseInt(document.cookie.split('; ').find(row => row.startsWith('selected_investment_cost')).split('=')[1]);
   $.when(
     $.ajax({
       type: "GET",
