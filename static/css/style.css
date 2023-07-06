@@ -20,9 +20,6 @@ main {
 
 
 /* Fonts */
-#title {    /* Homepage title */
-    font-size: 48px;
-}
 
 h1 {    /* Title */
     font-family: 'Philosopher', sans-serif;
@@ -87,6 +84,7 @@ i {
 
 .navbar-brand {
     font-family: 'Philosopher', sans-serif;
+    font-weight: bold;
 }
 
 
@@ -158,7 +156,7 @@ i {
 .footer a {
     color: #D6B5C0;
     text-decoration: none;
-    margin-right: 24px;
+    margin-left: 10px;
 }
 
 .footer a:hover {
@@ -181,7 +179,7 @@ i {
 .footer-dark a {
     color: #222;
     text-decoration: none;
-    margin-right: 24px;
+    margin-left: 10px;
 }
 
 .footer-dark a:hover {
