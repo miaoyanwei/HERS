@@ -163,7 +163,7 @@ var sharedXAxis = {
 // Shared yAxis configuration
 var sharedYAxis = [{
   title: {
-    text: "kWh",
+    text: "Energy (kWh)",
     style: {
       fontFamily: 'Lato', // Set the desired font family
       fontSize: '12px' // Set the desired font size
