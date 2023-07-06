@@ -10,12 +10,16 @@ class EnergyRepository(BaseEnergyRepository):
         self.__db = db
 
     def get_energy_data_by_id(self, id: int, sems: bool) -> EnergyData:
-        table = "EnergyData_ReferenceMonth"
+        table = "OperationResult_ReferenceMonth"
         if sems == True:
-            table = "EnergyData_OptimizationMonth"
+            table = "OperationResult_OptimizationMonth"
         rows = pd.read_sql(
             "select "
-            + "Heating, Cooling, Appliance, Hotwater, PV "
+            + "(E_Heating_HP_out + Q_HeatingElement) as Heating, "
+            + "E_RoomCooling as Cooling, "
+            + "BaseLoadProfile as Appliance, "
+            + "E_DHW_HP_out as Hotwater, "
+            + "PhotovoltaicProfile as PV "
             + " from "
             + table
             + " where ID_Scenario="
@@ -26,6 +30,8 @@ class EnergyRepository(BaseEnergyRepository):
         if len(rows) == 0:
             return None
         
+
+
         total_generate: int = 0
         total_demand: int = 0
         for idx in range(len(rows)):
