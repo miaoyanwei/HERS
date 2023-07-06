@@ -29,22 +29,21 @@
 
     <div id="darknav-placeholder"></div>
 
-    <main id="content">
+    <main>
 
-        <h1 class="title">Estimates of your household energy use</h1>
+        <h1 id="pageTitle">Estimates of your home energy use</h1>
 
         <!-- Cards-->
         <div class="container">
-
-            <div class="row g-4">
+            <div class="row g-5">
 
                 <!-- Current-->
-                <div class="col">
+                <div class="col-md-6">
                     <div class="card h-100" id="cur">
 
                         <div class="card-body">
 
-                            <h2 class="card-title">Current</h2>
+                            <h2 class="card-title" id="cardTitle">Current</h2>
 
                             <div class="card-content">
 
@@ -60,34 +59,33 @@
                                 </div>-->
                                 
                                 <!-- Graph year-->
-
                                 <div id="currentYear" class="tabcontent" style="display: block;">
                                     <div id="chart_current_year" style="height: 200px;"></div> 
                                 </div>
 
                                 <!-- Total energy-->
-
                                 <div class="total">
 
                                     <div class="totalDemand">
-                                        <p><b>Energy demand</b></p>
-                                        <p><b><span id="totalDemand-placeholder"></span> kWh</b></p>
+                                        <p>Energy demand</p>
+                                        <p><span id="totalDemand-placeholder"></span> kWh</p>
                                     </div>
                                     <div class="legend">
-                                        <div class="foo heating"></div><p style="font-size: smaller; margin-right: 8px;">Heating</p>
-                                        <div class="foo cooling"></div><p style="font-size: smaller; margin-right: 8px;">Cooling</p>
-                                        <div class="foo appliance"></div><p style="font-size: smaller; margin-right: 8px;">Appliance</p>
-                                        <div class="foo hotwater"></div><p style="font-size: smaller; margin-right: 8px;">Hot water</p>
+                                        <div class="foo heating"></div><small style="margin-right: 8px;">Heating</small>
+                                        <div class="foo cooling"></div><small style="margin-right: 8px;">Cooling</small>
+                                        <div class="foo appliance"></div><small style="margin-right: 8px;">Appliance</small>
+                                        <div class="foo hotwater"></div><small style="margin-right: 8px;">Hot water</small>
                                     </div>
+                                    <small id="curNotHP" style="color: #A78067;"><i class="bi bi-exclamation-circle-fill"></i>Heating energy not included in the chart</small>
 
                                     <hr>
 
                                     <div class="totalSupply">
-                                        <p><b>PV generation</b></p>
-                                        <p><b><span id="totalSupply-placeholder"></span> kWh</b></p>
+                                        <p>PV generation</p>
+                                        <p><span id="totalSupply-placeholder"></span> kWh</p>
                                     </div>
                                     <div class="legend">
-                                        <div class="foo pv"></div><p style="font-size: smaller; margin-right: 8px;">PV</p>
+                                        <div class="foo pv"></div><small style="margin-right: 8px;">PV</small>
                                     </div>
 
                                     <hr>
@@ -95,9 +93,7 @@
                                 </div>
 
                                 <!-- Configuration-->
-
-                                <h3 style="margin-bottom: 24px;">Current Energy System</h3>
-
+                                <h3 id="subtitle" style="margin-bottom: 24px;">Current Energy System</h3>
                                 <div class="config">
                                     <i class="bi bi-check2" id="pv-true"></i><i class="bi bi-x" id="pv-false"></i>PV system <span id="currentPVSize"></span><br><hr>
                                     <i class="bi bi-check2" id="battery-true"></i><i class="bi bi-x" id="battery-false"></i>Battery system <span id="currentBatteryCapacity"></span><br><hr>
@@ -122,12 +118,12 @@
                 </div>
 
                 <!-- Simulated-->
-                <div class="col">
+                <div class="col-md-6">
                     <div class="card h-100" id="simu">
 
                         <div class="card-body">
 
-                            <h2 class="card-title" style="color: #345A46">Simulate</h2>
+                            <h2 class="card-title" id="cardTitle" style="color: #345A46">Simulate</h2>
 
                             <div class="card-content">
 
@@ -153,21 +149,22 @@
                                 <div class="total">
 
                                     <div class="totalDemand">
-                                        <p><b>Energy demand</b></p>
-                                        <p><b><span id="totalSimuDemand-placeholder"></span> kWh</b></p>
+                                        <p>Energy demand</p>
+                                        <p><span id="totalSimuDemand-placeholder"></span> kWh</p>
                                     </div>
                                     <div class="legend">
-                                        <div class="foo heating"></div><p style="font-size: smaller; margin-right: 8px;">Heating</p>
-                                        <div class="foo cooling"></div><p style="font-size: smaller; margin-right: 8px;">Cooling</p>
-                                        <div class="foo appliance"></div><p style="font-size: smaller; margin-right: 8px;">Appliance</p>
-                                        <div class="foo hotwater"></div><p style="font-size: smaller; margin-right: 8px;">Hot water</p>
+                                        <div class="foo heating"></div><small style="margin-right: 8px;">Heating</small>
+                                        <div class="foo cooling"></div><small style="margin-right: 8px;">Cooling</small>
+                                        <div class="foo appliance"></div><small style="margin-right: 8px;">Appliance</small>
+                                        <div class="foo hotwater"></div><small style="margin-right: 8px;">Hot water</small>
                                     </div>
+                                    <small id="simuNotHP" style="color: #A78067;"><i class="bi bi-exclamation-circle-fill"></i>Heating energy not included in the chart</small>
 
                                     <hr>
 
                                     <div class="totalSupply">
-                                        <p><b>PV generation</b></p>
-                                        <p><b><span id="totalSimuSupply-placeholder"></span> kWh</b></p>
+                                        <p>PV generation</p>
+                                        <p><span id="totalSimuSupply-placeholder"></span> kWh</p>
                                     </div>
                                     <div class="legend">
                                         <div class="foo pv"></div><p style="font-size: smaller; margin-right: 8px;">PV</p>
@@ -179,12 +176,12 @@
 
                                 <!-- Configuraion-->
 
-                                <h3>Simulated Energy System</h3>
+                                <h3 id="subtitle">Simulated Energy System</h3>
                                 
                                 <div class="accordion accordion-flush">
 
                                     <div class="accordion-item">
-                                        <h2 class="accordion-header">
+                                        <h2 class="accordion-header" id="flush-headingPV">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="true" id="pv_exist">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsePV" aria-expanded="false" aria-controls="flush-collapse">
@@ -245,7 +242,7 @@
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="flush-headingHS">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" id="boiler_exist">
+                                                <input class="form-check-input" type="checkbox" value="true" id="boiler_exist" checked disabled>
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseHS" aria-expanded="false" aria-controls="flush-collapseHS">
                                                     Heating system
                                                 </button>
@@ -300,7 +297,7 @@
                                 <h2 style="margin-bottom:4px;">Energy Bill</h2>
                                 <h2 style="margin-bottom:4px;">&#8364;<span id="totalSimuCost-placeholder"></span></h2>
                             </div>
-                            <small style="margin-bottom: 0;">The annualised investment cost is approx. &#8364;<span id="investmentSimuCost-placeholder"></span></small>
+                            <small style="margin-bottom: 0; color: #345A46;">The annualised investment cost is approx. &#8364;<span id="investmentSimuCost-placeholder"></span></small>
                         </div>
 
                     </div>
@@ -330,10 +327,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
 
     <script type="module">
-        import { handleResult, initChart, retrieveNewSurvey } from '../js/simulation.js';
-        import { getResult } from '../js/result.js';
+        import { initChart, updateData, retrieveNewSurvey } from '../js/simulation.js';
         initChart();
-        getResult(handleResult);
+        updateData();
         window.retrieveNewSurvey = retrieveNewSurvey
     </script>
     

@@ -1,6 +1,5 @@
 /* Fonts */
-
-.col-md-8 h2 {
+#recTitle, #recSave {
     color: #345A46;
 }
 
@@ -8,27 +7,26 @@ a {
     text-decoration: none;
 }
 
-
-/* Cards */
+.explainText {
+    height: 80px;
+}
 
 /* Text */
-
 #withRec, #withoutRec {
     display: none;
 }
 
 
 /* Button */
-
 .btn {
-    font-family: 'Philosopher', sans-serif;
+    font-family: 'Lato', sans-serif;
     font-size: 14px;
     border-width: 2px;
     border-color: #222;
     height: fit-content;
     width: max-content;
     padding: 0 4px;
-    margin-bottom: 20px;
+    margin: 16px 0;
 }
 
 
@@ -39,7 +37,6 @@ a {
     border-style: solid;
     border-radius: 12px;
     border-color: #dddddd;
-    width: 90%;
     height: fit-content;
     padding: 24px;
 }
@@ -50,19 +47,14 @@ a {
 
 .current p {
     color: #717171;
-    margin-top: 16px;
     margin-bottom: 0;
-}
-
-.current h2 {
-    margin-top: 4px;
 }
 
 
 /* Configurations */
 
 .config {
-    font-family: 'Philosopher', sans-serif;
+    font-family: 'Lato', sans-serif;
     font-size: smaller;
     color: #222;
     line-height: 2;
@@ -87,23 +79,26 @@ a {
     border-style: solid;
     border-radius: 12px;
     border-color: #dddddd;
-    width: 90%;
     height: fit-content;
     padding: 24px;
 }
 
-.improved em {
+#recTag {
+    text-transform: uppercase;
     font-size: 12px;
+    color: #345A46;
 }
 
 .improved p {
     color: #717171;
-    margin-top: 0;
-    margin-bottom: 16px;
 }
 
 .improved h2 {
     margin-top: 4px;
+}
+
+.card-body {
+    padding: 0;
 }
 
 .card-footer {
@@ -111,16 +106,18 @@ a {
     padding: 10px 0 0 0;
 }
 
-
+small {
+    font-family: 'Lato', sans-serif;
+    font-size: 14px; 
+}
 
 
 /* Educate */
 .edu {
     background-color: #345A46;
     border-radius: 12px;
-    width: 90%;
     height: fit-content;
-    margin-top: 40px;
+    margin-top: 3rem;
     padding: 24px;
 }
 

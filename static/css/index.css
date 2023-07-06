@@ -8,8 +8,8 @@ body {
 }
 
 main {
+    margin: 80px;
     flex: 1;
-    padding-bottom: 0;
     justify-self: center;
     align-self: center;
 }
@@ -20,25 +20,33 @@ main {
 h1 {
     color: #fff;
     text-align: center;
+    margin-bottom: 28px;
 }
 
 h3 {
     color: #fff;
     text-align: center;
+    margin-bottom: 28px;
 }
 
-p {
+.card p {
     color: #fff;
-    text-align: center;
+    text-align: left;
+    max-width: 300px;
+    margin: auto;
 }
 
 .highlight {
     color: #6dae47;
 }
 
-.description {
+#policy {
+    font-size: 14px;
     color: #fff;
     opacity: 0.6;
+    text-align: center;
+    max-width: 480px;
+    margin: auto;
 }
 
 
@@ -47,12 +55,8 @@ p {
 .card {
     background-color: transparent;
     border-color: transparent;
-    width: 60%;
+    max-width: 400px;
     margin: auto;
-}
-
-.card p {
-    text-align: left;
 }
 
 .card img {
@@ -60,11 +64,20 @@ p {
     margin-bottom: 16px;
 }
 
+#step {
+    text-align: -webkit-center;
+}
+
+.description {
+    color: #fff;
+    opacity: 0.6;
+}
+
 
 /* The start button */
 
 .btn {
-    font-family: 'Philosopher', sans-serif;
+    font-family: 'Lato', sans-serif;
     color: #345A46;
     font-size: 18px;
     font-weight: bold;
