@@ -185,6 +185,7 @@ hr {
     .accordion-body {
         font-size: 14px;
         padding-left: 36px;
+        text-align: justify;
     }
 
     .accordion {
