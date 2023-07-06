@@ -203,7 +203,7 @@ function createCurrentEnergyChart(energyData) {
     yAxis: sharedYAxis,
     series: [{
       name: 'Heating',
-      data: energyData.heating,
+      data: energyData.boiler,
       stack: 'amount',
       yAxis: 0
     }, {
@@ -259,7 +259,7 @@ function createSimuEnergyChart(energyData) {
     yAxis: sharedYAxis,
     series: [{
       name: 'Heating',
-      data: energyData.heating,
+      data: energyData.boiler,
       stack: 'amount',
       yAxis: 0
     }, {
