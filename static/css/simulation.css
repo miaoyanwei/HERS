@@ -14,6 +14,10 @@
     color: #222;
 }
 
+#investCost {
+    color: #345A46;
+}
+
 
 /* Cards */
 
@@ -49,26 +53,27 @@
     margin: 4px;
 }
 
-    .heating {
-        background: #A78067;
-    }
-    .cooling {
-        background: #E2E2E2;
-    }
-    .appliance {
-        background: #ADA3A3;
-    }
-    .hotwater {
-        background: #DDB9A1;
-    }
-    .pv {
-        background: #6DAE47;
-    }
+.heating {
+    background: #A78067;
+}
+.cooling {
+    background: #E2E2E2;
+}
+.appliance {
+    background: #ADA3A3;
+}
+.hotwater {
+    background: #DDB9A1;
+}
+.pv {
+    background: #6DAE47;
+}
 
-    .legend {
-        display: flex;
-        align-items: baseline;
-    }
+.legend {
+    font-size: 14px;
+    display: flex;
+    align-items: baseline;
+}
 
 hr {
     color: #dddddd;
@@ -144,27 +149,27 @@ hr {
     }
 
 
-    /* Current configuration */
+/* Current configuration */
 
-    .config {
-        font-family: 'Lato', sans-serif;
-        font-size: 16px;
-        color: #222;
-        line-height: 2;
-    }
+.config {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    color: #222;
+    line-height: 2;
+}
 
 
-    /* Check & uncheck icons */
+/* Check & uncheck icons */
 
-    .bi-check2 {
-        margin-right: 8px;
-        display: none;
-    }
+.bi-check2 {
+    margin-right: 8px;
+    display: none;
+}
 
-    .bi-x {
-        margin-right: 8px;
-        display: none;
-    }
+.bi-x {
+    margin-right: 8px;
+    display: none;
+}
 
 
 /* Simulate card */
@@ -176,59 +181,59 @@ hr {
     height: auto;
 }
 
-    /* Simulated configuration */
+/* Simulated configuration */
 
-    .accordion-header {
-        font-size: 16px;
-    }
+.accordion-header {
+    font-size: 16px;
+}
 
-    .accordion-body {
-        font-size: 14px;
-        padding-left: 36px;
-        text-align: justify;
-    }
+.accordion-body {
+    font-size: 14px;
+    padding-left: 36px;
+    text-align: justify;
+}
 
-    .accordion {
-        --bs-accordion-active-color: #222;
-        --bs-accordion-btn-focus-border-color: none;
-        --bs-accordion-btn-focus-box-shadow: none;
-        --bs-accordion-active-bg: none;
-    }
+.accordion {
+    --bs-accordion-active-color: #222;
+    --bs-accordion-btn-focus-border-color: none;
+    --bs-accordion-btn-focus-box-shadow: none;
+    --bs-accordion-active-bg: none;
+}
 
-    .accordion-item h2 {
-        font-family: 'Lato', sans-serif;
-        margin-top: 0;
-        color: #222;
-    }
+.accordion-item h2 {
+    font-family: 'Lato', sans-serif;
+    margin-top: 0;
+    color: #222;
+}
 
-    .form-check {
-        display: flex;
-        align-items: center;
-    }
+.form-check {
+    display: flex;
+    align-items: center;
+}
 
-    .form-floating, .form-select {
-        margin-top: 10px;
-    }
+.form-floating, .form-select {
+    margin-top: 10px;
+}
 
-    .totalCost .btn {
-        font-family: 'Lato', sans-serif;
-        font-size: 16px;
-        color: #345A46;
-        border: solid;
-        border-color: #345A46;
-        background-color: #fff;
-        margin-bottom: 8px;
-    }
+.totalCost .btn {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    color: #345A46;
+    border: solid;
+    border-color: #345A46;
+    background-color: #fff;
+    margin-bottom: 8px;
+}
 
-    .form-check-input:checked {
-        background-color: #222;
-        border-color: #222;
-    }
+.form-check-input:checked {
+    background-color: #222;
+    border-color: #222;
+}
 
-    .form-check-input:focus {
-        border-color: none;
-        box-shadow: none;
-    }
+.form-check-input:focus {
+    border-color: none;
+    box-shadow: none;
+}
 
 
 /* Education card */

@@ -38,7 +38,6 @@ function handleResult(current, selected, investment_cost) {
 
 
   // Get check or uncheck icons
-
   if (current.scenario.pv.size > 0) {
     $("#pv-true").css('display', 'inline')
     // Get current PV size
@@ -75,7 +74,7 @@ function handleResult(current, selected, investment_cost) {
     $("#renovation-false").css('display', 'inline')
   }
 
-  // Show text if heating system is not heat pump
+  // Show text if current heating system is not heat pump
   if (current.scenario.boiler.type !== "Air_HP") {
     $("#curNotHP").css('display', 'block')
   }
@@ -114,7 +113,7 @@ function handleResult(current, selected, investment_cost) {
 
   $("#building_renovation").prop('checked', selected.scenario.building.renovated);
 
-  // Show text if heating system is not heat pump
+  // Show text if selected heating system is not heat pump
   if (selected.scenario.boiler.type !== "Air_HP") {
     $("#simuNotHP").css('display', 'block')
   } else {
