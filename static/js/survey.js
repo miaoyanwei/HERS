@@ -161,7 +161,7 @@ export function setupSurvey() {
         "elements": [
           {
             "type": "boolean",
-            "name": "SpaceCoolingTechnology_exist",
+            "name": "cooling_exist",
             "title": {
               "default": "Is there any air conditioner in the house?",
               "de": "Gibt es eine Klimaanlage im Haus?"

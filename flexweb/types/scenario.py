@@ -10,6 +10,7 @@ class Scenario:
         boiler: Boiler,
         region: Region,
         hot_water_tank: HotWaterTank,
+        cooling: Cooling,
     ) -> None:
         self.__battery = battery
         self.__building = building
@@ -17,6 +18,7 @@ class Scenario:
         self.__boiler = boiler
         self.__region = region
         self.__hot_water_tank = hot_water_tank
+        self.__cooling = cooling
 
     def get_battery(self) -> Battery:
         return self.__battery
@@ -35,6 +37,9 @@ class Scenario:
     
     def get_hot_water_tank(self) -> HotWaterTank:
         return self.__hot_water_tank
+    
+    def get_cooling(self) -> Cooling:
+        return self.__cooling
 
     def equals(self, other) -> bool:
         if not isinstance(other, Scenario):
@@ -46,6 +51,7 @@ class Scenario:
             and self.__boiler.equals(other.__boiler)
             and self.__region.equals(other.__region)
             and self.__hot_water_tank.equals(other.__hot_water_tank)
+            and self.__cooling.equals(other.__cooling)
         )
 
     def to_dict(self) -> dict:
@@ -56,6 +62,7 @@ class Scenario:
             "boiler": self.__boiler.to_dict(),
             "region": self.__region.to_dict(),
             "hot_water_tank": self.__hot_water_tank.to_dict(),
+            "cooling": self.__cooling.to_dict(),
         }
 
     def get_component_by_name(self, name: str):
@@ -71,6 +78,8 @@ class Scenario:
             return self.__region
         elif name == "hot_water_tank":
             return self.__hot_water_tank
+        elif name == "cooling":
+            return self.__cooling
         else:
             return None
 
@@ -82,6 +91,7 @@ class Scenario:
             "boiler": self.__boiler,
             "region": self.__region,
             "hot_water_tank": self.__hot_water_tank,
+            "cooling": self.__cooling
         }
 
     @staticmethod
@@ -93,4 +103,5 @@ class Scenario:
             boiler=Boiler.from_dict(dict["boiler"]),
             region=Region.from_dict(dict["region"]),
             hot_water_tank=HotWaterTank.from_dict(dict.get("hot_water_tank", {})),
+            cooling=Cooling.from_dict(dict.get("cooling", {}))
         )

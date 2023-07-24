@@ -113,4 +113,7 @@ def _map_json(data):
                 new_json[category]["person_num"] = value
             else:
                 new_json[category][variable] = value
+    if new_json.get("cooling") is not None:
+        new_json["cooling"]["power"] = 10000
+
     return new_json

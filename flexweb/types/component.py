@@ -157,6 +157,28 @@ class Region:
     def from_dict(dict: dict):
         return Region(code=dict["code"])
 
+class Cooling:
+    def __init__(self, power: int) -> None:
+        self.__power = power
+
+    def get_power(self) -> int:
+        return self.__power
+    
+    def get_cost(self) -> int:
+        return 0
+
+    def equals(self, other) -> bool:
+        if not isinstance(other, Cooling):
+            return False
+        return self.__power == other.__power
+
+    def to_dict(self) -> dict:
+        return {"power" : self.__power}
+
+    @staticmethod
+    def from_dict(dict: dict):
+        return Cooling(dict.get("power", 0))
+
 class HotWaterTank:
     def __init__(self, size: int) -> None:
         self.__size = size
