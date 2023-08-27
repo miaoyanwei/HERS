@@ -1,4 +1,4 @@
-from flexweb.repository.base.repository import Repository
+from flexweb.repository.store import Store
 from flexweb.types.scenario import Scenario
 from typing import Optional
 import json
@@ -14,11 +14,11 @@ def _str_to_bool(s: str) -> bool:
 
 
 class V1:
-    __repository: Repository
+    __store: Store
     __handlers: dict
 
-    def __init__(self, respository: Repository):
-        self.__repository = respository
+    def __init__(self, store: Store):
+        self.__store = store
         self.__handlers = {
             "energy_data": self.energy_data,
             "energy_cost": self.energy_cost,
@@ -32,7 +32,10 @@ class V1:
 
     def energy_data(self, method: str, data: dict) -> Optional[dict]:
         if method == "GET":
-            data = self.__repository.query(
+            repository = self.__store.repository(data["country"])
+            if repository is None:
+                return "Not Found", 404
+            data = repository.query(
                 "energy_data_by_id",
                 {"id": data["id"], "sems": _str_to_bool(data["sems"])},
             )
@@ -45,7 +48,10 @@ class V1:
     def energy_cost(self, method: str, data: dict) -> Optional[dict]:
         # Returns the energy cost of the scenario id
         if method == "GET":
-            data = self.__repository.query(
+            repository = self.__store.repository(data["country"])
+            if repository is None:
+                return "Not Found", 404
+            data = repository.query(
                 "energy_cost_by_id",
                 {"id": data["id"], "sems": _str_to_bool(data["sems"])},
             )
@@ -57,7 +63,10 @@ class V1:
 
     def recommendation(self, method: str, data: dict) -> Optional[dict]:
         if method == "GET":
-            recommendation = self.__repository.query(
+            repository = self.__store.repository(data["country"])
+            if repository is None:
+                return "Not Found", 404
+            recommendation = repository.query(
                 "recommendation_by_id",
                 {"id": data["id"], "sems": _str_to_bool(data["sems"])},
             )
@@ -69,12 +78,15 @@ class V1:
 
     def scenario(self, method: str, data: dict) -> Optional[dict]:
         if method == "GET":
-            scenario = self.__repository.query("scenario_by_id", {"id": data["id"]})
+            repository = self.__store.repository(data["country"])
+            scenario = repository.query("scenario_by_id", {"id": data["id"]})
             if scenario is None:
                 return "Not Found", 404
             return scenario
         elif method == "POST":
-            data = self.__repository.query("id_by_scenario", data)
+            data = self.__store.repository(data["country"]).query(
+                "id_by_scenario", data
+            )
             if id is None:
                 return "Not Found", 404
             return data
@@ -101,7 +113,7 @@ def _map_json(data):
         else:
             if new_json.get(category) is None:
                 new_json[category] = json.loads("{}")
-            if (category == "region") and (variable != "country"):
+            if category == "region":
                 variable = fields[-1]
                 new_json[category][variable] = value
             elif variable == "construction":

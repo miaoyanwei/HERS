@@ -6,16 +6,16 @@ import sqlite3
 
 from flask import Flask, request, g, send_from_directory
 from logging.handlers import RotatingFileHandler
-from flexweb.repository.pandas_sql.repository import Repository
 from flexweb.api.controller import Controller as ApiController
-
-DATABASE = "FLEX.sqlite"
+from flexweb.repository.store import Store as RepositoryStore
+from flexweb.repository.store import SqlApi
+DATABASE = "db/"
 
 
 def get_api():
     api = getattr(g, "api", None)
     if api is None:
-        api = ApiController(Repository(sqlite3.connect(DATABASE)))
+        api = ApiController(RepositoryStore(DATABASE, SqlApi.PANDAS))
     return api
 
 
