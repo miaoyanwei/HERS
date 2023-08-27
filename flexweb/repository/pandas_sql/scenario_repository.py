@@ -1,5 +1,6 @@
 from flexweb.types.scenario import Scenario
 from flexweb.types.component import *
+from .investment_cost import InvestmentCost
 from typing import Optional
 import pandas as pd
 
@@ -7,10 +8,11 @@ import pandas as pd
 class ScenarioRepository:
     def __init__(self, db: any, handlers: dict) -> None:
         self.__db = db
-        handlers["scenario_by_id"] = self.get_scenario_by_id
+        handlers["scenario_by_id"] = self.get_scenario_dict_by_id
         handlers["id_by_scenario"] = self.get_id_by_scenario
+        handlers["investment_cost_by_id"] = self.get_investment_cost_by_id
 
-    def get_scenario_by_id(self, param: dict) -> dict:
+    def get_scenario_by_id(self, param: dict) -> Scenario:
         id: int = param["id"]
         rows = pd.read_sql(
             "select "
@@ -60,8 +62,11 @@ class ScenarioRepository:
             ),
             region=Region(code=row["region_code"]),
             hot_water_tank=HotWaterTank(size=int(row["hot_water_tank_size"])),
-            cooling=Cooling(power=int(row["cooling_power"]))
-        ).to_dict
+            cooling=Cooling(power=int(row["cooling_power"])),
+        )
+    
+    def get_scenario_dict_by_id(self, param: dict) -> dict:
+        return self.get_scenario_by_id(param).to_dict()
 
     def get_id_by_scenario(self, param: dict) -> dict:
         scenario: Scenario = Scenario.from_dict(param)
@@ -101,14 +106,29 @@ class ScenarioRepository:
             + "scenario.ID_Building%2="
             + str(1 if scenario.get_building().get_renovated() else 0)
             + " and "
-            "region.code='" + str(scenario.get_region().get_code()) + "'"
+            "region.code='"
+            + str(scenario.get_region().get_code())
+            + "'"
             + " and "
-            + "hot_water_tank.size=" + str(scenario.get_hot_water_tank().get_capacity())
+            + "hot_water_tank.size="
+            + str(scenario.get_hot_water_tank().get_capacity())
             + " and "
-            + "cooling.power=" + str(scenario.get_cooling().get_power()),
+            + "cooling.power="
+            + str(scenario.get_cooling().get_power()),
             con=self.__db,
         )
         if len(rows) == 0:
             return None
         row = rows.iloc[0]
         return {"id": int(row["id"])}
+
+    def get_investment_cost_by_id(self, param: dict) -> dict:
+        old_id: int = param["old_id"]
+        new_id: int = param["new_id"]
+        old_scenario = self.get_scenario_by_id({"id": old_id})
+        new_scenario = self.get_scenario_by_id({"id": new_id})
+        return {
+            "investment_cost": InvestmentCost(
+                old_scenario, new_scenario, param["sems"]
+            ).to_int()
+        }

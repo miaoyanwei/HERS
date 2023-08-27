@@ -25,6 +25,7 @@ class V1:
             "recommendation": self.recommendation,
             "scenario": self.scenario,
             "survey_scenario": self.survey_scenario,
+            "investment_cost": self.investment_cost,
         }
 
     def endpoint(self, endpoint: str) -> Optional[dict]:
@@ -96,6 +97,25 @@ class V1:
     def survey_scenario(self, method: str, data: dict) -> Optional[dict]:
         if method == "POST":
             return self.scenario(method, _map_json(data))
+        else:
+            return "Method Not Allowed", 405
+
+    def investment_cost(self, method: str, data: dict) -> Optional[dict]:
+        if method == "GET":
+            repository = self.__store.repository(data["country"])
+            if repository is None:
+                return "Not Found", 404
+            data = repository.query(
+                "investment_cost_by_id",
+                {
+                    "old_id": data["old_id"],
+                    "new_id": data["new_id"],
+                    "sems": _str_to_bool(data["sems"]),
+                },
+            )
+            if data is None:
+                return "Not Found", 404
+            return data
         else:
             return "Method Not Allowed", 405
 

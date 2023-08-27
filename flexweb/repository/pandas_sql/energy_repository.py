@@ -59,9 +59,9 @@ class EnergyRepository:
                 [int(rows.iloc[idx]["Hotwater"]) for idx in range(len(rows))]
             ),
             pv=MonthlyData([int(rows.iloc[idx]["PV"]) for idx in range(len(rows))]),
-        )
+        ).to_dict()
 
-    def get_energy_cost_by_id(self, param: dict) -> CostData:
+    def get_energy_cost_by_id(self, param: dict) -> dict:
         id: int = param["id"]
         sems: bool = param["sems"]
         table = "OperationResult_ReferenceYear"
@@ -78,4 +78,4 @@ class EnergyRepository:
         )
         if len(rows) == 0:
             return None
-        return CostData(yearly_bill=int(rows.iloc[0]["TotalCost"] / 100))
+        return CostData(yearly_bill=int(rows.iloc[0]["TotalCost"] / 100)).to_dict()

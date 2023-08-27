@@ -6,6 +6,7 @@ from flexweb.types.recommendation import (
 from flexweb.types.scenario import Scenario
 from .scenario_repository import ScenarioRepository
 from .energy_repository import EnergyRepository
+from .investment_cost import InvestmentCost
 import pandas as pd
 import copy
 
@@ -35,9 +36,9 @@ class RecommendationRepository:
 
     def get_recommendation_by_scenario(
         self, scenario: Scenario, sems: bool
-    ) -> RecommendationList:
+    ) -> dict:
         id = self.__scenario_repository.get_id_by_scenario(scenario)
-        return self.get_recommendation(id, scenario, sems)
+        return self.get_recommendation(id, scenario, sems).to_dict()
 
     def get_recommendation(
         self, id: int, scenario: Scenario, sems: bool
@@ -211,12 +212,9 @@ class _Improvement:
         self.init()
 
     def init(self) -> None:
-        for key, value in self.__scenario.get_components().items():
-            comp = self.__current_scenario.get_components()[key]
-            if not value.equals(comp):
-                self.__investment_cost += value.get_cost()
-        if self.__sems:
-            self.__investment_cost += 96
+        self.__investment_cost = InvestmentCost(
+            self.__current_scenario, self.__scenario, self.__sems
+        ).to_int()
         self.__value = self.__current_cost - self.__energy_cost
 
     def get_value(self) -> int:
