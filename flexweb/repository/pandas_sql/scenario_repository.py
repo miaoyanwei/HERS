@@ -1,17 +1,17 @@
-from flexweb.repository.base.repository import (
-    ScenarioRepository as BaseScenarioRepository,
-)
 from flexweb.types.scenario import Scenario
 from flexweb.types.component import *
 from typing import Optional
 import pandas as pd
 
 
-class ScenarioRepository(BaseScenarioRepository):
-    def __init__(self, db: any) -> None:
+class ScenarioRepository:
+    def __init__(self, db: any, handlers: dict) -> None:
         self.__db = db
+        handlers["scenario_by_id"] = self.get_scenario_by_id
+        handlers["id_by_scenario"] = self.get_id_by_scenario
 
-    def get_scenario_by_id(self, id: int) -> Optional[Scenario]:
+    def get_scenario_by_id(self, param: dict) -> dict:
+        id: int = param["id"]
         rows = pd.read_sql(
             "select "
             "pv.size as pv_size, "
@@ -61,9 +61,10 @@ class ScenarioRepository(BaseScenarioRepository):
             region=Region(code=row["region_code"]),
             hot_water_tank=HotWaterTank(size=int(row["hot_water_tank_size"])),
             cooling=Cooling(power=int(row["cooling_power"]))
-        )
+        ).to_dict
 
-    def get_id_by_scenario(self, scenario: Scenario) -> Optional[int]:
+    def get_id_by_scenario(self, param: dict) -> dict:
+        scenario: Scenario = Scenario.from_dict(param)
         battery_capacity: int = int(scenario.get_battery().get_capacity()) * 1000
         rows = pd.read_sql(
             "select "
@@ -110,4 +111,4 @@ class ScenarioRepository(BaseScenarioRepository):
         if len(rows) == 0:
             return None
         row = rows.iloc[0]
-        return int(row["id"])
+        return {"id": int(row["id"])}

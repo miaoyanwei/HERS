@@ -32,20 +32,22 @@ class V1:
 
     def energy_data(self, method: str, data: dict) -> Optional[dict]:
         if method == "GET":
-            data = self.__repository.get_energy_repository().get_energy_data_by_id(
-                data["id"], _str_to_bool(data["sems"])
+            data = self.__repository.query(
+                "energy_data_by_id",
+                {"id": data["id"], "sems": _str_to_bool(data["sems"])},
             )
             if data is None:
                 return "Not Found", 404
-            return data.to_dict()
+            return data
         else:
             return "Method Not Allowed", 405
 
     def energy_cost(self, method: str, data: dict) -> Optional[dict]:
         # Returns the energy cost of the scenario id
         if method == "GET":
-            data = self.__repository.get_energy_repository().get_energy_cost_by_id(
-                data["id"], _str_to_bool(data["sems"])
+            data = self.__repository.query(
+                "energy_cost_by_id",
+                {"id": data["id"], "sems": _str_to_bool(data["sems"])},
             )
             if data is None:
                 return "Not Found", 404
@@ -55,30 +57,27 @@ class V1:
 
     def recommendation(self, method: str, data: dict) -> Optional[dict]:
         if method == "GET":
-            recommendation = self.__repository.get_recommendation_repository().get_recommendation_by_id(
-                data["id"], _str_to_bool(data["sems"])
+            recommendation = self.__repository.query(
+                "recommendation_by_id",
+                {"id": data["id"], "sems": _str_to_bool(data["sems"])},
             )
             if recommendation is None:
                 return "Not Found", 404
-            return recommendation.to_dict()
+            return recommendation
         else:
             return "Method Not Allowed", 405
 
     def scenario(self, method: str, data: dict) -> Optional[dict]:
         if method == "GET":
-            scenario = self.__repository.get_scenario_repository().get_scenario_by_id(
-                data["id"]
-            )
+            scenario = self.__repository.query("scenario_by_id", {"id": data["id"]})
             if scenario is None:
                 return "Not Found", 404
-            return scenario.to_dict()
+            return scenario
         elif method == "POST":
-            id = self.__repository.get_scenario_repository().get_id_by_scenario(
-                Scenario.from_dict(data)
-            )
+            data = self.__repository.query("id_by_scenario", data)
             if id is None:
                 return "Not Found", 404
-            return {"id": id}
+            return data
         else:
             return "Method Not Allowed", 405
 

@@ -1,6 +1,3 @@
-from flexweb.repository.base.recommendation_repository import (
-    RecommendationRepository as BaseRecommendationRepository,
-)
 from flexweb.types.recommendation import (
     RecommendationList,
     Recommendation,
@@ -13,18 +10,28 @@ import pandas as pd
 import copy
 
 
-class RecommendationRepository(BaseRecommendationRepository):
+class RecommendationRepository:
     __scenario_repository: ScenarioRepository
     __energy_repository: EnergyRepository
 
-    def __init__(self, db) -> None:
+    def __init__(
+        self,
+        db,
+        scenarioRepository: ScenarioRepository,
+        energyRepository: EnergyRepository,
+        handlers: dict,
+    ) -> None:
         self.__db = db
-        self.__scenario_repository = ScenarioRepository(db)
-        self.__energy_repository = EnergyRepository(db)
+        self.__scenario_repository = scenarioRepository
+        self.__energy_repository = energyRepository
+        handlers["recommendation_by_id"] = self.get_recommendation_by_id
+        handlers["recommendation_by_scenario"] = self.get_recommendation_by_scenario
 
-    def get_recommendation_by_id(self, id: int, sems: bool) -> RecommendationList:
+    def get_recommendation_by_id(self, param: dict) -> dict:
+        id: int = param["id"]
+        sems: bool = param["sems"]
         scenario = self.__scenario_repository.get_scenario_by_id(id)
-        return self.get_recommendation(id, scenario, sems)
+        return self.get_recommendation(id, scenario, sems).to_dict()
 
     def get_recommendation_by_scenario(
         self, scenario: Scenario, sems: bool
