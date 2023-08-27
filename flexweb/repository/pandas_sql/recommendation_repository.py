@@ -47,7 +47,6 @@ class RecommendationRepository(BaseRecommendationRepository):
             )
             improvements.append(
                 _Improvement(
-                    self.__db,
                     candidate_id,
                     candidate_scenario,
                     self.__energy_repository.get_energy_cost_by_id(
@@ -61,7 +60,6 @@ class RecommendationRepository(BaseRecommendationRepository):
             if sems == False:
                 improvements.append(
                     _Improvement(
-                        self.__db,
                         candidate_id,
                         candidate_scenario,
                         self.__energy_repository.get_energy_cost_by_id(
@@ -188,7 +186,6 @@ class _CandidateFinder:
 class _Improvement:
     def __init__(
         self,
-        db,
         scenario_id: int,
         scenario: Scenario,
         energy_cost: int,
