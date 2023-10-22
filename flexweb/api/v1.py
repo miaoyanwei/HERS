@@ -1,8 +1,7 @@
-from flexweb.repository.store import Store
-from flexweb.types.scenario import Scenario
 from typing import Optional
 import json
-
+from flexweb.storage.manager import Manager as StorageManager
+from operator import methodcaller
 
 def _str_to_bool(s: str) -> bool:
     if s == "true":
@@ -14,137 +13,107 @@ def _str_to_bool(s: str) -> bool:
 
 
 class V1:
-    __store: Store
+    __storage: StorageManager
     __handlers: dict
 
-    def __init__(self, store: Store):
-        self.__store = store
-        self.__handlers = {
-            "energy_data": self.energy_data,
-            "energy_cost": self.energy_cost,
-            "recommendation": self.recommendation,
-            "scenario": self.scenario,
-            "survey_scenario": self.survey_scenario,
-            "investment_cost": self.investment_cost,
+    def __init__(self, storage: StorageManager):
+        self.__storage = storage
+
+    def endpoint(self, endpoint: str):
+        routes = endpoint.split("/")
+        if len(routes) == 0:
+            return None
+        if len(routes) == 1 and routes[0] == "db":
+            return self.db
+        if len(routes) >= 2:
+            return CountryHandler(self.__storage.db(routes[0])).endpoint(routes[1:])
+        return None
+
+    def db(self,  data: dict) -> Optional[dict]:
+        return self.__storage.list_db()
+
+    def component(self, endpoint : str) -> Optional[dict]:
+        router = {
+            "battery": self.battery,
+            "boiler": self.boiler,
+            "building": self.building,
+            "cooling": self.cooling,
+            "hot_water_tank": self.hot_water_tank,
+            "pv": self.pv,
+            "region": self.region,
         }
+    
+    def batter(self, endpoint: str) -> Optional[dict]:
+        router = {
+            "all": self.battery_all,
+            "id": self.battery_id,
+        }
+        routes = endpoint.split("/")
+        if len(routes) < 2:
+            return None
+        return router[routes[0]](self, routes[1])
+        
 
-    def endpoint(self, endpoint: str) -> Optional[dict]:
-        return self.__handlers[endpoint]
+class CountryHandler:
+    def __init__(self, storage):
+        self.__storage = storage
 
-    def energy_data(self, method: str, data: dict) -> Optional[dict]:
-        if method == "GET":
-            repository = self.__store.repository(data["country"])
-            if repository is None:
-                return "Not Found", 404
-            data = repository.query(
-                "energy_data_by_id",
-                {"id": data["id"], "sems": _str_to_bool(data["sems"])},
-            )
-            if data is None:
-                return "Not Found", 404
-            return data
+    def endpoint(self, routes):
+        print(routes)
+        if len(routes) == 0:
+            return None
+        if len(routes) == 1:
+            handlers = {
+                "scenario": self.scenario
+            }
+
+            return handlers.get(routes[0], None)
+        elif len(routes) == 2 and routes[0] == "component":
+            handlers = {
+                "battery": self.battery,
+                "boiler": self.boiler,
+                "building": self.building,
+                "cooling": self.cooling,
+                "hot_water_tank": self.hot_water_tank,
+                "pv": self.pv,
+                "region": self.region
+            }
+            return handlers.get(routes[1], None)
+        elif len(routes) == 2 and routes[0] == "result":
+            handlers = {
+                "optimization_year": self.optimization_year,
+                "reference_year": self.reference_year
+            }
+            return handlers.get(routes[1], None)
         else:
-            return "Method Not Allowed", 405
+            return None
 
-    def energy_cost(self, method: str, data: dict) -> Optional[dict]:
-        # Returns the energy cost of the scenario id
-        if method == "GET":
-            repository = self.__store.repository(data["country"])
-            if repository is None:
-                return "Not Found", 404
-            data = repository.query(
-                "energy_cost_by_id",
-                {"id": data["id"], "sems": _str_to_bool(data["sems"])},
-            )
-            if data is None:
-                return "Not Found", 404
-            return data.to_dict()
-        else:
-            return "Method Not Allowed", 405
+    def battery(self, data: dict) -> Optional[dict]:
+        return [e.to_dict() for e in self.__storage.component().battery().match(data)]
+        
+    def boiler(self, data: dict) -> Optional[dict]:
+        return [e.to_dict() for e in self.__storage.component().boiler().match(data)]
+    
+    def building(self, data: dict) -> Optional[dict]:
+        return [e.to_dict() for e in self.__storage.component().building().match(data)]
+        
+    def cooling(self, data: dict) -> Optional[dict]:
+        return [e.to_dict() for e in self.__storage.component().space_cooling_technology().match(data)]
+    
+    def hot_water_tank(self, data: dict) -> Optional[dict]:
+        return [e.to_dict() for e in self.__storage.component().hot_water_tank().match(data)]
+    
+    def pv(self, data: dict) -> Optional[dict]:
+        return [e.to_dict() for e in self.__storage.component().pv().match(data)]
+    
+    def region(self, data: dict) -> Optional[dict]:
+        return [e.to_dict() for e in self.__storage.component().region().match(data)]
+    
+    def scenario(self, data: dict) -> Optional[dict]:
+        return [e.to_dict() for e in self.__storage.scenario().match(data)]
+    
+    def optimization_year(self, data: dict) -> Optional[dict]:
+        return [e.to_dict() for e in self.__storage.result().optimization_year().match(data)]
 
-    def recommendation(self, method: str, data: dict) -> Optional[dict]:
-        if method == "GET":
-            repository = self.__store.repository(data["country"])
-            if repository is None:
-                return "Not Found", 404
-            recommendation = repository.query(
-                "recommendation_by_id",
-                {"id": data["id"], "sems": _str_to_bool(data["sems"])},
-            )
-            if recommendation is None:
-                return "Not Found", 404
-            return recommendation
-        else:
-            return "Method Not Allowed", 405
-
-    def scenario(self, method: str, data: dict) -> Optional[dict]:
-        if method == "GET":
-            repository = self.__store.repository(data["country"])
-            scenario = repository.query("scenario_by_id", {"id": data["id"]})
-            if scenario is None:
-                return "Not Found", 404
-            return scenario
-        elif method == "POST":
-            data = self.__store.repository(data["country"]).query(
-                "id_by_scenario", data
-            )
-            if id is None:
-                return "Not Found", 404
-            return data
-        else:
-            return "Method Not Allowed", 405
-
-    def survey_scenario(self, method: str, data: dict) -> Optional[dict]:
-        if method == "POST":
-            return self.scenario(method, _map_json(data))
-        else:
-            return "Method Not Allowed", 405
-
-    def investment_cost(self, method: str, data: dict) -> Optional[dict]:
-        if method == "GET":
-            repository = self.__store.repository(data["country"])
-            if repository is None:
-                return "Not Found", 404
-            data = repository.query(
-                "investment_cost_by_id",
-                {
-                    "old_id": data["old_id"],
-                    "new_id": data["new_id"],
-                    "sems": _str_to_bool(data["sems"]),
-                },
-            )
-            if data is None:
-                return "Not Found", 404
-            return data
-        else:
-            return "Method Not Allowed", 405
-
-
-def _map_json(data):
-    new_json = json.loads("{}")
-    # Iterate through the key-value pairs
-    for key, value in data.items():
-        fields = key.split("_")
-        category = fields[0]
-        variable = fields[1]
-        if variable == "exist":
-            if (value == True) and new_json.get(category) is None:
-                new_json[category] = json.loads("{}")
-        else:
-            if new_json.get(category) is None:
-                new_json[category] = json.loads("{}")
-            if category == "region":
-                variable = fields[-1]
-                new_json[category][variable] = value
-            elif variable == "construction":
-                years = value.split("-")
-                new_json[category]["construction_period_start"] = years[0]
-                new_json[category]["construction_period_end"] = years[1]
-            elif variable == "person":
-                new_json[category]["person_num"] = value
-            else:
-                new_json[category][variable] = value
-    if new_json.get("cooling") is not None:
-        new_json["cooling"]["power"] = 10000
-
-    return new_json
+    def reference_year(self, data: dict) -> Optional[dict]:
+        return [e.to_dict() for e in self.__storage.result().reference_year().match(data)]
