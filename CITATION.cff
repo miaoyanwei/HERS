@@ -1,6 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 type: software
+repository-code: https://github.com/miaoyanwei/HERS
 authors:
   - family-names: Miao
     given-names: Yanwei
