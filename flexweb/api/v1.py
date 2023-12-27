@@ -32,28 +32,6 @@ class V1:
     def db(self,  data: dict) -> Optional[dict]:
         return self.__storage.list_db()
 
-    def component(self, endpoint : str) -> Optional[dict]:
-        router = {
-            "battery": self.battery,
-            "boiler": self.boiler,
-            "building": self.building,
-            "cooling": self.cooling,
-            "hot_water_tank": self.hot_water_tank,
-            "pv": self.pv,
-            "region": self.region,
-        }
-    
-    def batter(self, endpoint: str) -> Optional[dict]:
-        router = {
-            "all": self.battery_all,
-            "id": self.battery_id,
-        }
-        routes = endpoint.split("/")
-        if len(routes) < 2:
-            return None
-        return router[routes[0]](self, routes[1])
-        
-
 class CountryHandler:
     def __init__(self, storage):
         self.__storage = storage
