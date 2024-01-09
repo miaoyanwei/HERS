@@ -2,19 +2,72 @@
 import * as scenario from './scenario.js';
 
 
-function handleResult(result) {
-  console.log(result);
-  document.cookie = "my_scenario=" + result.id;
-  window.location.href = '/html/recommendation.html';
+// Country Survey
+
+function handleBuildingData(getBuildingResult, getPvResult, getBatteryResult) {
+  var buildingTime = []
+  var peopleNumber = []
+  var pvSize = []
+  var batterySize = []
+  for (const e of getBuildingResult) {
+    var range = e.construction_period_start + "-" + e.construction_period_end;
+    if (!buildingTime.includes(range)) {
+      buildingTime.push(range);
+    }
+    
+    // People number
+    if (!peopleNumber.includes(e.person_num)) {
+      peopleNumber.push(e.person_num);
+    }
+  }
+
+  // PV size
+  for (const pv of getPvResult) {
+    if (pv.size !== 0) {
+      pvSize.push(pv.size + " kilowatt-peak");
+    }
+  }
+
+  // Battery size
+  for (const b of getBatteryResult) {
+    if (b.capacity !== 0) {
+      batterySize.push(b.capacity/1000 + " kilowatt-hours");
+    }
+  }
+
+  setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, batterySize);
 }
 
-// Miao: Send data to server
-function sendDataToServer(survey) {
-  document.cookie = "my_sems=" + survey.data.sems_exist;
-  scenario.postSurveyScenario(survey.data, handleResult);
+function handleCountryData(survey) {
+  var country = survey.data.region_code;
+  document.cookie = "country=" + survey.data.region_code;
+
+  // Get all building data
+  $.when(
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/" + country + "/component/building",
+      dataType: "json",
+      contentType: "application/json"
+    }),
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/" + country + "/component/pv",
+      dataType: "json",
+      contentType: "application/json"
+    }),
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/" + country + "/component/battery",
+      dataType: "json",
+      contentType: "application/json"
+    })
+    ).done(function(buildingResult, pvResult,batterySize) {
+      handleBuildingData(buildingResult[0], pvResult[0], batterySize[0]);
+    })
 }
 
-export function setupSurvey() {
+export function setupCountrySurvey() {
   var surveyJSON = {
     "title": {
       "default": "q_en",
@@ -38,12 +91,9 @@ export function setupSurvey() {
               "de": "Land"
             },
             "isRequired": true,
-            "choices": [
-              {
-                "value": "DE",
-                "text": "Deutschland"
-              }
-            ],
+            "choicesByUrl": {
+              "url": "http://localhost:8080/api/v1/db" 
+            },
             "placeholder": {
               "default": "Select country",
               "de": "Land wählen"
@@ -61,6 +111,47 @@ export function setupSurvey() {
         }
       },
 
+    ],
+    "showTitle": false,
+    "showCompletedPage": false
+  }
+
+  Survey.StylesManager.applyTheme("defaultV2");
+  var survey = new Survey.Model(surveyJSON);
+  $("#surveyContainer").Survey({
+    model: survey,
+    onComplete: handleCountryData
+  });
+}
+
+
+// Household Config Survey
+
+function handleResult(result) {
+  console.log(result);
+  document.cookie = "my_scenario=" + result.id;
+  window.location.href = '/html/recommendation.html';
+}
+
+// Miao: Send data to server
+function sendDataToServer(survey) {
+  document.cookie = "my_sems=" + survey.data.sems_exist;
+  scenario.postSurveyScenario(survey.data, handleResult);
+}
+
+export function setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, batterySize) {
+  var surveyJSON = {
+    "title": {
+      "default": "q_en",
+      "de": "q_de"
+    },
+    "description": " ",
+    "logoWidth": "0px",
+    "logoHeight": "0px",
+    "logoFit": "none",
+    "logoPosition": "right",
+    "pages": [
+
       {
         "name": "building_1",
         "elements": [
@@ -76,18 +167,7 @@ export function setupSurvey() {
               "de": "Die Kenntnis des Baujahrs eines Hauses kann Aufschluss über die Baumaterialien geben, z. B. über die Zusammensetzung der Wände."
             },
             "isRequired": true,
-            "choices": [
-              {
-                "value": "1880-1948",
-                "text": "before 1949"
-              },
-              "1949-1978",
-              "1979-1994",
-              {
-                "value": "1995-2022",
-                "text": "after 1994"
-              }
-            ]
+            "choices": buildingTime
           }
         ],
         "title": {
@@ -137,17 +217,7 @@ export function setupSurvey() {
               "de": "Menschen"
             },
             "isRequired": true,
-            "choices": [
-              {
-                "value": "3",
-                "text": "less than 4"
-              },
-              "4",
-              {
-                "value": "5",
-                "text": "more than 4"
-              }
-            ]
+            "choices": peopleNumber
           }
         ],
         "title": {
@@ -281,16 +351,7 @@ export function setupSurvey() {
               "de": "Die durchschnittliche Größe einer PV-Anlage beträgt 5 kW_peak",
               "default": "The average size of a PV system is 5 kilowatt-peak"
             },
-            "choices": [
-              {
-                "value": "5",
-                "text": "around 5 kilowatt-peak"
-              },
-              {
-                "value": "10",
-                "text": "around 10 kilowatt-peak"
-              }
-            ]
+            "choices": pvSize
           }
         ],
         "title": {
@@ -327,16 +388,7 @@ export function setupSurvey() {
               "default": "The average capacity of a home battery system is around 10 kilowatt-hours",
               "de": "Die durchschnittliche Kapazität eines Batteriesystems beträgt etwa 10 Kilowattstunden"
             },
-            "choices": [
-              {
-                "value": "10",
-                "text": "around 10 kilowatt-hours"
-              },
-              {
-                "value": "20",
-                "text": "around 20 kilowatt-hours"
-              }
-            ]
+            "choices": batterySize
           }
         ],
         "title": {
