@@ -4,11 +4,14 @@ import * as scenario from './scenario.js';
 
 // Country Survey
 
-function handleBuildingData(getBuildingResult, getPvResult, getBatteryResult) {
+function handleBuildingData(getBuildingResult, getPvResult, getBatteryResult, getBoilerResult) {
   var buildingTime = []
   var peopleNumber = []
   var pvSize = []
   var batterySize = []
+  var boilerType = []
+
+  // Building related
   for (const e of getBuildingResult) {
     var range = e.construction_period_start + "-" + e.construction_period_end;
     if (!buildingTime.includes(range)) {
@@ -35,7 +38,26 @@ function handleBuildingData(getBuildingResult, getPvResult, getBatteryResult) {
     }
   }
 
-  setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, batterySize);
+  // Heating type
+  for (const boiler of getBoilerResult) {
+    if (boiler.type === "Air_HP") {
+      boilerType.push("Heat pump");
+    }
+    if (boiler.type === "gases") {
+      boilerType.push("Natural gas boiler");
+    }
+    if (boiler.type === "solids") {
+      boilerType.push("Biomass boiler");
+    }
+    if (boiler.type === "district_heating") {
+      boilerType.push("District heating");
+    }
+    if (boiler.type === "liquids") {
+      boilerType.push("Heating oil boiler");
+    }
+  }
+
+  setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, batterySize, boilerType);
 }
 
 function handleCountryData(survey) {
@@ -61,9 +83,15 @@ function handleCountryData(survey) {
       url: "/api/v1/" + country + "/component/battery",
       dataType: "json",
       contentType: "application/json"
+    }),
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/" + country + "/component/boiler",
+      dataType: "json",
+      contentType: "application/json"
     })
-    ).done(function(buildingResult, pvResult,batterySize) {
-      handleBuildingData(buildingResult[0], pvResult[0], batterySize[0]);
+    ).done(function(buildingResult, pvResult,batterySize, boilerType) {
+      handleBuildingData(buildingResult[0], pvResult[0], batterySize[0], boilerType[0]);
     })
 }
 
@@ -139,7 +167,7 @@ function sendDataToServer(survey) {
   scenario.postSurveyScenario(survey.data, handleResult);
 }
 
-export function setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, batterySize) {
+export function setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, batterySize, boilerType) {
   var surveyJSON = {
     "title": {
       "default": "q_en",
@@ -255,43 +283,7 @@ export function setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, battery
               "de": "Welche Art von Heizanlage wird im Haus verwendet?"
             },
             "isRequired": true,
-            "choices": [
-              {
-                "value": "solids",
-                "text": {
-                  "default": "Biomass boiler",
-                  "de": "Biomassekessel"
-                }
-              },
-              {
-                "value": "district_heating",
-                "text": {
-                  "default": "District heating",
-                  "de": "Fernwärme"
-                }
-              },
-              {
-                "value": "Air_HP",
-                "text": {
-                  "default": "Heat pump",
-                  "de": "Wärmepumpe"
-                }
-              },
-              {
-                "value": "liquids",
-                "text": {
-                  "default": "Heating oil boiler",
-                  "de": "Heizölkessel"
-                }
-              },
-              {
-                "value": "gases",
-                "text": {
-                  "default": "Natural gas boiler",
-                  "de": "Erdgaskessel"
-                }
-              }
-            ]
+            "choices": boilerType
           }
         ],
         "title": {
