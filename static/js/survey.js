@@ -1,6 +1,6 @@
 
 import * as scenario from './scenario.js';
-
+import * as country from './country.js';
 
 // Country Survey
 
@@ -27,33 +27,33 @@ function handleBuildingData(getBuildingResult, getPvResult, getBatteryResult, ge
   // PV size
   for (const pv of getPvResult) {
     if (pv.size !== 0) {
-      pvSize.push(pv.size + " kilowatt-peak");
+      pvSize.push({"value" : pv.ID_PV, "text" : pv.size + " kilowatt-peak"});
     }
   }
 
   // Battery size
   for (const b of getBatteryResult) {
     if (b.capacity !== 0) {
-      batterySize.push(b.capacity/1000 + " kilowatt-hours");
+      batterySize.push({"value" : b.ID_Battery, "text" : b.capacity/1000 + " kilowatt-hours"});
     }
   }
 
   // Heating type
   for (const boiler of getBoilerResult) {
     if (boiler.type === "Air_HP") {
-      boilerType.push("Heat pump");
+      boilerType.push({"value" : boiler.ID_Boiler, "text" : "Heat pump"});
     }
     if (boiler.type === "gases") {
-      boilerType.push("Natural gas boiler");
+      boilerType.push({"value" : boiler.ID_Boiler, "text" : "Natural gas boiler"});
     }
     if (boiler.type === "solids") {
-      boilerType.push("Biomass boiler");
+      boilerType.push({"value" : boiler.ID_Boiler, "text" : "Biomass boiler"});
     }
     if (boiler.type === "district_heating") {
-      boilerType.push("District heating");
+      boilerType.push({"value" : boiler.ID_Boiler, "text" : "District heating"});
     }
     if (boiler.type === "liquids") {
-      boilerType.push("Heating oil boiler");
+      boilerType.push({"value" : boiler.ID_Boiler, "text" : "Heating oil boiler"});
     }
   }
 
@@ -95,7 +95,31 @@ function handleCountryData(survey) {
     })
 }
 
-export function setupCountrySurvey() {
+function handleCountryName(getCountryCode) {
+  var countryCode = []
+  for (const code of getCountryCode) {
+    let name = country.countryEnglish[code];
+    if (typeof name === "undefined") {
+      name = code;
+    }
+    countryCode.push({"value" : code, "text" : name});
+  }
+
+  setupCountrySurvey(countryCode);
+}
+
+export function startSurvey() {
+  $.ajax({
+    type: "GET",
+    url: "/api/v1/db",
+    dataType: "json",
+    contentType: "application/json"
+  }).done (function(countryCode) {
+    handleCountryName(countryCode);
+  });
+}
+
+function setupCountrySurvey(countryCode) {
   var surveyJSON = {
     "title": {
       "default": "q_en",
@@ -119,9 +143,7 @@ export function setupCountrySurvey() {
               "de": "Land"
             },
             "isRequired": true,
-            "choicesByUrl": {
-              "url": "http://localhost:8080/api/v1/db" 
-            },
+            "choices": countryCode,
             "placeholder": {
               "default": "Select country",
               "de": "Land wählen"
