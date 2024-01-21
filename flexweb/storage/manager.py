@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from flexweb.storage.db import DB
+from flexweb.storage.db import UserDBInterface
 import os
 
 class Manager:
@@ -16,8 +16,8 @@ class Manager:
                     "sqlite:///" + os.path.join(path, file)
                 ))
 
-    def db(self, country : str) -> DB:
-        return DB(self.__connector[country]())
+    def user_db_interface(self, country : str) -> UserDBInterface:
+        return UserDBInterface(self.__connector[country]())
     
     def list_db(self) -> list:
         return list(self.__connector.keys())

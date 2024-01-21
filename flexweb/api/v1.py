@@ -3,15 +3,6 @@ import json
 from flexweb.storage.manager import Manager as StorageManager
 from operator import methodcaller
 
-def _str_to_bool(s: str) -> bool:
-    if s == "true":
-        return True
-    elif s == "false":
-        return False
-    else:
-        raise ValueError("String is not a boolean")
-
-
 class V1:
     __storage: StorageManager
     __handlers: dict
@@ -26,7 +17,7 @@ class V1:
         if len(routes) == 1 and routes[0] == "db":
             return self.db
         if len(routes) >= 2:
-            return CountryHandler(self.__storage.db(routes[0])).endpoint(routes[1:])
+            return CountryHandler(self.__storage.user_db_interface(routes[0])).endpoint(routes[1:])
         return None
 
     def db(self,  data: dict) -> Optional[dict]:
@@ -42,7 +33,8 @@ class CountryHandler:
             return None
         if len(routes) == 1:
             handlers = {
-                "scenario": self.scenario
+                "scenario": self.scenario,
+                "recommendation": self.recommendation
             }
 
             return handlers.get(routes[0], None)
@@ -67,31 +59,34 @@ class CountryHandler:
             return None
 
     def battery(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.component().battery().match(data)]
+        return [e.to_dict() for e in self.__storage.get_battery(data)]
         
     def boiler(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.component().boiler().match(data)]
+        return [e.to_dict() for e in self.__storage.get_boiler(data)]
     
     def building(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.component().building().match(data)]
+        return [e.to_dict() for e in self.__storage.get_building(data)]
         
     def cooling(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.component().space_cooling_technology().match(data)]
+        return [e.to_dict() for e in self.__storage.get_space_cooling_technology(data)]
     
     def hot_water_tank(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.component().hot_water_tank().match(data)]
+        return [e.to_dict() for e in self.__storage.get_hot_water_tank(data)]
     
     def pv(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.component().pv().match(data)]
+        return [e.to_dict() for e in self.__storage.get_pv(data)]
     
     def region(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.component().region().match(data)]
+        return [e.to_dict() for e in self.__storage.get_region(data)]
     
     def scenario(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.scenario().match(data)]
+        return [e.to_dict() for e in self.__storage.get_scenario(data)]
+    
+    def recommendation(self, data: dict) -> Optional[dict]:
+        return self.__storage.get_recommendation(data)
     
     def optimization_year(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.result().optimization_year().match(data)]
+        return [e.to_dict() for e in self.__storage.get_optimization_year(data)]
 
     def reference_year(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.result().reference_year().match(data)]
+        return [e.to_dict() for e in self.__storage.get_reference_year(data)]
