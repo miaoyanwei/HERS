@@ -4,12 +4,17 @@ import * as country from './country.js';
 
 // Country Survey
 
+var buildingDataCache;
+var countryCode;
+
 function handleBuildingData(getBuildingResult, getPvResult, getBatteryResult, getBoilerResult) {
   var buildingTime = []
   var peopleNumber = []
   var pvSize = []
   var batterySize = []
   var boilerType = []
+
+  buildingDataCache = getBuildingResult;
 
   // Building related
   for (const e of getBuildingResult) {
@@ -63,6 +68,8 @@ function handleBuildingData(getBuildingResult, getPvResult, getBatteryResult, ge
 function handleCountryData(survey) {
   var country = survey.data.region_code;
   document.cookie = "country=" + survey.data.region_code;
+
+  countryCode = survey.data.region_code;
 
   // Get all building data
   $.when(
@@ -187,6 +194,67 @@ function handleResult(result) {
 function sendDataToServer(survey) {
   document.cookie = "my_sems=" + survey.data.sems_exist;
   scenario.postSurveyScenario(survey.data, handleResult);
+}
+
+function findBuildingID(person_num, construction, renovated) {
+  for (var building of buildingDataCache) {
+    if (building.person_num === person_num && 
+      building.construction_period_start === parseInt(construction.split('-')[0], 10) &&
+      building.construction_period_end === parseInt(construction.split('-')[1], 10) &&
+      (Boolean)(building.ID_Building % 2) === renovated)
+    {
+      return building.ID_Building;
+    }
+  }
+}
+
+function handleHousehold(surveyResult) {
+  
+  var pvId = 3;
+  if (surveyResult.data.pv_exist) {
+    pvId = surveyResult.data.pv_size;
+  }
+
+  var batteryId = 3;
+  if (surveyResult.data.battery_exist) {
+    batteryId = surveyResult.data.battery_capacity;
+  }
+
+  var boilerId = surveyResult.data.boiler_type;
+
+  var waterTankId = 2;
+  var spaceTankId = 2;
+  if (surveyResult.data.tank_exist) {
+    waterTankId = 1;
+    spaceTankId = 1;
+  }
+
+  var buildingId = findBuildingID (surveyResult.data.building_person_num, 
+    surveyResult.data.building_construction, 
+    surveyResult.data.building_renovated, 
+  );
+
+  var componentIds = {
+    "ID_PV" : pvId,
+    "ID_Battery" : batteryId,
+    "ID_Boiler" : boilerId,
+    "ID_Building" : buildingId,
+    "ID_HotWaterTank" : waterTankId,
+    "ID_SpaceHeatingTank" : spaceTankId
+  }
+
+  getScenarioId(componentIds);
+}
+
+export function getScenarioId(componentIds) {
+  $.ajax({
+      type: "GET",
+      url: "/api/v1/" + countryCode + "/scenario" ,
+      data: componentIds,
+      success: function (result) {
+          print (result)
+      }
+  });
 }
 
 export function setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, batterySize, boilerType) {
@@ -441,7 +509,7 @@ export function setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, battery
   var survey = new Survey.Model(surveyJSON);
   $("#surveyContainer").Survey({
     model: survey,
-    onComplete: sendDataToServer
+    onComplete: handleHousehold
   });
 }
 
