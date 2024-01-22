@@ -8,21 +8,17 @@ from sqlalchemy import Column, Integer, String, Float, or_, and_, table
 
 Base = declarative_base()
 
-
 class MixinToDict:
     def to_dict(self) -> dict:
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
-
 # Components
-
 
 class Battery(Base, MixinToDict):
     __tablename__ = "OperationScenario_Component_Battery"
     ID_Battery = Column(Integer, primary_key=True)
     capacity = Column(Integer)
     cost = column_property(capacity / 1000 * 41)
-
 
 class Boiler(Base, MixinToDict):
     __boilerCosts = {
@@ -59,13 +55,11 @@ class Region(Base, MixinToDict):
     ID_Region = Column(Integer, primary_key=True)
     code = Column(String)
 
-
 class SpaceCoolingTechnology(Base, MixinToDict):
     __tablename__ = "OperationScenario_Component_SpaceCoolingTechnology"
     ID_SpaceCoolingTechnology = Column(Integer, primary_key=True)
     power = Column(Integer)
     cost = column_property(power * 100)
-
 
 class HotWaterTank(Base, MixinToDict):
     __tablename__ = "OperationScenario_Component_HotWaterTank"
@@ -73,25 +67,21 @@ class HotWaterTank(Base, MixinToDict):
     size = Column(Integer)
     cost = column_property(size * 41)
 
-
 class SpaceHeatingTank(Base, MixinToDict):
     __tablename__ = "OperationScenario_Component_SpaceHeatingTank"
     ID_SpaceHeatingTank = Column(Integer, primary_key=True)
     size = Column(Integer)
     cost = column_property(size * 100)
 
-
 class OptimizationYear(Base, MixinToDict):
     __tablename__ = "OperationResult_OptimizationYear"
     ID_Scenario = Column(Integer, primary_key=True)
     TotalCost = Column(Float)
 
-
 class ReferenceYear(Base, MixinToDict):
     __tablename__ = "OperationResult_ReferenceYear"
     ID_Scenario = Column(Integer, primary_key=True)
     TotalCost = Column(Float)
-
 
 class Scenario(Base, MixinToDict):
     __tablename__ = "OperationScenario"
@@ -300,7 +290,6 @@ class OptimizationMonth(Base):
             "Appliance": self.Appliance,
             "HotWaterTank": self.HotWaterTank,
         }
-
 
 class ReferenceMonth(Base):
     __tablename__ = "OperationResult_ReferenceMonth"
