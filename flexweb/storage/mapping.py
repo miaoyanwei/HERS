@@ -118,13 +118,16 @@ class Scenario(Base, MixinToDict):
 
         if (scenario.ID_Building % 2) == 0:  # The building is not renovated
             query = query.filter(
-                Scenario.ID_Building == scenario.ID_Building,
-                Scenario.ID_Building == scenario.ID_Building - 1,
+                or_(
+                    Scenario.ID_Building == scenario.ID_Building,
+                    Scenario.ID_Building == scenario.ID_Building - 1,
+                )
             )
         else:  # The building is already renovated
             query = query.filter(Scenario.ID_Building == scenario.ID_Building)
-
-        query = query.filter(and_(Scenario.ID_Boiler == 1))
+        query = query.filter(
+            or_(Scenario.ID_Boiler == 1, Scenario.ID_Boiler == scenario.ID_Boiler)
+        )
 
         # All other possible improvements
         query = query.filter(
@@ -140,7 +143,8 @@ class Scenario(Base, MixinToDict):
         query = query.filter(
             and_(
                 Scenario.ID_Region == scenario.ID_Region,
-                Scenario.ID_SpaceCoolingTechnology == scenario.ID_SpaceCoolingTechnology,
+                Scenario.ID_SpaceCoolingTechnology
+                == scenario.ID_SpaceCoolingTechnology,
                 Scenario.ID_Behavior == scenario.ID_Behavior,
                 Scenario.ID_EnergyPrice == scenario.ID_EnergyPrice,
                 Scenario.ID_Vehicle == scenario.ID_Vehicle,
@@ -151,6 +155,13 @@ class Scenario(Base, MixinToDict):
 
     def get_upgrade_cost(self, session, upgraded, sems: bool):
         cost = 0
+        if self.ID_Building != upgraded.ID_Building:
+            cost += (
+                session.query(Building)
+                .filter(Building.ID_Building == upgraded.ID_Building)
+                .first()
+                .cost
+            )
         if self.ID_Boiler != upgraded.ID_Boiler:
             cost += (
                 session.query(Boiler)
@@ -202,61 +213,55 @@ class Scenario(Base, MixinToDict):
             .TotalCost
         )
 
-    def get_recommendation(self, session, sems:bool):
+    def get_recommendation(self, session, sems: bool):
         recommendations = {}
 
         improvements = []
         candidates = Scenario.get_upgrades(session, self.ID_Scenario)
         for candidate in candidates:
             saving = self.get_savings(session, sems, candidate, sems)
+            upgrade_cost = self.get_upgrade_cost(session, candidate, False)
             improvements.append(
                 {
                     "ID_Scenario": candidate.ID_Scenario,
-                    "UpgradeCost": self.get_upgrade_cost(session, candidate, False),
+                    "UpgradeCost": upgrade_cost,
                     "Savings": saving,
-                    "Benefit": saving
-                    - self.get_upgrade_cost(session, candidate, False),
+                    "Benefit": saving - upgrade_cost,
                     "SEMS": sems,
                 }
             )
 
             if sems == False:
-                print("We gotta upgrade to sems")
                 saving = self.get_savings(session, False, candidate, True)
+                upgrade_cost = self.get_upgrade_cost(session, candidate, True)
                 improvements.append(
                     {
                         "ID_Scenario": candidate.ID_Scenario,
-                        "UpgradeCost": self.get_upgrade_cost(session, candidate, True),
+                        "UpgradeCost": upgrade_cost,
                         "Savings": saving,
-                        "Benefit": saving
-                        - self.get_upgrade_cost(session, candidate, True),
+                        "Benefit": saving - upgrade_cost,
                         "SEMS": True,
                     }
                 )
-        
+
         # Remove impromments with no benefit
-        improvements = list(filter(lambda x: x["Savings"] > 0, improvements))
+        improvements = list(filter(lambda x: x["Benefit"] > 0, improvements))
 
         # Get best Cost Benefit
         if len(improvements) == 0:
             return recommendations
         cost_benefit = max(improvements, key=lambda x: x["Benefit"])
         recommendations["CostBenefit"] = cost_benefit
-        improvements.remove(cost_benefit)
 
         # Get lowest energy bill
-        if len(improvements) == 0:
-            return recommendations
-        lowest_energy_bill = min(improvements, key=lambda x: x["Savings"])
-        recommendations["LowestEnergyBill"] = lowest_energy_bill
-        improvements.remove(lowest_energy_bill)
+        lowest_energy_bill = max(improvements, key=lambda x: x["Savings"])
+        if lowest_energy_bill not in recommendations.values():
+            recommendations["LowestEnergyBill"] = lowest_energy_bill
 
         # Get lowest investment
-        if len(improvements) == 0:
-            return recommendations
         lowest_investment = min(improvements, key=lambda x: x["UpgradeCost"])
-        recommendations["LowestInvestment"] = lowest_investment
-        improvements.remove(lowest_investment)
+        if lowest_investment not in recommendations.values():
+            recommendations["LowestInvestment"] = lowest_investment
 
         return recommendations
 
