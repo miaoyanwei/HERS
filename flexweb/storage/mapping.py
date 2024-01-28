@@ -8,17 +8,21 @@ from sqlalchemy import Column, Integer, String, Float, or_, and_, table
 
 Base = declarative_base()
 
+
 class MixinToDict:
     def to_dict(self) -> dict:
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
+
 # Components
+
 
 class Battery(Base, MixinToDict):
     __tablename__ = "OperationScenario_Component_Battery"
     ID_Battery = Column(Integer, primary_key=True)
     capacity = Column(Integer)
     cost = column_property(capacity / 1000 * 41)
+
 
 class Boiler(Base, MixinToDict):
     __boilerCosts = {
@@ -55,11 +59,13 @@ class Region(Base, MixinToDict):
     ID_Region = Column(Integer, primary_key=True)
     code = Column(String)
 
+
 class SpaceCoolingTechnology(Base, MixinToDict):
     __tablename__ = "OperationScenario_Component_SpaceCoolingTechnology"
     ID_SpaceCoolingTechnology = Column(Integer, primary_key=True)
     power = Column(Integer)
     cost = column_property(power * 100)
+
 
 class HotWaterTank(Base, MixinToDict):
     __tablename__ = "OperationScenario_Component_HotWaterTank"
@@ -67,21 +73,25 @@ class HotWaterTank(Base, MixinToDict):
     size = Column(Integer)
     cost = column_property(size * 41)
 
+
 class SpaceHeatingTank(Base, MixinToDict):
     __tablename__ = "OperationScenario_Component_SpaceHeatingTank"
     ID_SpaceHeatingTank = Column(Integer, primary_key=True)
     size = Column(Integer)
     cost = column_property(size * 100)
 
+
 class OptimizationYear(Base, MixinToDict):
     __tablename__ = "OperationResult_OptimizationYear"
     ID_Scenario = Column(Integer, primary_key=True)
     TotalCost = Column(Float)
 
+
 class ReferenceYear(Base, MixinToDict):
     __tablename__ = "OperationResult_ReferenceYear"
     ID_Scenario = Column(Integer, primary_key=True)
     TotalCost = Column(Float)
+
 
 class Scenario(Base, MixinToDict):
     __tablename__ = "OperationScenario"
@@ -124,8 +134,6 @@ class Scenario(Base, MixinToDict):
             and_(
                 Scenario.ID_PV <= scenario.ID_PV,
                 Scenario.ID_Battery <= scenario.ID_Battery,
-                Scenario.ID_HotWaterTank <= scenario.ID_HotWaterTank,
-                Scenario.ID_SpaceHeatingTank <= scenario.ID_SpaceHeatingTank,
             )
         )
 
@@ -139,6 +147,8 @@ class Scenario(Base, MixinToDict):
                 Scenario.ID_EnergyPrice == scenario.ID_EnergyPrice,
                 Scenario.ID_Vehicle == scenario.ID_Vehicle,
                 Scenario.ID_HeatingElement == scenario.ID_HeatingElement,
+                Scenario.ID_HotWaterTank == scenario.ID_HotWaterTank,
+                Scenario.ID_SpaceHeatingTank == scenario.ID_SpaceHeatingTank,
             )
         )
         return query.all()
@@ -188,19 +198,21 @@ class Scenario(Base, MixinToDict):
             cost += 96
         return int(cost)
 
+    def get_total_cost(self, session, sems):
+        year_type = OptimizationYear if sems else ReferenceYear
+        return int(
+            session.query(year_type)
+            .filter(year_type.ID_Scenario == self.ID_Scenario)
+            .first()
+            .TotalCost
+        )
+
     def get_savings(self, session, sems, upgraded, upgraded_sems):
         self_year_type = OptimizationYear if sems else ReferenceYear
         upgraded_year_type = OptimizationYear if upgraded_sems else ReferenceYear
 
-        return int(
-            session.query(self_year_type)
-            .filter(self_year_type.ID_Scenario == self.ID_Scenario)
-            .first()
-            .TotalCost
-            - session.query(upgraded_year_type)
-            .filter(upgraded_year_type.ID_Scenario == upgraded.ID_Scenario)
-            .first()
-            .TotalCost
+        return self.get_total_cost(session, self_year_type) - upgraded.get_total_cost(
+            session, upgraded_year_type
         )
 
     def get_recommendation(self, session, sems: bool):
@@ -214,6 +226,7 @@ class Scenario(Base, MixinToDict):
             improvements.append(
                 {
                     "ID_Scenario": candidate.ID_Scenario,
+                    "TotalCost": candidate.get_total_cost(session, False),
                     "UpgradeCost": upgrade_cost,
                     "Savings": saving,
                     "Benefit": saving - upgrade_cost,
@@ -227,6 +240,7 @@ class Scenario(Base, MixinToDict):
                 improvements.append(
                     {
                         "ID_Scenario": candidate.ID_Scenario,
+                        "TotalCost": candidate.get_total_cost(session, True),
                         "UpgradeCost": upgrade_cost,
                         "Savings": saving,
                         "Benefit": saving - upgrade_cost,
@@ -290,6 +304,7 @@ class OptimizationMonth(Base):
             "Appliance": self.Appliance,
             "HotWaterTank": self.HotWaterTank,
         }
+
 
 class ReferenceMonth(Base):
     __tablename__ = "OperationResult_ReferenceMonth"

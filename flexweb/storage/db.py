@@ -1,9 +1,9 @@
 import flexweb.storage.mapping as mapping
 
 def _str_to_bool(s: str) -> bool:
-    if s == "True":
+    if s == "True" or s == "true":
         return True
-    elif s == "False":
+    elif s == "False" or s == "false":
         return False
     else:
         raise ValueError("String is not a boolean")
@@ -59,6 +59,16 @@ class UserDBInterface:
     def get_reference_year(self, query: dict):
         return Request(
             mapping.ReferenceYear, self.__session, query, allow_empty_constraint=True
+        ).execute()
+    
+    def get_optimization_month(self, query: dict):
+        return Request(
+            mapping.OptimizationMonth, self.__session, query, allow_empty_constraint=True
+        ).execute()
+    
+    def get_reference_month(self, query: dict):
+        return Request(
+            mapping.ReferenceMonth, self.__session, query, allow_empty_constraint=True
         ).execute()
     
     def get_recommendation(self, query: dict):

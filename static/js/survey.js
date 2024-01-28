@@ -4,17 +4,32 @@ import * as country from './country.js';
 
 // Country Survey
 
-var buildingDataCache;
-var countryCode;
+const heatingMap = {
+  "Air_HP": "Heat pump",
+  "gases": "Natural gas boiler",
+  "solids": "Biomass boiler",
+  "district_heating": "District heating",
+  "liquids": "Heating oil boiler"
+}
 
-function handleBuildingData(getBuildingResult, getPvResult, getBatteryResult, getBoilerResult) {
+var countryCode;
+var onSurveyComplete;
+let finalResult = {};
+
+function handleGetComponentResult(getBuildingResult, getPvResult, getBatteryResult, getBoilerResult, getHotWaterTankResult) {
   var buildingTime = []
   var peopleNumber = []
   var pvSize = []
   var batterySize = []
   var boilerType = []
 
-  buildingDataCache = getBuildingResult;
+  finalResult.availableComponents = {
+    "PV": getPvResult,
+    "Battery": getBatteryResult,
+    "Boiler": getBoilerResult,
+    "Building": getBuildingResult,
+    "HotWaterTank": getHotWaterTankResult
+  };
 
   // Building related
   for (const e of getBuildingResult) {
@@ -22,7 +37,7 @@ function handleBuildingData(getBuildingResult, getPvResult, getBatteryResult, ge
     if (!buildingTime.includes(range)) {
       buildingTime.push(range);
     }
-    
+
     // People number
     if (!peopleNumber.includes(e.person_num)) {
       peopleNumber.push(e.person_num);
@@ -32,46 +47,32 @@ function handleBuildingData(getBuildingResult, getPvResult, getBatteryResult, ge
   // PV size
   for (const pv of getPvResult) {
     if (pv.size !== 0) {
-      pvSize.push({"value" : pv.ID_PV, "text" : pv.size + " kilowatt-peak"});
+      pvSize.push({ "value": pv.ID_PV, "text": pv.size + " kilowatt-peak" });
     }
   }
 
   // Battery size
   for (const b of getBatteryResult) {
     if (b.capacity !== 0) {
-      batterySize.push({"value" : b.ID_Battery, "text" : b.capacity/1000 + " kilowatt-hours"});
+      batterySize.push({ "value": b.ID_Battery, "text": b.capacity / 1000 + " kilowatt-hours" });
     }
   }
 
   // Heating type
   for (const boiler of getBoilerResult) {
-    if (boiler.type === "Air_HP") {
-      boilerType.push({"value" : boiler.ID_Boiler, "text" : "Heat pump"});
-    }
-    if (boiler.type === "gases") {
-      boilerType.push({"value" : boiler.ID_Boiler, "text" : "Natural gas boiler"});
-    }
-    if (boiler.type === "solids") {
-      boilerType.push({"value" : boiler.ID_Boiler, "text" : "Biomass boiler"});
-    }
-    if (boiler.type === "district_heating") {
-      boilerType.push({"value" : boiler.ID_Boiler, "text" : "District heating"});
-    }
-    if (boiler.type === "liquids") {
-      boilerType.push({"value" : boiler.ID_Boiler, "text" : "Heating oil boiler"});
-    }
+    let boilerText = heatingMap[boiler.type];
+    boilerType.push({ "value": boiler.ID_Boiler, "text": boilerText });
   }
 
   setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, batterySize, boilerType);
 }
 
-function handleCountryData(survey) {
-  var country = survey.data.region_code;
-  document.cookie = "country=" + survey.data.region_code;
+function handleCountrySurveyResult(surveyResult) {
+  var country = surveyResult.data.region_code;
+  finalResult.myCountryCode = country;
+  countryCode = country;
 
-  countryCode = survey.data.region_code;
-
-  // Get all building data
+  // Get all possible configuration data
   $.when(
     $.ajax({
       type: "GET",
@@ -96,33 +97,40 @@ function handleCountryData(survey) {
       url: "/api/v1/" + country + "/component/boiler",
       dataType: "json",
       contentType: "application/json"
+    }),
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/" + country + "/component/hot_water_tank",
+      dataType: "json",
+      contentType: "application/json"
     })
-    ).done(function(buildingResult, pvResult,batterySize, boilerType) {
-      handleBuildingData(buildingResult[0], pvResult[0], batterySize[0], boilerType[0]);
-    })
+  ).done(function (buildingResult, pvResult, batterySize, boilerType, hotWaterTank) {
+    handleGetComponentResult(buildingResult[0], pvResult[0], batterySize[0], boilerType[0], hotWaterTank[0])
+  })
 }
 
-function handleCountryName(getCountryCode) {
+function handleGetDbResult(getDbResult) {
   var countryCode = []
-  for (const code of getCountryCode) {
+  for (const code of getDbResult) {
     let name = country.countryEnglish[code];
     if (typeof name === "undefined") {
       name = code;
     }
-    countryCode.push({"value" : code, "text" : name});
+    countryCode.push({ "value": code, "text": name });
   }
-
   setupCountrySurvey(countryCode);
 }
 
-export function startSurvey() {
+export function startSurvey(callback) {
+  finalResult.success = false;
+  onSurveyComplete = callback;
   $.ajax({
     type: "GET",
     url: "/api/v1/db",
     dataType: "json",
     contentType: "application/json"
-  }).done (function(countryCode) {
-    handleCountryName(countryCode);
+  }).done(function (getDbResult) {
+    handleGetDbResult(getDbResult);
   });
 }
 
@@ -177,87 +185,95 @@ function setupCountrySurvey(countryCode) {
   var survey = new Survey.Model(surveyJSON);
   $("#surveyContainer").Survey({
     model: survey,
-    onComplete: handleCountryData
+    onComplete: handleCountrySurveyResult
   });
 }
 
 
 // Household Config Survey
 
-function handleResult(result) {
+function handleGetScenarioId(result) {
   console.log(result);
-  document.cookie = "my_scenario=" + result.id;
-  window.location.href = '/html/recommendation.html';
+  finalResult.myScenario = result[0].ID_Scenario;
+  finalResult.success = true;
+  onSurveyComplete(finalResult);
 }
 
 // Miao: Send data to server
+
+export function getScenarioId(componentIds) {
+  $.ajax({
+    type: "GET",
+    url: "/api/v1/" + countryCode + "/scenario",
+    data: componentIds,
+    dataType: "json",
+    contentType: "application/json",
+    success: function (result) {
+      handleGetScenarioId(result)
+    }
+  });
+}
+
 function sendDataToServer(survey) {
-  document.cookie = "my_sems=" + survey.data.sems_exist;
+
   scenario.postSurveyScenario(survey.data, handleResult);
 }
 
 function findBuildingID(person_num, construction, renovated) {
-  for (var building of buildingDataCache) {
-    if (building.person_num === person_num && 
+  for (var building of finalResult.availableComponents.Building) {
+    if (building.person_num === person_num &&
       building.construction_period_start === parseInt(construction.split('-')[0], 10) &&
       building.construction_period_end === parseInt(construction.split('-')[1], 10) &&
-      (Boolean)(building.ID_Building % 2) === renovated)
-    {
+      (Boolean)(building.ID_Building % 2) === renovated) {
       return building.ID_Building;
     }
   }
 }
 
-function handleHousehold(surveyResult) {
-  
-  var pvId = 3;
+function handleHouseholdSurveyResult(surveyResult) {
+  finalResult.mySems = surveyResult.data.sems_exist;
+  let pvId = finalResult.availableComponents.PV.length;
   if (surveyResult.data.pv_exist) {
     pvId = surveyResult.data.pv_size;
   }
 
-  var batteryId = 3;
+  let batteryId = finalResult.availableComponents.Battery.length;
   if (surveyResult.data.battery_exist) {
     batteryId = surveyResult.data.battery_capacity;
   }
 
-  var boilerId = surveyResult.data.boiler_type;
+  let boilerId = surveyResult.data.boiler_type;
 
-  var waterTankId = 2;
-  var spaceTankId = 2;
+  let waterTankId = 2;
+  let spaceTankId = 2;
   if (surveyResult.data.tank_exist) {
     waterTankId = 1;
     spaceTankId = 1;
   }
 
-  var buildingId = findBuildingID (surveyResult.data.building_person_num, 
-    surveyResult.data.building_construction, 
-    surveyResult.data.building_renovated, 
+  let buildingId = findBuildingID(surveyResult.data.building_person_num,
+    surveyResult.data.building_construction,
+    surveyResult.data.building_renovated,
   );
 
-  var componentIds = {
-    "ID_PV" : pvId,
-    "ID_Battery" : batteryId,
-    "ID_Boiler" : boilerId,
-    "ID_Building" : buildingId,
-    "ID_HotWaterTank" : waterTankId,
-    "ID_SpaceHeatingTank" : spaceTankId
+  let componentIds = {
+    "ID_PV": pvId,
+    "ID_Battery": batteryId,
+    "ID_Boiler": boilerId,
+    "ID_Building": buildingId,
+    "ID_HotWaterTank": waterTankId,
+    "ID_SpaceHeatingTank": spaceTankId,
+    "ID_Behavior": 1,
+    "ID_SpaceCoolingTechnology": 1,
+    "ID_EnergyPrice": 1,
+    "ID_Vehicle": 1,
+    "ID_HeatingElement": 1,
   }
-
+  finalResult.myComponents = componentIds;
   getScenarioId(componentIds);
 }
 
-export function getScenarioId(componentIds) {
-  $.ajax({
-      type: "GET",
-      url: "/api/v1/" + countryCode + "/scenario" ,
-      data: componentIds,
-      success: function (result) {
-          print (result)
-      }
-  });
-}
-
-export function setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, batterySize, boilerType) {
+function setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, batterySize, boilerType) {
   var surveyJSON = {
     "title": {
       "default": "q_en",
@@ -509,7 +525,7 @@ export function setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, battery
   var survey = new Survey.Model(surveyJSON);
   $("#surveyContainer").Survey({
     model: survey,
-    onComplete: handleHousehold
+    onComplete: handleHouseholdSurveyResult
   });
 }
 
