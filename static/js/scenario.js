@@ -1,36 +1,42 @@
-export function getScenario(data, handler) {
-    $.ajax({
-        type: "GET",
-        url: "/api/v1/scenario",
-        data: data,
-        success: function (result) {
-            handler(result)
+export default class Scenario {
+    constructor(components, definition, sems) {
+        this.components = components;
+        this.definition = definition;
+        this.sems_ = sems;
+    }
+    
+    getByName(componentName) {
+        let id = parseInt(this.components["ID_" + componentName]);
+        let configurations = this.definition[componentName];
+        for (let config of configurations) {
+            if (config["ID_" + componentName] === id) {
+                return config;
+            }
         }
-    });
-}
+        return null;
+    }
 
-export function postScenario(data, handler) {
-    $.ajax({
-        type: "POST",
-        url: "/api/v1/scenario",
-        data: JSON.stringify(data),
-        success: function (result) {
-            handler(result)
-        },
-        dataType: "json",
-        contentType: "application/json"
-    });
-}
+    get Building() {
+        return this.getByName("Building");
+    }
 
-export function postSurveyScenario(data, handler) {
-    $.ajax({
-        type: "POST",
-        url: "/api/v1/survey_scenario",
-        data: JSON.stringify(data),
-        success: function (result) {
-            handler(result)
-        },
-        dataType: "json",
-        contentType: "application/json"
-    });
+    get Boiler() {
+        return this.getByName("Boiler");
+    }
+
+    get Battery() {
+        return this.getByName("Battery");
+    }
+
+    get PV() {
+        return this.getByName("PV");
+    }
+
+    get HotWaterTank() {
+        return this.getByName("HotWaterTank");
+    }
+
+    get sems() {
+        return this.sems_;
+    }
 }

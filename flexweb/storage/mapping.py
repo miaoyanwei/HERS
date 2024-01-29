@@ -81,16 +81,80 @@ class SpaceHeatingTank(Base, MixinToDict):
     cost = column_property(size * 100)
 
 
-class OptimizationYear(Base, MixinToDict):
+class OptimizationYear(Base):
     __tablename__ = "OperationResult_OptimizationYear"
     ID_Scenario = Column(Integer, primary_key=True)
     TotalCost = Column(Float)
+    E_Heating_HP_out = Column(Float)
+    Q_HeatingElement = Column(Float)
+    E_RoomCooling = Column(Float)
+    BaseLoadProfile = Column(Float)
+    E_DHW_HP_out = Column(Float)
+    PhotovoltaicProfile = Column(Float)
+    TotalDemand = column_property(
+        E_Heating_HP_out
+        + Q_HeatingElement
+        + E_RoomCooling
+        + BaseLoadProfile
+        + E_DHW_HP_out
+    )
+    TotalGenerate = column_property(PhotovoltaicProfile)
+    PV = column_property(PhotovoltaicProfile)
+    Boiler = column_property(E_Heating_HP_out + Q_HeatingElement)
+    Cooling = column_property(E_RoomCooling)
+    Appliance = column_property(BaseLoadProfile)
+    HotWaterTank = column_property(E_DHW_HP_out)
+
+    def to_dict(self) -> dict:
+        return {
+            "ID_Scenario": self.ID_Scenario,
+            "TotalCost": self.TotalCost,
+            "TotalDemand": self.TotalDemand,
+            "TotalGenerate": self.PV,
+            "PV": self.PV,
+            "Boiler": self.Boiler,
+            "Cooling": self.Cooling,
+            "Appliance": self.Appliance,
+            "HotWaterTank": self.HotWaterTank,
+        }
 
 
-class ReferenceYear(Base, MixinToDict):
+class ReferenceYear(Base):
     __tablename__ = "OperationResult_ReferenceYear"
     ID_Scenario = Column(Integer, primary_key=True)
     TotalCost = Column(Float)
+    E_Heating_HP_out = Column(Float)
+    Q_HeatingElement = Column(Float)
+    E_RoomCooling = Column(Float)
+    BaseLoadProfile = Column(Float)
+    E_DHW_HP_out = Column(Float)
+    PhotovoltaicProfile = Column(Float)
+    TotalDemand = column_property(
+        E_Heating_HP_out
+        + Q_HeatingElement
+        + E_RoomCooling
+        + BaseLoadProfile
+        + E_DHW_HP_out
+    )
+    TotalGenerate = column_property(PhotovoltaicProfile)
+    PV = column_property(PhotovoltaicProfile)
+    Boiler = column_property(E_Heating_HP_out + Q_HeatingElement)
+    Cooling = column_property(E_RoomCooling)
+    Appliance = column_property(BaseLoadProfile)
+    HotWaterTank = column_property(E_DHW_HP_out)
+
+    def to_dict(self) -> dict:
+        return {
+            "ID_Scenario": self.ID_Scenario,
+            "TotalCost": self.TotalCost,
+            "TotalDemand": self.TotalDemand,
+            "TotalGenerate": self.PV,
+            "PV": self.PV,
+            "Boiler": self.Boiler,
+            "Cooling": self.Cooling,
+            "Appliance": self.Appliance,
+            "HotWaterTank": self.HotWaterTank,
+        }
 
 
 class Scenario(Base, MixinToDict):
@@ -272,8 +336,8 @@ class Scenario(Base, MixinToDict):
 
 class OptimizationMonth(Base):
     __tablename__ = "OperationResult_OptimizationMonth"
-    ID_Scenario = Column(Integer, primary_key=True)
-    Month = Column(Integer)
+    ID_Scenario = Column(Integer)
+    Month = Column(Integer, primary_key=True)
     E_Heating_HP_out = Column(Float)
     Q_HeatingElement = Column(Float)
     E_RoomCooling = Column(Float)
@@ -288,6 +352,7 @@ class OptimizationMonth(Base):
         + E_DHW_HP_out
     )
     TotalGenerate = column_property(PhotovoltaicProfile)
+    PV = column_property(PhotovoltaicProfile)
     Boiler = column_property(E_Heating_HP_out + Q_HeatingElement)
     Cooling = column_property(E_RoomCooling)
     Appliance = column_property(BaseLoadProfile)
@@ -298,7 +363,8 @@ class OptimizationMonth(Base):
             "ID_Scenario": self.ID_Scenario,
             "Month": self.Month,
             "TotalDemand": self.TotalDemand,
-            "TotalGenerate": self.TotalGenerate,
+            "TotalGenerate": self.PV,
+            "PV": self.PV,
             "Boiler": self.Boiler,
             "Cooling": self.Cooling,
             "Appliance": self.Appliance,
@@ -308,8 +374,8 @@ class OptimizationMonth(Base):
 
 class ReferenceMonth(Base):
     __tablename__ = "OperationResult_ReferenceMonth"
-    ID_Scenario = Column(Integer, primary_key=True)
-    Month = Column(Integer)
+    ID_Scenario = Column(Integer)
+    Month = Column(Integer, primary_key=True)
     E_Heating_HP_out = Column(Float)
     Q_HeatingElement = Column(Float)
     E_RoomCooling = Column(Float)
@@ -324,6 +390,7 @@ class ReferenceMonth(Base):
         + E_DHW_HP_out
     )
     TotalGenerate = column_property(PhotovoltaicProfile)
+    PV = column_property(PhotovoltaicProfile)
     Boiler = column_property(E_Heating_HP_out + Q_HeatingElement)
     Cooling = column_property(E_RoomCooling)
     Appliance = column_property(BaseLoadProfile)
@@ -334,7 +401,8 @@ class ReferenceMonth(Base):
             "ID_Scenario": self.ID_Scenario,
             "Month": self.Month,
             "TotalDemand": self.TotalDemand,
-            "TotalGenerate": self.TotalGenerate,
+            "TotalGenerate": self.PV,
+            "PV": self.PV,
             "Boiler": self.Boiler,
             "Cooling": self.Cooling,
             "Appliance": self.Appliance,

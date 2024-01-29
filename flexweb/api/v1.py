@@ -52,7 +52,9 @@ class CountryHandler:
         elif len(routes) == 2 and routes[0] == "result":
             handlers = {
                 "optimization_year": self.optimization_year,
-                "reference_year": self.reference_year
+                "reference_year": self.reference_year,
+                "optimization_month": self.optimization_month,
+                "reference_month": self.reference_month
             }
             return handlers.get(routes[1], None)
         else:
@@ -90,3 +92,9 @@ class CountryHandler:
 
     def reference_year(self, data: dict) -> Optional[dict]:
         return [e.to_dict() for e in self.__storage.get_reference_year(data)]
+    
+    def optimization_month(self, data: dict) -> Optional[dict]:
+        return [e.to_dict() for e in self.__storage.get_optimization_month(data)]
+
+    def reference_month(self, data: dict) -> Optional[dict]:
+        return [e.to_dict() for e in self.__storage.get_reference_month(data)]

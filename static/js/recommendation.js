@@ -1,44 +1,17 @@
+import Scenario from './scenario.js';
 
 let gEnergyResultYear = {};
 let gRecommendations = {};
 let gRecommendationConfigs = [];
 
-class Scenario {
-    constructor(components, definition) {
-        this.components = components;
-        this.definition = definition;
-    }
-    
-    getByName(componentName) {
-        let id = parseInt(this.components["ID_" + componentName]);
-        let configurations = this.definition[componentName];
-        for (let config of configurations) {
-            if (config["ID_" + componentName] === id) {
-                return config;
-            }
+function getRecommendationConfigById(id) {
+    for (let i = 0; i < gRecommendationConfigs.length; i++) {
+        let config = gRecommendationConfigs[i];
+        if (config.ID_Scenario === id) {
+            return config;
         }
-        return null;
-    }
-
-    get Building() {
-        return this.getByName("Building");
-    }
-
-    get Boiler() {
-        return this.getByName("Boiler");
-    }
-
-    get Battery() {
-        return this.getByName("Battery");
-    }
-
-    get PV() {
-        return this.getByName("PV");
-    }
-
-    get HotWaterTank() {
-        return this.getByName("HotWaterTank");
-    }
+    } 
+    return null;
 }
 
 function handleResult() {
@@ -145,7 +118,7 @@ function handleResult() {
             for (let config of gRecommendationConfigs) {
                 if (config.ID_Scenario !== item.ID_Scenario)
                     continue
-                let scenario = new Scenario(config, surveyResult.availableComponents)
+                let scenario = new Scenario(config, surveyResult.availableComponents, surveyResult.mySems)
                 for (let key in config) {
                     if (key === 'ID_Scenario' || key === 'ID_Region' || key === 'ID_SpaceHeatingTank')
                         continue
@@ -193,7 +166,9 @@ function handleResult() {
             let item = gRecommendations[key];
             document.querySelector('#btn-detail-' + index++).addEventListener('click',
                 function () {
+                    localStorage.setItem('myEnergyResultYear', JSON.stringify(gEnergyResultYear));
                     localStorage.setItem('selectedRecommendation', JSON.stringify(item));
+                    localStorage.setItem('selectedRecommendationConfig', JSON.stringify(getRecommendationConfigById(item.ID_Scenario)));
                     window.location.href = '/html/simulation.html';
                 });
         }

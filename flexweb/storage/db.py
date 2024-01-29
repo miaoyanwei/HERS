@@ -45,7 +45,7 @@ class UserDBInterface:
 
     def get_space_cooling_technology(self, query: dict):
         return Request(mapping.SpaceCoolingTechnology, self.__session, query).execute()
-
+    
     def get_scenario(self, query: dict):
         return Request(
             mapping.Scenario, self.__session, query, allow_empty_constraint=False
