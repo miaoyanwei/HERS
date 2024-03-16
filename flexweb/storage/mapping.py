@@ -108,14 +108,14 @@ class OptimizationYear(Base):
     def to_dict(self) -> dict:
         return {
             "ID_Scenario": self.ID_Scenario,
-            "TotalCost": self.TotalCost,
-            "TotalDemand": self.TotalDemand,
-            "TotalGenerate": self.PV,
-            "PV": self.PV,
-            "Boiler": self.Boiler,
-            "Cooling": self.Cooling,
-            "Appliance": self.Appliance,
-            "HotWaterTank": self.HotWaterTank,
+            "TotalCost": int(self.TotalCost/100),
+            "TotalDemand": int(self.TotalDemand),
+            "TotalGenerate": int(self.PV),
+            "PV": int(self.PV),
+            "Boiler": int(self.Boiler),
+            "Cooling": int(self.Cooling),
+            "Appliance": int(self.Appliance),
+            "HotWaterTank": int(self.HotWaterTank),
         }
 
 
@@ -146,14 +146,14 @@ class ReferenceYear(Base):
     def to_dict(self) -> dict:
         return {
             "ID_Scenario": self.ID_Scenario,
-            "TotalCost": self.TotalCost,
-            "TotalDemand": self.TotalDemand,
-            "TotalGenerate": self.PV,
-            "PV": self.PV,
-            "Boiler": self.Boiler,
-            "Cooling": self.Cooling,
-            "Appliance": self.Appliance,
-            "HotWaterTank": self.HotWaterTank,
+            "TotalCost": int(self.TotalCost/100),
+            "TotalDemand": int(self.TotalDemand),
+            "TotalGenerate": int(self.PV),
+            "PV": int(self.PV),
+            "Boiler": int(self.Boiler),
+            "Cooling": int(self.Cooling),
+            "Appliance": int(self.Appliance),
+            "HotWaterTank": int(self.HotWaterTank),
         }
 
 
@@ -285,12 +285,12 @@ class Scenario(Base, MixinToDict):
         improvements = []
         candidates = Scenario.get_upgrades(session, self.ID_Scenario)
         for candidate in candidates:
-            saving = self.get_savings(session, sems, candidate, sems)
+            saving = int(self.get_savings(session, sems, candidate, sems) / 100)
             upgrade_cost = self.get_upgrade_cost(session, candidate, False)
             improvements.append(
                 {
                     "ID_Scenario": candidate.ID_Scenario,
-                    "TotalCost": candidate.get_total_cost(session, False),
+                    "TotalCost": int(candidate.get_total_cost(session, False) / 100),
                     "UpgradeCost": upgrade_cost,
                     "Savings": saving,
                     "Benefit": saving - upgrade_cost,
@@ -299,12 +299,12 @@ class Scenario(Base, MixinToDict):
             )
 
             if sems == False:
-                saving = self.get_savings(session, False, candidate, True)
+                saving = int(self.get_savings(session, False, candidate, True) / 100)
                 upgrade_cost = self.get_upgrade_cost(session, candidate, True)
                 improvements.append(
                     {
                         "ID_Scenario": candidate.ID_Scenario,
-                        "TotalCost": candidate.get_total_cost(session, True),
+                        "TotalCost": int(candidate.get_total_cost(session, True) / 100),
                         "UpgradeCost": upgrade_cost,
                         "Savings": saving,
                         "Benefit": saving - upgrade_cost,
@@ -362,13 +362,13 @@ class OptimizationMonth(Base):
         return {
             "ID_Scenario": self.ID_Scenario,
             "Month": self.Month,
-            "TotalDemand": self.TotalDemand,
-            "TotalGenerate": self.PV,
-            "PV": self.PV,
-            "Boiler": self.Boiler,
-            "Cooling": self.Cooling,
-            "Appliance": self.Appliance,
-            "HotWaterTank": self.HotWaterTank,
+            "TotalDemand": int(self.TotalDemand),
+            "TotalGenerate": int(self.PV),
+            "PV": int(self.PV),
+            "Boiler": int(self.Boiler),
+            "Cooling": int(self.Cooling),
+            "Appliance": int(self.Appliance),
+            "HotWaterTank": int(self.HotWaterTank),
         }
 
 
@@ -400,11 +400,11 @@ class ReferenceMonth(Base):
         return {
             "ID_Scenario": self.ID_Scenario,
             "Month": self.Month,
-            "TotalDemand": self.TotalDemand,
-            "TotalGenerate": self.PV,
-            "PV": self.PV,
-            "Boiler": self.Boiler,
-            "Cooling": self.Cooling,
-            "Appliance": self.Appliance,
-            "HotWaterTank": self.HotWaterTank,
+            "TotalDemand": int(self.TotalDemand),
+            "TotalGenerate": int(self.PV),
+            "PV": int(self.PV),
+            "Boiler": int(self.Boiler),
+            "Cooling": int(self.Cooling),
+            "Appliance": int(self.Appliance),
+            "HotWaterTank": int(self.HotWaterTank),
         }
