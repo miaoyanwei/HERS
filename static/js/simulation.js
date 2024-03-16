@@ -349,11 +349,12 @@ function retrieveNewSurvey() {
     boilerId = parseInt(document.getElementById("boiler_type").value);
   }
 
-  let buildingId = 0;
-  if (renovationExist && selectedScenario.Building.ID_Building % 2 === 0) {
-    buildingId = selectedScenario.Building.ID_Building + 1;
-  } else if (!renovationExist && selectedScenario.Building.ID_Building % 2 !== 0) {
+  let buildingId = selectedScenario.Building.ID_Building;
+  let renovated = selectedScenario.Building.ID_Building % 2 !== 0;
+  if (renovationExist && !renovated) {
     buildingId = selectedScenario.Building.ID_Building - 1;
+  } else if (!renovationExist && renovated) {
+    buildingId = selectedScenario.Building.ID_Building + 1;
   }
   
 
