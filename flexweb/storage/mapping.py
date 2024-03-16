@@ -285,12 +285,12 @@ class Scenario(Base, MixinToDict):
         improvements = []
         candidates = Scenario.get_upgrades(session, self.ID_Scenario)
         for candidate in candidates:
-            saving = int(self.get_savings(session, sems, candidate, sems) / 100)
+            saving = int(self.get_savings(session, sems, candidate, sems)/100)
             upgrade_cost = self.get_upgrade_cost(session, candidate, False)
             improvements.append(
                 {
                     "ID_Scenario": candidate.ID_Scenario,
-                    "TotalCost": int(candidate.get_total_cost(session, False) / 100),
+                    "TotalCost": int(candidate.get_total_cost(session, False)/100),
                     "UpgradeCost": upgrade_cost,
                     "Savings": saving,
                     "Benefit": saving - upgrade_cost,
@@ -299,12 +299,12 @@ class Scenario(Base, MixinToDict):
             )
 
             if sems == False:
-                saving = int(self.get_savings(session, False, candidate, True) / 100)
+                saving = int(self.get_savings(session, False, candidate, True)/100)
                 upgrade_cost = self.get_upgrade_cost(session, candidate, True)
                 improvements.append(
                     {
                         "ID_Scenario": candidate.ID_Scenario,
-                        "TotalCost": int(candidate.get_total_cost(session, True) / 100),
+                        "TotalCost": int(candidate.get_total_cost(session, True)/100),
                         "UpgradeCost": upgrade_cost,
                         "Savings": saving,
                         "Benefit": saving - upgrade_cost,
@@ -313,7 +313,7 @@ class Scenario(Base, MixinToDict):
                 )
 
         # Remove impromments with no benefit
-        improvements = list(filter(lambda x: x["Benefit"] > 0, improvements))
+        improvements = list(filter(lambda x: x["Savings"] > 0, improvements))
 
         # Get best Cost Benefit
         if len(improvements) == 0:
