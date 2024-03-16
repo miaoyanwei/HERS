@@ -67,7 +67,7 @@ function handleResult() {
         $("#sems-false").css('display', 'inline')
     }
 
-    if (myScenario.Boiler.type === 0) {
+    if (myScenario.Boiler.type !== 0) {
         $("#heatsource-true").css('display', 'inline')
     } else {
         $("#heatsource-false").css('display', 'inline')
