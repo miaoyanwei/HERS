@@ -112,23 +112,23 @@ function handleResult(myEnergyResultMonth, selectedEnergyResultMonth, selectedEn
   $("#investmentSimuCost-placeholder").html(0);
   createSimuEnergyChart(getChartDataFromEnergyResult(selectedEnergyResultMonth));
 
-    let selectedScenario = new Scenario(gSelectedScenarioConfig, gMySurveyResult.availableComponents, gSelectedScenario.SEMS);
+  let selectedScenario = new Scenario(gSelectedScenarioConfig, gMySurveyResult.availableComponents, gSelectedScenario.SEMS);
   // Get simulated configuration
   if (selectedScenario.PV.size !== 0) {
     $("#pv_exist").prop('checked', true);
-    $("#pv_size").val(selectedScenario.PV.size).change();
+    $("#pv_size").val(selectedScenario.PV.ID_PV).change();
   }
 
   if (selectedScenario.Battery.capacity !== 0) {
     $("#battery_exist").prop('checked', true);
-    $("#battery_capacity").val(selectedScenario.Battery.capacity).change();
+    $("#battery_capacity").val(selectedScenario.Battery.ID_Battery).change();
   }
 
   $("#sems_exist").prop('checked', selectedScenario.sems);
 
   if (selectedScenario.Boiler.type !== 0) {
     $("#boiler_exist").prop('checked', true);
-    $("#boiler_type").val(selectedScenario.Boiler.type).change();
+    $("#boiler_type").val(selectedScenario.Boiler.ID_Boiler).change();
   }
 
   $("#building_renovation").prop('checked', selectedScenario.Building.ID_Scenario % 2 !== 0);
@@ -161,6 +161,12 @@ function handleResult(myEnergyResultMonth, selectedEnergyResultMonth, selectedEn
 
 }
 
+function initData() {
+  gSelectedScenario = JSON.parse(localStorage.getItem('selectedRecommendation'));
+  gSelectedScenarioConfig = JSON.parse(localStorage.getItem('selectedRecommendationConfig'));
+  gMySurveyResult = JSON.parse(localStorage.getItem('surveyResult'));
+  gMyEnergyResultYear = JSON.parse(localStorage.getItem('myEnergyResultYear'));
+}
 
 // Highcharts
 function initChart() {
@@ -321,90 +327,63 @@ function createSimuEnergyChart(energyData) {
 
 function retrieveNewSurvey() {
   $(window).scrollTop(0);
-  var pvExist = document.getElementById("pv_exist").checked;
-  var batteryExist = document.getElementById("battery_exist").checked;
-  var semsExist = document.getElementById("sems_exist").checked;
-  var boilerExist = document.getElementById("boiler_exist").checked;
-  var renovationExist = document.getElementById("building_renovation").checked;
+  let selectedScenario = new Scenario(gSelectedScenarioConfig, gMySurveyResult.availableComponents, gSelectedScenario.SEMS);
+  let pvExist = document.getElementById("pv_exist").checked;
+  let batteryExist = document.getElementById("battery_exist").checked;
+  let semsExist = document.getElementById("sems_exist").checked;
+  let boilerExist = document.getElementById("boiler_exist").checked;
+  let renovationExist = document.getElementById("building_renovation").checked;
 
+  let pvId = gMySurveyResult.availableComponents.PV.length;
   if (pvExist) {
-    var pv_exist = true;
-  } else {
-    var pv_exist = false;
-  }
+    pvId = parseInt(document.getElementById("pv_size").value);
+  } 
+
+  let batteryId = gMySurveyResult.availableComponents.Battery.length;
   if (batteryExist) {
-    var battery_exist = true;
-  } else {
-    var battery_exist = false;
+    batteryId = parseInt(document.getElementById("battery_capacity").value);
   }
-  if (semsExist) {
-    var sems_exist = true;
-  } else {
-    var sems_exist = false;
-  }
+  
+  let boilerId = gMySurveyResult.availableComponents.Boiler.length;
   if (boilerExist) {
-    var boiler_exist = true;
-  } else {
-    var boiler_exist = false;
-  }
-  if (renovationExist) {
-    var building_renovated = true;
-  } else {
-    var building_renovated = false;
+    boilerId = parseInt(document.getElementById("boiler_type").value);
   }
 
-  var pv_size = parseInt(document.getElementById("pv_size").value);
-  var battery_capacity = parseInt(document.getElementById("battery_capacity").value);
-  var boiler_type = document.getElementById("boiler_type").value;
+  let buildingId = 0;
+  if (renovationExist && selectedScenario.Building.ID_Building % 2 === 0) {
+    buildingId = selectedScenario.Building.ID_Building + 1;
+  } else if (!renovationExist && selectedScenario.Building.ID_Building % 2 !== 0) {
+    buildingId = selectedScenario.Building.ID_Building - 1;
+  }
+  
 
   // Create a JavaScript object with the collected form data
-  var newSurvey = {
-    pv_exist: pv_exist,
-    pv_size: pv_size,
-    battery_exist: battery_exist,
-    battery_capacity: battery_capacity,
-    sems_exist: sems_exist,
-    boiler_exist: boiler_exist,
-    boiler_type: boiler_type,
-    building_renovated: building_renovated
-  };
+  let componentIds = {
+    "ID_PV": pvId,
+    "ID_Battery": batteryId,
+    "ID_Boiler": boilerId,
+    "ID_Building": buildingId,
+    "ID_HotWaterTank": selectedScenario.HotWaterTank.ID_HotWaterTank,
+    "ID_SpaceHeatingTank": selectedScenario.HotWaterTank.ID_HotWaterTank,
+    "ID_SpaceCoolingTechnology": 1,
+    "ID_EnergyPrice": 1,
+    "ID_Vehicle": 1,
+    "ID_HeatingElement": 1,
+  }
 
-  let my_scenario_id = document.cookie.split('; ').find(row => row.startsWith('my_scenario')).split('=')[1];
-
-  // retrieve my scenario
   $.ajax({
-    url: '/api/v1/scenario',
-    type: 'GET',
-    data: {
-      id: my_scenario_id
-    },
+    type: "GET",
+    url: "/api/v1/" + gMySurveyResult.myCountryCode + "/scenario",
+    data: componentIds,
+    dataType: "json",
+    contentType: "application/json"
   }).then(function (data) {
-    let scenario = JSON.parse(data);
-    if (newSurvey.pv_exist == true) {
-      scenario.pv.size = newSurvey.pv_size;
-    }
-    if (newSurvey.battery_exist == true) {
-      scenario.battery.capacity = newSurvey.battery_capacity;
-    }
-    if (newSurvey.boiler_exist == true) {
-      scenario.boiler.type = newSurvey.boiler_type;
-    }
-    scenario.building.renovated = newSurvey.building_renovated;
-    // Convert the JavaScript object to JSON
-    let newJson = JSON.stringify(scenario);
-    return $.ajax({
-      url: '/api/v1/scenario',
-      type: 'POST',
-      contentType: 'application/json',
-      data: newJson,
-      dataType: 'json'
-    })
-  }).then(function (data) {
-    // Set cookie
-    document.cookie = "selected_id=" + data.id;
-    document.cookie = "selected_sems=" + sems_exist;
-  }).then(function () {
-    // Update data
+    // update the selected scenario
+    gSelectedScenario.ID_Scenario = data[0].ID_Scenario;;
+    gSelectedScenario.SEMS = semsExist;
+    gSelectedScenarioConfig = data[0];
+
+    // update the diagram
     updateData();
   });
 }
@@ -432,10 +411,6 @@ function updateData() {
   // let selected_id = parseInt(document.cookie.split('; ').find(row => row.startsWith('selected_id')).split('=')[1]);
   // let selected_sems = (document.cookie.split('; ').find(row => row.startsWith('selected_sems')).split('=')[1] === 'true')
   // let selected_investment_cost = parseInt(document.cookie.split('; ').find(row => row.startsWith('selected_investment_cost')).split('=')[1]);
-  gSelectedScenario = JSON.parse(localStorage.getItem('selectedRecommendation'));
-  gSelectedScenarioConfig = JSON.parse(localStorage.getItem('selectedRecommendationConfig'));
-  gMySurveyResult = JSON.parse(localStorage.getItem('surveyResult'));
-  gMyEnergyResultYear = JSON.parse(localStorage.getItem('myEnergyResultYear'));
 
 
   let myCountryCode = gMySurveyResult.myCountryCode;
@@ -448,15 +423,15 @@ function updateData() {
   if (mySems) {
     myEnergyResultMonthUrl = '/api/v1/' + myCountryCode + '/result/optimization_month';
   } else {
-      myEnergyResultMonthUrl = '/api/v1/' + myCountryCode + '/result/reference_month';
+    myEnergyResultMonthUrl = '/api/v1/' + myCountryCode + '/result/reference_month';
   }
 
   if (selectedSems) {
     selectedEnergyResultMonthUrl = '/api/v1/' + myCountryCode + '/result/optimization_month';
     selectedEnergyResultYearUrl = '/api/v1/' + myCountryCode + '/result/optimization_year';
   } else {
-      selectedEnergyResultMonthUrl = '/api/v1/' + myCountryCode + '/result/reference_month';
-      selectedEnergyResultYearUrl = '/api/v1/' + myCountryCode + '/result/reference_year';
+    selectedEnergyResultMonthUrl = '/api/v1/' + myCountryCode + '/result/reference_month';
+    selectedEnergyResultYearUrl = '/api/v1/' + myCountryCode + '/result/reference_year';
   }
 
   $.when(
@@ -489,8 +464,76 @@ function updateData() {
     }),
   ).done(function (
     myEnergyResultMonth, selectedEnergyResultMonth, selectedEnergyResultYear) {
-      handleResult(myEnergyResultMonth[0], selectedEnergyResultMonth[0], selectedEnergyResultYear[0][0]);
-    });
+    handleResult(myEnergyResultMonth[0], selectedEnergyResultMonth[0], selectedEnergyResultYear[0][0]);
+  });
 }
 
-export { updateData, initChart, retrieveNewSurvey }
+function initUpdateSurveyForm() {
+  let availableComponents = gMySurveyResult.availableComponents
+  let selectedScenario = new Scenario(gSelectedScenarioConfig, gMySurveyResult.availableComponents, gSelectedScenario.SEMS);
+  // Set the available PV sizes
+  let pvExistCheckbox = document.getElementById("pv_exist");
+  let pvSizeSelect = document.getElementById('pv_size');
+  if (availableComponents.PV.length <= 1) {
+    pvExistCheckbox.disabled = true;
+    pvSizeSelect.disabled = true;
+  } else {
+    pvExistCheckbox.disabled = false;
+    pvSizeSelect.disabled = false;
+    for (let i = 0; i < availableComponents.PV.length; i++) {
+      if (availableComponents.PV[i].size === 0) {
+        continue;
+      }
+      let option = document.createElement('option');
+      option.value = availableComponents.PV[i].ID_PV;
+      option.text = "around " + availableComponents.PV[i].size + " kWp";
+      pvSizeSelect.appendChild(option);
+    }
+  }
+
+  // Set the available battery capacities
+  let batteryExistCheckbox = document.getElementById("battery_exist");
+  let batteryCapacitySelect = document.getElementById('battery_capacity');
+  if (availableComponents.Battery.length <= 1) {
+    batteryExistCheckbox.disabled = true;
+    batteryCapacitySelect.disabled = true;
+  } else {
+    batteryExistCheckbox.disabled = false;
+    batteryCapacitySelect.disabled = false;
+    for (let i = 0; i < availableComponents.Battery.length; i++) {
+      if (availableComponents.Battery[i].capacity === 0) {
+        continue;
+      }
+      let option = document.createElement('option');
+      option.value = availableComponents.Battery[i].ID_Battery;
+      option.text = "around " + availableComponents.Battery[i].capacity + " kWh";
+      batteryCapacitySelect.appendChild(option);
+    }
+  }
+
+  // Set the available boiler types
+  const heatingMap = {
+    "Air_HP": "Heat pump",
+    "gases": "Natural gas boiler",
+    "solids": "Biomass boiler",
+    "district_heating": "District heating",
+    "liquids": "Heating oil boiler"
+  }
+  let boilerExistCheckbox = document.getElementById("boiler_exist");
+  let boilerTypeSelect = document.getElementById('boiler_type');
+  if (availableComponents.Boiler.length === 0) {
+    boilerExistCheckbox.disabled = true;
+    boilerTypeSelect.disabled = true;
+  } else {
+    boilerExistCheckbox.disabled = false;
+    boilerTypeSelect.disabled = false;
+    for (let i = 0; i < availableComponents.Boiler.length; i++) {
+      let option = document.createElement('option');
+      option.value = availableComponents.Boiler[i].ID_Boiler;
+      option.text = heatingMap[availableComponents.Boiler[i].type];
+      boilerTypeSelect.appendChild(option);
+    }
+  }
+}
+
+export { initData, updateData, initUpdateSurveyForm, initChart, retrieveNewSurvey }
