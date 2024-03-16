@@ -151,7 +151,7 @@ function handleResult() {
             //});
             confightml += ('</div>'
                 + '<small class="card-footer" style="background-color:#fff;">The annualised investment cost is approx. <span>&#8364;'
-                + item.TotalCost
+                + item.UpgradeCost
                 + '</small>'
                 + '</div>'
                 + '</div>')
