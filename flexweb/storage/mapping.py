@@ -1,8 +1,8 @@
 from sqlalchemy.orm import (
     declarative_base,
     column_property,
-    relationship,
-    mapped_column,
+    # relationship,
+    # mapped_column,
 )
 from sqlalchemy import Column, Integer, String, Float, or_, and_, table
 
