@@ -85,6 +85,7 @@ class SpaceCoolingTechnology(Base):
             "power": int(self.PowerKwh),
         }
 
+
 class HotWaterTank(Base, MixinToDict):
     __tablename__ = "OperationScenario_Component_HotWaterTank"
     ID_HotWaterTank = Column(Integer, primary_key=True)
@@ -115,7 +116,16 @@ class OptimizationYear(Base):
     Cooling = column_property(E_RoomCooling / 1000)
     Appliance = column_property(BaseLoadProfile / 1000)
     HotWaterTank = column_property(E_DHW_HP_out / 1000)
-    TotalDemand = column_property((E_Heating_HP_out + Q_HeatingElement + E_RoomCooling + BaseLoadProfile + E_DHW_HP_out) / 1000)
+    TotalDemand = column_property(
+        (
+            E_Heating_HP_out
+            + Q_HeatingElement
+            + E_RoomCooling
+            + BaseLoadProfile
+            + E_DHW_HP_out
+        )
+        / 1000
+    )
     TotalGenerate = column_property(PhotovoltaicProfile / 1000)
 
     TotalCostCent = synonym("TotalCost")
@@ -158,7 +168,16 @@ class ReferenceYear(Base):
     Cooling = column_property(E_RoomCooling / 1000)
     Appliance = column_property(BaseLoadProfile / 1000)
     HotWaterTank = column_property(E_DHW_HP_out / 1000)
-    TotalDemand = column_property((E_Heating_HP_out + Q_HeatingElement + E_RoomCooling + BaseLoadProfile + E_DHW_HP_out) / 1000)
+    TotalDemand = column_property(
+        (
+            E_Heating_HP_out
+            + Q_HeatingElement
+            + E_RoomCooling
+            + BaseLoadProfile
+            + E_DHW_HP_out
+        )
+        / 1000
+    )
     TotalGenerate = column_property(PhotovoltaicProfile / 1000)
 
     TotalCostCent = synonym("TotalCost")
@@ -240,37 +259,37 @@ class Scenario(Base, MixinToDict):
 
     def get_upgrade_cost(self, session, upgraded, sems: bool):
         cost = 0
-        if self.ID_Building != upgraded.ID_Building:
+        if self.ID_Building > upgraded.ID_Building:
             cost += (
                 session.query(Building)
                 .filter(Building.ID_Building == upgraded.ID_Building)
                 .first()
                 .cost
             )
-        if self.ID_Boiler != upgraded.ID_Boiler:
+        if self.ID_Boiler > upgraded.ID_Boiler:
             cost += (
                 session.query(Boiler)
                 .filter(Boiler.ID_Boiler == upgraded.ID_Boiler)
                 .first()
                 .cost
             )
-        if self.ID_Battery != upgraded.ID_Battery:
+        if self.ID_Battery > upgraded.ID_Battery:
             cost += (
                 session.query(Battery)
                 .filter(Battery.ID_Battery == upgraded.ID_Battery)
                 .first()
                 .cost
             )
-        if self.ID_PV != upgraded.ID_PV:
+        if self.ID_PV > upgraded.ID_PV:
             cost += session.query(PV).filter(PV.ID_PV == upgraded.ID_PV).first().cost
-        if self.ID_HotWaterTank != upgraded.ID_HotWaterTank:
+        if self.ID_HotWaterTank > upgraded.ID_HotWaterTank:
             cost += (
                 session.query(HotWaterTank)
                 .filter(HotWaterTank.ID_HotWaterTank == upgraded.ID_HotWaterTank)
                 .first()
                 .cost
             )
-        if self.ID_SpaceHeatingTank != upgraded.ID_SpaceHeatingTank:
+        if self.ID_SpaceHeatingTank > upgraded.ID_SpaceHeatingTank:
             cost += (
                 session.query(SpaceHeatingTank)
                 .filter(
@@ -369,7 +388,16 @@ class OptimizationMonth(Base):
     Cooling = column_property(E_RoomCooling / 1000)
     Appliance = column_property(BaseLoadProfile / 1000)
     HotWaterTank = column_property(E_DHW_HP_out / 1000)
-    TotalDemand = column_property((E_Heating_HP_out + Q_HeatingElement + E_RoomCooling + BaseLoadProfile + E_DHW_HP_out) / 1000)
+    TotalDemand = column_property(
+        (
+            E_Heating_HP_out
+            + Q_HeatingElement
+            + E_RoomCooling
+            + BaseLoadProfile
+            + E_DHW_HP_out
+        )
+        / 1000
+    )
     TotalGenerate = column_property(PhotovoltaicProfile / 1000)
 
     def to_dict(self) -> dict:
@@ -409,7 +437,16 @@ class ReferenceMonth(Base):
     Cooling = column_property(E_RoomCooling / 1000)
     Appliance = column_property(BaseLoadProfile / 1000)
     HotWaterTank = column_property(E_DHW_HP_out / 1000)
-    TotalDemand = column_property((E_Heating_HP_out + Q_HeatingElement + E_RoomCooling + BaseLoadProfile + E_DHW_HP_out) / 1000)
+    TotalDemand = column_property(
+        (
+            E_Heating_HP_out
+            + Q_HeatingElement
+            + E_RoomCooling
+            + BaseLoadProfile
+            + E_DHW_HP_out
+        )
+        / 1000
+    )
     TotalGenerate = column_property(PhotovoltaicProfile / 1000)
 
     def to_dict(self) -> dict:

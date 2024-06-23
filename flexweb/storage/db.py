@@ -1,5 +1,6 @@
 import flexweb.storage.mapping as mapping
 
+
 def _str_to_bool(s: str) -> bool:
     if s == "True" or s == "true":
         return True
@@ -7,6 +8,7 @@ def _str_to_bool(s: str) -> bool:
         return False
     else:
         raise ValueError("String is not a boolean")
+
 
 class Request:
     def __init__(self, type, session, query, allow_empty_constraint=True):
@@ -19,6 +21,7 @@ class Request:
         if not self.__allow_empty_contraint and len(self.__query) == 0:
             return []
         return self.__session.query(self.__type).filter_by(**self.__query)
+
 
 # UserDBInterface
 class UserDBInterface:
@@ -45,7 +48,7 @@ class UserDBInterface:
 
     def get_space_cooling_technology(self, query: dict):
         return Request(mapping.SpaceCoolingTechnology, self.__session, query).execute()
-    
+
     def get_scenario(self, query: dict):
         return Request(
             mapping.Scenario, self.__session, query, allow_empty_constraint=False
@@ -60,21 +63,61 @@ class UserDBInterface:
         return Request(
             mapping.ReferenceYear, self.__session, query, allow_empty_constraint=True
         ).execute()
-    
+
     def get_optimization_month(self, query: dict):
         return Request(
-            mapping.OptimizationMonth, self.__session, query, allow_empty_constraint=True
+            mapping.OptimizationMonth,
+            self.__session,
+            query,
+            allow_empty_constraint=True,
         ).execute()
-    
+
     def get_reference_month(self, query: dict):
         return Request(
             mapping.ReferenceMonth, self.__session, query, allow_empty_constraint=True
         ).execute()
-    
+
     def get_recommendation(self, query: dict):
         id = query.pop("ID_Scenario")
-        sems =  _str_to_bool(query.pop("SEMS"))
-        scenario = Request(
-            mapping.Scenario, self.__session, {"ID_Scenario": id}, allow_empty_constraint=False
-        ).execute().first()
+        sems = _str_to_bool(query.pop("SEMS"))
+        scenario = (
+            Request(
+                mapping.Scenario,
+                self.__session,
+                {"ID_Scenario": id},
+                allow_empty_constraint=False,
+            )
+            .execute()
+            .first()
+        )
         return scenario.get_recommendation(self.__session, sems)
+
+    def get_upgrade_cost(self, query: dict):
+        id = query.pop("ID_Scenario")
+        upgrade_id = query.pop("ID_Scenario_Upgrade")
+        sems = _str_to_bool(query.pop("SEMS"))
+        upgrade_sems = _str_to_bool(query.pop("SEMS_Upgrade"))
+        scenario = (
+            Request(
+                mapping.Scenario,
+                self.__session,
+                {"ID_Scenario": id},
+                allow_empty_constraint=False,
+            )
+            .execute()
+            .first()
+        )
+        scenario_upgrade = (
+            Request(
+                mapping.Scenario,
+                self.__session,
+                {"ID_Scenario": upgrade_id},
+                allow_empty_constraint=False,
+            )
+            .execute()
+            .first()
+        )
+        upgrade_cost = scenario.get_upgrade_cost(
+            self.__session, scenario_upgrade, upgrade_sems if sems == False else False
+        )
+        return {'UpgradeCost': upgrade_cost}
