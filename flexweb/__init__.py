@@ -57,11 +57,10 @@ def create_app():
         handler = get_api().version(version).endpoint(endpoint)
         if handler is None:
             return json.dumps({"Not found": 404})
-        
-        doc = (
-            handler(get_request_payload(request))
-        )
-
+        result = handler(get_request_payload(request))
+        if result is None:
+            return json.dumps({"Not found": 404})
+        doc = (result)
         app.logger.debug(f"Response: {doc}")
         return json.dumps(doc)
 
