@@ -18,11 +18,20 @@ class MixinToDict:
 # Components
 
 
-class Battery(Base, MixinToDict):
+class Battery(Base):
     __tablename__ = "OperationScenario_Component_Battery"
     ID_Battery = Column(Integer, primary_key=True)
     capacity = Column(Integer)
     cost = column_property(capacity / 1000 * 41)
+
+    # Energy values in the database are in Wh, we convert them to kWh
+    CapacitykWh = column_property(capacity / 1000)
+
+    def to_dict(self) -> dict:
+        return {
+            "ID_Battery": self.ID_Battery,
+            "capacity": int(self.CapacitykWh),
+        }
 
 
 class Boiler(Base, MixinToDict):
@@ -61,12 +70,20 @@ class Region(Base, MixinToDict):
     code = Column(String)
 
 
-class SpaceCoolingTechnology(Base, MixinToDict):
+class SpaceCoolingTechnology(Base):
     __tablename__ = "OperationScenario_Component_SpaceCoolingTechnology"
     ID_SpaceCoolingTechnology = Column(Integer, primary_key=True)
     power = Column(Integer)
     cost = column_property(power * 100)
 
+    # Energy values in the database are in Wh, we convert them to kWh
+    PowerKwh = column_property(power / 1000)
+
+    def to_dict(self) -> dict:
+        return {
+            "ID_SpaceCoolingTechnology": self.ID_SpaceCoolingTechnology,
+            "power": int(self.PowerKwh),
+        }
 
 class HotWaterTank(Base, MixinToDict):
     __tablename__ = "OperationScenario_Component_HotWaterTank"
@@ -92,24 +109,22 @@ class OptimizationYear(Base):
     BaseLoadProfile = Column(Float)
     E_DHW_HP_out = Column(Float)
     PhotovoltaicProfile = Column(Float)
-    TotalDemand = column_property(
-        E_Heating_HP_out
-        + Q_HeatingElement
-        + E_RoomCooling
-        + BaseLoadProfile
-        + E_DHW_HP_out
-    )
-    TotalGenerate = synonym("PhotovoltaicProfile")
-    PV = synonym("PhotovoltaicProfile")
-    Boiler = column_property(E_Heating_HP_out + Q_HeatingElement)
-    Cooling = synonym("E_RoomCooling")
-    Appliance = synonym("BaseLoadProfile")
-    HotWaterTank = synonym("E_DHW_HP_out")
+    # Energy values in the database are in Wh, we convert them to kWh
+    PV = column_property(PhotovoltaicProfile / 1000)
+    Boiler = column_property((E_Heating_HP_out + Q_HeatingElement) / 1000)
+    Cooling = column_property(E_RoomCooling / 1000)
+    Appliance = column_property(BaseLoadProfile / 1000)
+    HotWaterTank = column_property(E_DHW_HP_out / 1000)
+    TotalDemand = column_property((E_Heating_HP_out + Q_HeatingElement + E_RoomCooling + BaseLoadProfile + E_DHW_HP_out) / 1000)
+    TotalGenerate = column_property(PhotovoltaicProfile / 1000)
+
+    TotalCostCent = synonym("TotalCost")
+    TotalCostEuro = column_property(TotalCost / 100)
 
     def to_dict(self) -> dict:
         return {
             "ID_Scenario": self.ID_Scenario,
-            "TotalCost": int(self.TotalCost/100),
+            "TotalCost": int(self.TotalCostEuro),
             "TotalDemand": int(self.TotalDemand),
             "TotalGenerate": int(self.PV),
             "PV": int(self.PV),
@@ -137,17 +152,22 @@ class ReferenceYear(Base):
         + BaseLoadProfile
         + E_DHW_HP_out
     )
-    TotalGenerate = synonym("PhotovoltaicProfile")
-    PV = synonym("PhotovoltaicProfile")
-    Boiler = column_property(E_Heating_HP_out + Q_HeatingElement)
-    Cooling = synonym("E_RoomCooling")
-    Appliance = synonym("BaseLoadProfile")
-    HotWaterTank = synonym("E_DHW_HP_out")
+    # Energy values in the database are in Wh, we convert them to kWh
+    PV = column_property(PhotovoltaicProfile / 1000)
+    Boiler = column_property((E_Heating_HP_out + Q_HeatingElement) / 1000)
+    Cooling = column_property(E_RoomCooling / 1000)
+    Appliance = column_property(BaseLoadProfile / 1000)
+    HotWaterTank = column_property(E_DHW_HP_out / 1000)
+    TotalDemand = column_property((E_Heating_HP_out + Q_HeatingElement + E_RoomCooling + BaseLoadProfile + E_DHW_HP_out) / 1000)
+    TotalGenerate = column_property(PhotovoltaicProfile / 1000)
+
+    TotalCostCent = synonym("TotalCost")
+    TotalCostEuro = column_property(TotalCost / 100)
 
     def to_dict(self) -> dict:
         return {
             "ID_Scenario": self.ID_Scenario,
-            "TotalCost": int(self.TotalCost/100),
+            "TotalCost": int(self.TotalCostEuro),
             "TotalDemand": int(self.TotalDemand),
             "TotalGenerate": int(self.PV),
             "PV": int(self.PV),
@@ -269,7 +289,7 @@ class Scenario(Base, MixinToDict):
             session.query(year_type)
             .filter(year_type.ID_Scenario == self.ID_Scenario)
             .first()
-            .TotalCost
+            .TotalCostEuro
         )
 
     def get_savings(self, session, sems, upgraded, upgraded_sems):
@@ -313,9 +333,6 @@ class Scenario(Base, MixinToDict):
         # Remove impromments with no benefit
         improvements = list(filter(lambda x: x["Savings"] > 0, improvements))
 
-        recommendations["CostBenefit"] = None
-        recommendations["LowestEnergyBill"] = None
-        recommendations["LowestInvestment"] = None
         # Get best Cost Benefit
         if len(improvements) == 0:
             return recommendations
@@ -345,19 +362,15 @@ class OptimizationMonth(Base):
     BaseLoadProfile = Column(Float)
     E_DHW_HP_out = Column(Float)
     PhotovoltaicProfile = Column(Float)
-    TotalDemand = column_property(
-        E_Heating_HP_out
-        + Q_HeatingElement
-        + E_RoomCooling
-        + BaseLoadProfile
-        + E_DHW_HP_out
-    )
-    TotalGenerate = synonym("PhotovoltaicProfile")
-    PV = synonym("PhotovoltaicProfile")
-    Boiler = column_property(E_Heating_HP_out + Q_HeatingElement)
-    Cooling = synonym("E_RoomCooling")
-    Appliance = synonym("BaseLoadProfile")
-    HotWaterTank = synonym("E_DHW_HP_out")
+
+    # Energy values in the database are in Wh, we convert them to kWh
+    PV = column_property(PhotovoltaicProfile / 1000)
+    Boiler = column_property((E_Heating_HP_out + Q_HeatingElement) / 1000)
+    Cooling = column_property(E_RoomCooling / 1000)
+    Appliance = column_property(BaseLoadProfile / 1000)
+    HotWaterTank = column_property(E_DHW_HP_out / 1000)
+    TotalDemand = column_property((E_Heating_HP_out + Q_HeatingElement + E_RoomCooling + BaseLoadProfile + E_DHW_HP_out) / 1000)
+    TotalGenerate = column_property(PhotovoltaicProfile / 1000)
 
     def to_dict(self) -> dict:
         return {
@@ -390,12 +403,14 @@ class ReferenceMonth(Base):
         + BaseLoadProfile
         + E_DHW_HP_out
     )
-    TotalGenerate = synonym("PhotovoltaicProfile")
-    PV = synonym("PhotovoltaicProfile")
-    Boiler = column_property(E_Heating_HP_out + Q_HeatingElement)
-    Cooling = synonym("E_RoomCooling")
-    Appliance = synonym("BaseLoadProfile")
-    HotWaterTank = synonym("E_DHW_HP_out")
+    # Energy values in the database are in Wh, we convert them to kWh
+    PV = column_property(PhotovoltaicProfile / 1000)
+    Boiler = column_property((E_Heating_HP_out + Q_HeatingElement) / 1000)
+    Cooling = column_property(E_RoomCooling / 1000)
+    Appliance = column_property(BaseLoadProfile / 1000)
+    HotWaterTank = column_property(E_DHW_HP_out / 1000)
+    TotalDemand = column_property((E_Heating_HP_out + Q_HeatingElement + E_RoomCooling + BaseLoadProfile + E_DHW_HP_out) / 1000)
+    TotalGenerate = column_property(PhotovoltaicProfile / 1000)
 
     def to_dict(self) -> dict:
         return {
