@@ -49,7 +49,7 @@ function getChartDataFromEnergyResult(energyResults) {
   return chartData;
 }
 
-function handleResult(myEnergyResultMonth, selectedEnergyResultMonth, selectedEnergyResultYear) {
+function handleResult(myEnergyResultMonth, selectedEnergyResultMonth, selectedEnergyResultYear, upgradeCostResult) {
 
   // Get current total cost
   let myScenario = new Scenario(gMySurveyResult.myComponents, gMySurveyResult.availableComponents, gMySurveyResult.mySems);
@@ -87,7 +87,7 @@ function handleResult(myEnergyResultMonth, selectedEnergyResultMonth, selectedEn
     $("#boiler-false").css('display', 'inline')
   }
 
-  if (myScenario.Building.ID_Scenario % 2 !== 0) {
+  if (myScenario.Building.ID_Building % 2 !== 0) {
     $("#renovation-true").css('display', 'inline')
   } else {
     $("#renovation-false").css('display', 'inline')
@@ -109,7 +109,7 @@ function handleResult(myEnergyResultMonth, selectedEnergyResultMonth, selectedEn
   $("#totalSimuDemand-placeholder").html(selectedEnergyResultYear.TotalDemand);
   $("#totalSimuSupply-placeholder").html(selectedEnergyResultYear.TotalGenerate);
   $("#totalSimuCost-placeholder").html(selectedEnergyResultYear.TotalCost);
-  $("#investmentSimuCost-placeholder").html(0);
+  $("#investmentSimuCost-placeholder").html(upgradeCostResult.UpgradeCost);
   createSimuEnergyChart(getChartDataFromEnergyResult(selectedEnergyResultMonth));
 
   let selectedScenario = new Scenario(gSelectedScenarioConfig, gMySurveyResult.availableComponents, gSelectedScenario.SEMS);
@@ -131,7 +131,7 @@ function handleResult(myEnergyResultMonth, selectedEnergyResultMonth, selectedEn
     $("#boiler_type").val(selectedScenario.Boiler.ID_Boiler).change();
   }
 
-  $("#building_renovation").prop('checked', selectedScenario.Building.ID_Scenario % 2 !== 0);
+  $("#building_renovation").prop('checked', selectedScenario.Building.ID_Building % 2 !== 0);
 
   // Show text if selected heating system is not heat pump
   if (selectedScenario.Boiler.type !== "Air_HP") {
@@ -463,9 +463,21 @@ function updateData() {
       dataType: "json",
       contentType: "application/json"
     }),
+    $.ajax({
+      type: "GET",
+      url: '/api/v1/' + myCountryCode + '/upgrade_cost',
+      data: {
+        'ID_Scenario': gMySurveyResult.myScenario,
+        'SEMS': mySems,
+        'ID_Scenario_Upgrade': gSelectedScenario.ID_Scenario,
+        'SEMS_Upgrade': selectedSems,
+      },
+      dataType: "json",
+      contentType: "application/json"
+    }),
   ).done(function (
-    myEnergyResultMonth, selectedEnergyResultMonth, selectedEnergyResultYear) {
-    handleResult(myEnergyResultMonth[0], selectedEnergyResultMonth[0], selectedEnergyResultYear[0]);
+    myEnergyResultMonth, selectedEnergyResultMonth, selectedEnergyResultYear, upgradeCostResult) {
+    handleResult(myEnergyResultMonth[0], selectedEnergyResultMonth[0], selectedEnergyResultYear[0], upgradeCostResult[0]);
   });
 }
 
