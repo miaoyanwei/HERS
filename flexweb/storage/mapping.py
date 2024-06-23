@@ -1,6 +1,7 @@
 from sqlalchemy.orm import (
     declarative_base,
     column_property,
+    synonym,
     # relationship,
     # mapped_column,
 )
@@ -98,12 +99,12 @@ class OptimizationYear(Base):
         + BaseLoadProfile
         + E_DHW_HP_out
     )
-    TotalGenerate = column_property(PhotovoltaicProfile)
-    PV = column_property(PhotovoltaicProfile)
+    TotalGenerate = synonym("PhotovoltaicProfile")
+    PV = synonym("PhotovoltaicProfile")
     Boiler = column_property(E_Heating_HP_out + Q_HeatingElement)
-    Cooling = column_property(E_RoomCooling)
-    Appliance = column_property(BaseLoadProfile)
-    HotWaterTank = column_property(E_DHW_HP_out)
+    Cooling = synonym("E_RoomCooling")
+    Appliance = synonym("BaseLoadProfile")
+    HotWaterTank = synonym("E_DHW_HP_out")
 
     def to_dict(self) -> dict:
         return {
@@ -136,12 +137,12 @@ class ReferenceYear(Base):
         + BaseLoadProfile
         + E_DHW_HP_out
     )
-    TotalGenerate = column_property(PhotovoltaicProfile)
-    PV = column_property(PhotovoltaicProfile)
+    TotalGenerate = synonym("PhotovoltaicProfile")
+    PV = synonym("PhotovoltaicProfile")
     Boiler = column_property(E_Heating_HP_out + Q_HeatingElement)
-    Cooling = column_property(E_RoomCooling)
-    Appliance = column_property(BaseLoadProfile)
-    HotWaterTank = column_property(E_DHW_HP_out)
+    Cooling = synonym("E_RoomCooling")
+    Appliance = synonym("BaseLoadProfile")
+    HotWaterTank = synonym("E_DHW_HP_out")
 
     def to_dict(self) -> dict:
         return {
@@ -272,11 +273,8 @@ class Scenario(Base, MixinToDict):
         )
 
     def get_savings(self, session, sems, upgraded, upgraded_sems):
-        self_year_type = OptimizationYear if sems else ReferenceYear
-        upgraded_year_type = OptimizationYear if upgraded_sems else ReferenceYear
-
-        return self.get_total_cost(session, self_year_type) - upgraded.get_total_cost(
-            session, upgraded_year_type
+        return self.get_total_cost(session, sems) - upgraded.get_total_cost(
+            session, upgraded_sems
         )
 
     def get_recommendation(self, session, sems: bool):
@@ -285,12 +283,12 @@ class Scenario(Base, MixinToDict):
         improvements = []
         candidates = Scenario.get_upgrades(session, self.ID_Scenario)
         for candidate in candidates:
-            saving = int(self.get_savings(session, sems, candidate, sems)/100)
+            saving = int(self.get_savings(session, sems, candidate, sems))
             upgrade_cost = self.get_upgrade_cost(session, candidate, False)
             improvements.append(
                 {
                     "ID_Scenario": candidate.ID_Scenario,
-                    "TotalCost": int(candidate.get_total_cost(session, False)/100),
+                    "TotalCost": int(candidate.get_total_cost(session, False)),
                     "UpgradeCost": upgrade_cost,
                     "Savings": saving,
                     "Benefit": saving - upgrade_cost,
@@ -299,12 +297,12 @@ class Scenario(Base, MixinToDict):
             )
 
             if sems == False:
-                saving = int(self.get_savings(session, False, candidate, True)/100)
+                saving = int(self.get_savings(session, False, candidate, True))
                 upgrade_cost = self.get_upgrade_cost(session, candidate, True)
                 improvements.append(
                     {
                         "ID_Scenario": candidate.ID_Scenario,
-                        "TotalCost": int(candidate.get_total_cost(session, True)/100),
+                        "TotalCost": int(candidate.get_total_cost(session, True)),
                         "UpgradeCost": upgrade_cost,
                         "Savings": saving,
                         "Benefit": saving - upgrade_cost,
@@ -351,12 +349,12 @@ class OptimizationMonth(Base):
         + BaseLoadProfile
         + E_DHW_HP_out
     )
-    TotalGenerate = column_property(PhotovoltaicProfile)
-    PV = column_property(PhotovoltaicProfile)
+    TotalGenerate = synonym("PhotovoltaicProfile")
+    PV = synonym("PhotovoltaicProfile")
     Boiler = column_property(E_Heating_HP_out + Q_HeatingElement)
-    Cooling = column_property(E_RoomCooling)
-    Appliance = column_property(BaseLoadProfile)
-    HotWaterTank = column_property(E_DHW_HP_out)
+    Cooling = synonym("E_RoomCooling")
+    Appliance = synonym("BaseLoadProfile")
+    HotWaterTank = synonym("E_DHW_HP_out")
 
     def to_dict(self) -> dict:
         return {
@@ -389,12 +387,12 @@ class ReferenceMonth(Base):
         + BaseLoadProfile
         + E_DHW_HP_out
     )
-    TotalGenerate = column_property(PhotovoltaicProfile)
-    PV = column_property(PhotovoltaicProfile)
+    TotalGenerate = synonym("PhotovoltaicProfile")
+    PV = synonym("PhotovoltaicProfile")
     Boiler = column_property(E_Heating_HP_out + Q_HeatingElement)
-    Cooling = column_property(E_RoomCooling)
-    Appliance = column_property(BaseLoadProfile)
-    HotWaterTank = column_property(E_DHW_HP_out)
+    Cooling = synonym("E_RoomCooling")
+    Appliance = synonym("BaseLoadProfile")
+    HotWaterTank = synonym("E_DHW_HP_out")
 
     def to_dict(self) -> dict:
         return {
