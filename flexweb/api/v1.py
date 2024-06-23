@@ -82,19 +82,34 @@ class CountryHandler:
         return [e.to_dict() for e in self.__storage.get_region(data)]
     
     def scenario(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.get_scenario(data)]
+        result = self.__storage.get_scenario(data)
+        if result.count() == 0:
+            return None
+        return result[0].to_dict()
     
     def recommendation(self, data: dict) -> Optional[dict]:
         return self.__storage.get_recommendation(data)
     
     def optimization_year(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.get_optimization_year(data)]
+        result = self.__storage.get_optimization_year(data)
+        if result.count() == 0:
+            return None
+        return result[0].to_dict()
 
     def reference_year(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.get_reference_year(data)]
+        result = self.__storage.get_reference_year(data)
+        if result.count() == 0:
+            return None
+        return result[0].to_dict()
     
     def optimization_month(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.get_optimization_month(data)]
+        result = self.__storage.get_optimization_month(data)
+        if result.count() == 0:
+            return None
+        return [e.to_dict() for e in result]
 
     def reference_month(self, data: dict) -> Optional[dict]:
-        return [e.to_dict() for e in self.__storage.get_reference_month(data)]
+        result = self.__storage.get_reference_month(data)
+        if result.count() == 0:
+            return None
+        return [e.to_dict() for e in result]
