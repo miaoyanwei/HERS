@@ -10,7 +10,7 @@ function getRecommendationConfigById(id) {
         if (config.ID_Scenario === id) {
             return config;
         }
-    } 
+    }
     return null;
 }
 
@@ -92,7 +92,7 @@ function handleResult() {
 
         let reclisthtml = '';
         let index = 0;
-       for (let key in gRecommendations) {
+        for (let key in gRecommendations) {
             let item = gRecommendations[key];
             var entry = '<div class="col-md-6">'
                 + '<div class="card h-100 improved">'
@@ -160,7 +160,7 @@ function handleResult() {
 
         };
         $("#recommandation-list").html(reclisthtml)
-        
+
         index = 0;
         for (let key in gRecommendations) {
             let item = gRecommendations[key];
@@ -172,7 +172,7 @@ function handleResult() {
                     window.location.href = '/html/simulation.html';
                 });
         }
-        
+
     } else {
 
 
@@ -214,15 +214,13 @@ function getRecommendationConfigs() {
             })
         )
     }
-    $.when.apply(null, requests).done(function () {
-        $.each(arguments, function (_, data) {
-            gRecommendationConfigs.push(data[0][0]);
+    Promise.all(requests).then(values => {
+        $.each(values, function (idx) {
+            gRecommendationConfigs.push(values[idx]);
         });
         handleResult();
     });
 }
-
-
 
 export function startRecommendation() {
     let surveyResult = JSON.parse(localStorage.getItem('surveyResult'));
@@ -237,7 +235,8 @@ export function startRecommendation() {
         energyResultYearUrl = '/api/v1/' + myCountryCode + '/result/reference_year';
     }
 
-    $.when(
+
+    let promises = [
         $.ajax({
             type: "GET",
             url: energyResultYearUrl,
@@ -256,10 +255,10 @@ export function startRecommendation() {
             },
             dataType: "json",
             contentType: "application/json"
-        })
-    ).done(function (a, b) {
-        gEnergyResultYear = a[0][0];
-        gRecommendations = b[0];
+        })];
+    Promise.all(promises).then(values => {
+        gEnergyResultYear = values[0]
+        gRecommendations = values[1]
         getRecommendationConfigs();
     })
 }

@@ -380,9 +380,9 @@ function retrieveNewSurvey() {
     contentType: "application/json"
   }).then(function (data) {
     // update the selected scenario
-    gSelectedScenario.ID_Scenario = data[0].ID_Scenario;;
+    gSelectedScenario.ID_Scenario = data.ID_Scenario;;
     gSelectedScenario.SEMS = semsExist;
-    gSelectedScenarioConfig = data[0];
+    gSelectedScenarioConfig = data;
 
     // update the diagram
     updateData();
@@ -465,7 +465,7 @@ function updateData() {
     }),
   ).done(function (
     myEnergyResultMonth, selectedEnergyResultMonth, selectedEnergyResultYear) {
-    handleResult(myEnergyResultMonth[0], selectedEnergyResultMonth[0], selectedEnergyResultYear[0][0]);
+    handleResult(myEnergyResultMonth[0], selectedEnergyResultMonth[0], selectedEnergyResultYear[0]);
   });
 }
 

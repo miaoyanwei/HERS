@@ -194,7 +194,7 @@ function setupCountrySurvey(countryCode) {
 
 function handleGetScenarioId(result) {
   console.log(result);
-  finalResult.myScenario = result[0].ID_Scenario;
+  finalResult.myScenario = result.ID_Scenario;
   finalResult.success = true;
   onSurveyComplete(finalResult);
 }
