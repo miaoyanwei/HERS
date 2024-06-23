@@ -54,7 +54,7 @@ function handleGetComponentResult(getBuildingResult, getPvResult, getBatteryResu
   // Battery size
   for (const b of getBatteryResult) {
     if (b.capacity !== 0) {
-      batterySize.push({ "value": b.ID_Battery, "text": b.capacity / 1000 + " kilowatt-hours" });
+      batterySize.push({ "value": b.ID_Battery, "text": b.capacity + " kilowatt-hours" });
     }
   }
 
