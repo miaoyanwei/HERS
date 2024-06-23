@@ -313,6 +313,9 @@ class Scenario(Base, MixinToDict):
         # Remove impromments with no benefit
         improvements = list(filter(lambda x: x["Savings"] > 0, improvements))
 
+        recommendations["CostBenefit"] = None
+        recommendations["LowestEnergyBill"] = None
+        recommendations["LowestInvestment"] = None
         # Get best Cost Benefit
         if len(improvements) == 0:
             return recommendations
