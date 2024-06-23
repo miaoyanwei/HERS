@@ -14,6 +14,17 @@ function getRecommendationConfigById(id) {
     return null;
 }
 
+function renameRecommendationTag(tag) {
+    let renamed = "";
+    for (let idx = 0; idx < tag.length; ++idx) {
+        if (tag[idx] <= 'a' && idx > 0) {
+            renamed += ' ';
+        }
+        renamed += tag[idx];
+    }
+    return renamed;
+}
+
 function handleResult() {
     let surveyResult = JSON.parse(localStorage.getItem('surveyResult'));
     let myScenario = new Scenario(surveyResult.myComponents, surveyResult.availableComponents);
@@ -97,7 +108,7 @@ function handleResult() {
             var entry = '<div class="col-md-6">'
                 + '<div class="card h-100 improved">'
                 + '<em id="recTag">'
-                + key
+                + renameRecommendationTag(key)
                 + '</em>'
                 + '<div class="card-body">'
                 + '<h2 id="recSave">Save <span>&#8364;</span><span id="savedcost-placeholder"></span>'
