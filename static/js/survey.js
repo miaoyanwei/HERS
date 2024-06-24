@@ -1,20 +1,140 @@
 
 import * as scenario from './scenario.js';
+import * as country from './country.js';
 
+// Country Survey
 
-function handleResult(result) {
-  console.log(result);
-  document.cookie = "my_scenario=" + result.id;
-  window.location.href = '/html/recommendation.html';
+const heatingMap = {
+  "Air_HP": "Heat pump",
+  "gases": "Natural gas boiler",
+  "solids": "Biomass boiler",
+  "district_heating": "District heating",
+  "liquids": "Heating oil boiler"
 }
 
-// Miao: Send data to server
-function sendDataToServer(survey) {
-  document.cookie = "my_sems=" + survey.data.sems_exist;
-  scenario.postSurveyScenario(survey.data, handleResult);
+var countryCode;
+var onSurveyComplete;
+let finalResult = {};
+
+function handleGetComponentResult(getBuildingResult, getPvResult, getBatteryResult, getBoilerResult, getHotWaterTankResult) {
+  var buildingTime = []
+  var peopleNumber = []
+  var pvSize = []
+  var batterySize = []
+  var boilerType = []
+
+  finalResult.availableComponents = {
+    "PV": getPvResult,
+    "Battery": getBatteryResult,
+    "Boiler": getBoilerResult,
+    "Building": getBuildingResult,
+    "HotWaterTank": getHotWaterTankResult
+  };
+
+  // Building related
+  for (const e of getBuildingResult) {
+    var range = e.construction_period_start + "-" + e.construction_period_end;
+    if (!buildingTime.includes(range)) {
+      buildingTime.push(range);
+    }
+
+    // People number
+    if (!peopleNumber.includes(e.person_num)) {
+      peopleNumber.push(e.person_num);
+    }
+  }
+
+  // PV size
+  for (const pv of getPvResult) {
+    if (pv.size !== 0) {
+      pvSize.push({ "value": pv.ID_PV, "text": pv.size + " kilowatt-peak" });
+    }
+  }
+
+  // Battery size
+  for (const b of getBatteryResult) {
+    if (b.capacity !== 0) {
+      batterySize.push({ "value": b.ID_Battery, "text": b.capacity + " kilowatt-hours" });
+    }
+  }
+
+  // Heating type
+  for (const boiler of getBoilerResult) {
+    let boilerText = heatingMap[boiler.type];
+    boilerType.push({ "value": boiler.ID_Boiler, "text": boilerText });
+  }
+
+  setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, batterySize, boilerType);
 }
 
-export function setupSurvey() {
+function handleCountrySurveyResult(surveyResult) {
+  var country = surveyResult.data.region_code;
+  finalResult.myCountryCode = country;
+  countryCode = country;
+
+  // Get all possible configuration data
+  $.when(
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/" + country + "/component/building",
+      dataType: "json",
+      contentType: "application/json"
+    }),
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/" + country + "/component/pv",
+      dataType: "json",
+      contentType: "application/json"
+    }),
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/" + country + "/component/battery",
+      dataType: "json",
+      contentType: "application/json"
+    }),
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/" + country + "/component/boiler",
+      dataType: "json",
+      contentType: "application/json"
+    }),
+    $.ajax({
+      type: "GET",
+      url: "/api/v1/" + country + "/component/hot_water_tank",
+      dataType: "json",
+      contentType: "application/json"
+    })
+  ).done(function (buildingResult, pvResult, batterySize, boilerType, hotWaterTank) {
+    handleGetComponentResult(buildingResult[0], pvResult[0], batterySize[0], boilerType[0], hotWaterTank[0])
+  })
+}
+
+function handleGetDbResult(getDbResult) {
+  var countryCode = []
+  for (const code of getDbResult) {
+    let name = country.countryEnglish[code];
+    if (typeof name === "undefined") {
+      name = code;
+    }
+    countryCode.push({ "value": code, "text": name });
+  }
+  setupCountrySurvey(countryCode);
+}
+
+export function startSurvey(callback) {
+  finalResult.success = false;
+  onSurveyComplete = callback;
+  $.ajax({
+    type: "GET",
+    url: "/api/v1/db",
+    dataType: "json",
+    contentType: "application/json"
+  }).done(function (getDbResult) {
+    handleGetDbResult(getDbResult);
+  });
+}
+
+function setupCountrySurvey(countryCode) {
   var surveyJSON = {
     "title": {
       "default": "q_en",
@@ -38,12 +158,7 @@ export function setupSurvey() {
               "de": "Land"
             },
             "isRequired": true,
-            "choices": [
-              {
-                "value": "DE",
-                "text": "Deutschland"
-              }
-            ],
+            "choices": countryCode,
             "placeholder": {
               "default": "Select country",
               "de": "Land wählen"
@@ -61,6 +176,116 @@ export function setupSurvey() {
         }
       },
 
+    ],
+    "showTitle": false,
+    "showCompletedPage": false
+  }
+
+  Survey.StylesManager.applyTheme("defaultV2");
+  var survey = new Survey.Model(surveyJSON);
+  $("#surveyContainer").Survey({
+    model: survey,
+    onComplete: handleCountrySurveyResult
+  });
+}
+
+
+// Household Config Survey
+
+function handleGetScenarioId(result) {
+  console.log(result);
+  finalResult.myScenario = result.ID_Scenario;
+  finalResult.success = true;
+  onSurveyComplete(finalResult);
+}
+
+// Miao: Send data to server
+
+export function getScenarioId(componentIds) {
+  $.ajax({
+    type: "GET",
+    url: "/api/v1/" + countryCode + "/scenario",
+    data: componentIds,
+    dataType: "json",
+    contentType: "application/json",
+    success: function (result) {
+      handleGetScenarioId(result)
+    }
+  });
+}
+
+function sendDataToServer(survey) {
+
+  scenario.postSurveyScenario(survey.data, handleResult);
+}
+
+function findBuildingID(person_num, construction, renovated) {
+  for (var building of finalResult.availableComponents.Building) {
+    if (building.person_num === person_num &&
+      building.construction_period_start === parseInt(construction.split('-')[0], 10) &&
+      building.construction_period_end === parseInt(construction.split('-')[1], 10) &&
+      (Boolean)(building.ID_Building % 2) === renovated) {
+      return building.ID_Building;
+    }
+  }
+}
+
+function handleHouseholdSurveyResult(surveyResult) {
+  finalResult.mySems = surveyResult.data.sems_exist;
+  let pvId = finalResult.availableComponents.PV.length;
+  if (surveyResult.data.pv_exist) {
+    pvId = surveyResult.data.pv_size;
+  }
+
+  let batteryId = finalResult.availableComponents.Battery.length;
+  if (surveyResult.data.battery_exist) {
+    batteryId = surveyResult.data.battery_capacity;
+  }
+
+  let boilerId = surveyResult.data.boiler_type;
+
+  let waterTankId = 2;
+  let spaceTankId = 2;
+  if (surveyResult.data.tank_exist) {
+    waterTankId = 1;
+    spaceTankId = 1;
+  }
+
+  let buildingId = findBuildingID(surveyResult.data.building_person_num,
+    surveyResult.data.building_construction,
+    surveyResult.data.building_renovated,
+  );
+
+  let componentIds = {
+    "ID_PV": pvId,
+    "ID_Battery": batteryId,
+    "ID_Boiler": boilerId,
+    "ID_Building": buildingId,
+    "ID_HotWaterTank": waterTankId,
+    "ID_SpaceHeatingTank": spaceTankId,
+    "ID_Behavior": 1,
+    "ID_SpaceCoolingTechnology": 1,
+    "ID_EnergyPrice": 1,
+    "ID_Vehicle": 1,
+    "ID_HeatingElement": 1,
+  }
+  finalResult.myComponents = componentIds;
+  getScenarioId(componentIds);
+}
+
+function setupHouseholdSurvey(buildingTime, peopleNumber, pvSize, batterySize, boilerType) {
+  var surveyJSON = {
+    "title": {
+      "default": "q_en",
+      "de": "q_de"
+    },
+    "description": " ",
+    "logoWidth": "0px",
+    "logoHeight": "0px",
+    "logoFit": "none",
+    "logoPosition": "right",
+    "pages": [
+
       {
         "name": "building_1",
         "elements": [
@@ -76,18 +301,7 @@ export function setupSurvey() {
               "de": "Die Kenntnis des Baujahrs eines Hauses kann Aufschluss über die Baumaterialien geben, z. B. über die Zusammensetzung der Wände."
             },
             "isRequired": true,
-            "choices": [
-              {
-                "value": "1880-1948",
-                "text": "before 1949"
-              },
-              "1949-1978",
-              "1979-1994",
-              {
-                "value": "1995-2022",
-                "text": "after 1994"
-              }
-            ]
+            "choices": buildingTime
           }
         ],
         "title": {
@@ -137,17 +351,7 @@ export function setupSurvey() {
               "de": "Menschen"
             },
             "isRequired": true,
-            "choices": [
-              {
-                "value": "3",
-                "text": "less than 4"
-              },
-              "4",
-              {
-                "value": "5",
-                "text": "more than 4"
-              }
-            ]
+            "choices": peopleNumber
           }
         ],
         "title": {
@@ -185,43 +389,7 @@ export function setupSurvey() {
               "de": "Welche Art von Heizanlage wird im Haus verwendet?"
             },
             "isRequired": true,
-            "choices": [
-              {
-                "value": "solids",
-                "text": {
-                  "default": "Biomass boiler",
-                  "de": "Biomassekessel"
-                }
-              },
-              {
-                "value": "district_heating",
-                "text": {
-                  "default": "District heating",
-                  "de": "Fernwärme"
-                }
-              },
-              {
-                "value": "Air_HP",
-                "text": {
-                  "default": "Heat pump",
-                  "de": "Wärmepumpe"
-                }
-              },
-              {
-                "value": "liquids",
-                "text": {
-                  "default": "Heating oil boiler",
-                  "de": "Heizölkessel"
-                }
-              },
-              {
-                "value": "gases",
-                "text": {
-                  "default": "Natural gas boiler",
-                  "de": "Erdgaskessel"
-                }
-              }
-            ]
+            "choices": boilerType
           }
         ],
         "title": {
@@ -281,16 +449,7 @@ export function setupSurvey() {
               "de": "Die durchschnittliche Größe einer PV-Anlage beträgt 5 kW_peak",
               "default": "The average size of a PV system is 5 kilowatt-peak"
             },
-            "choices": [
-              {
-                "value": "5",
-                "text": "around 5 kilowatt-peak"
-              },
-              {
-                "value": "10",
-                "text": "around 10 kilowatt-peak"
-              }
-            ]
+            "choices": pvSize
           }
         ],
         "title": {
@@ -327,16 +486,7 @@ export function setupSurvey() {
               "default": "The average capacity of a home battery system is around 10 kilowatt-hours",
               "de": "Die durchschnittliche Kapazität eines Batteriesystems beträgt etwa 10 Kilowattstunden"
             },
-            "choices": [
-              {
-                "value": "10",
-                "text": "around 10 kilowatt-hours"
-              },
-              {
-                "value": "20",
-                "text": "around 20 kilowatt-hours"
-              }
-            ]
+            "choices": batterySize
           }
         ],
         "title": {
@@ -375,7 +525,7 @@ export function setupSurvey() {
   var survey = new Survey.Model(surveyJSON);
   $("#surveyContainer").Survey({
     model: survey,
-    onComplete: sendDataToServer
+    onComplete: handleHouseholdSurveyResult
   });
 }
 

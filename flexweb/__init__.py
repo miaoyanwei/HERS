@@ -1,21 +1,18 @@
 import os
 import logging
 import json
-import pandas as pd
-import sqlite3
 
 from flask import Flask, request, g, send_from_directory
 from logging.handlers import RotatingFileHandler
-from flexweb.repository.pandas_sql.repository import Repository
 from flexweb.api.controller import Controller as ApiController
-
-DATABASE = "FLEX.sqlite"
+from flexweb.storage.manager import Manager as StorageManager
+DATABASE = "db/"
 
 
 def get_api():
     api = getattr(g, "api", None)
     if api is None:
-        api = ApiController(Repository(sqlite3.connect(DATABASE)))
+        api = ApiController(StorageManager(DATABASE))
     return api
 
 
@@ -51,19 +48,19 @@ def create_app():
     def html(path):
         return send_from_directory("../static", path)
 
-    @app.route("/api/<version>/<endpoint>", methods=["GET", "POST"])
+    @app.route("/api/<version>/<path:endpoint>", methods=["GET"])
     def api(version, endpoint):
         app.logger.debug(f"API request: {version}/{endpoint}")
-        app.logger.debug(f"Method: {request.method}")
         app.logger.debug(f"Payload: {get_request_payload(request)}")
         app.logger.debug(f"--------------------------")
 
-        doc = (
-            get_api()
-            .version(version)
-            .endpoint(endpoint)(request.method, get_request_payload(request))
-        )
-
+        handler = get_api().version(version).endpoint(endpoint)
+        if handler is None:
+            return json.dumps({"Not found": 404})
+        result = handler(get_request_payload(request))
+        if result is None:
+            return json.dumps({"Not found": 404})
+        doc = (result)
         app.logger.debug(f"Response: {doc}")
         return json.dumps(doc)
 
