@@ -23,14 +23,15 @@ def create_app():
         SECRET_KEY="dev",
         DATABASE=os.path.join(app.instance_path, "flaskr.sqlite"),
     )
-    app.logger.addHandler(
-        RotatingFileHandler(
-            filename="flexweb.log",
-            encoding="utf-8",
-            maxBytes=4 * 1000 * 1000,
-            backupCount=2,
-        )
-    )
+    #app.logger.addHandler(
+    #    RotatingFileHandler(
+    #        filename="flexweb.log",
+    #        encoding="utf-8",
+    #        maxBytes=4 * 1000 * 1000,
+    #        backupCount=2,
+    #    )
+    #)
+    app.logger.addHandler(logging.StreamHandler())
     app.logger.setLevel(logging.DEBUG)
     app.logger.info("Flexweb started")
 
