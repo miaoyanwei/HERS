@@ -187,6 +187,7 @@ function setupCountrySurvey(countryCode) {
     model: survey,
     onComplete: handleCountrySurveyResult
   });
+  survey.completeText = "Next";
 }
 
 
